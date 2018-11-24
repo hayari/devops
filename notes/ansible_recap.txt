@@ -2485,4 +2485,6 @@ ansible-galaxy --offline init <name_of _the role>: automate creation the role di
       system_manager: lisa@example.com   # overwritting default variables
 
 
-arrive @43
+Ansible galaxy CLI:
+
+ansible-galaxy search: search for roles in the role description
