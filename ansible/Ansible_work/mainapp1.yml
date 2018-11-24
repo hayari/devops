@@ -1,0 +1,19 @@
+---
+- hosts: all
+  tasks:
+  - name: upload a file to the target if it doesnt exist
+    copy:
+      src: program1.sh
+      dest: /home/vagrant/program1.sh
+      mode: 0755
+  - name: if line not there then add it
+    lineinfile:
+      state: present
+      dest: /home/vagrant/program1.sh
+      regexp: '^HOSTNAME='
+      line: HOSTNAME={{ansible_hostname}}
+  - name: Run the program
+    shell: /home/vagrant/program1.sh
+    register: program_output
+  - debug: msg="stdout={{program_output.stdout}}"
+...

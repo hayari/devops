@@ -1,0 +1,221 @@
+h1, h2 {
+    font-family: "Trebuchet MS", sans-serif;
+    color: #3B4E6C;
+}
+
+body {
+    padding: 16px;
+    font-family: Georgia, serif;
+}
+
+p {
+    max-width: 40em;
+    word-wrap: break-word;
+}
+
+ul {
+    max-width: 38em;
+    padding-left: 2em;
+}
+
+a {
+    text-decoration: none;
+    color: #6688BB;
+}
+
+a:visited {
+    color: #888888;
+}
+
+.windows-client, .linux-client, .windows-server {
+    margin-top: 16px;
+    margin-bottom: 16px;
+    min-height: 48px;
+    background-position: 16px 16px;
+    background-repeat: no-repeat;
+    border-style: solid;
+    border-width: 2px;
+    padding-top: 16px;
+    padding-left: 80px;
+    padding-right: 16px;
+    padding-bottom: 16px;
+}
+
+.windows-client {
+    background-image: url('../images/windows-client.png');
+    border-color: #0178D5;
+}
+
+.linux-client {
+    background-image: url('../images/linux-client.png');
+    border-color: #000000;
+}
+
+.windows-server {
+    background-image: url('../images/windows-server.png');
+    border-color: #BABDBD;
+}
+
+.important-for-security {
+    max-width: 40em;
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+.important-for-security > div {
+    min-height: 16px;
+    background-image: url('../images/security.png');
+    background-size: 16px 16px;
+    background-position: 16px 16px;
+    background-repeat: no-repeat;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #FFD700;
+    padding-top: 16px;
+    padding-left: 48px;
+    padding-right: 16px;
+    padding-bottom: 16px;
+}
+
+.windows-client *:first-child, .linux-client *:first-child, .windows-server *:first-child, .important-for-security > div *:first-child {
+    margin-top: 0;
+}
+
+.windows-client *:last-child, .linux-client *:last-child, .windows-server *:last-child, .important-for-security > div *:last-child {
+    margin-bottom: 0;
+}
+
+.lock-container {
+    position: relative;
+    min-height: 52px;
+}
+
+.lock-powershell, .lock-sh {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    width: 20px;
+    height: 20px;
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+}
+
+.powershell {
+    background-color: #012456;
+    padding-top: 16px;
+    padding-left: 48px;
+    padding-right: 16px;
+    padding-bottom: 16px;
+    font-family: Consolas, monospace;
+    color: #F0F0F0;
+    overflow-x: scroll;
+}
+
+.lock-powershell {
+    background-image: url('../images/security-powershell.png');
+}
+
+.sh {
+    background-color: #000000;
+    padding-top: 16px;
+    padding-left: 48px;
+    padding-right: 16px;
+    padding-bottom: 16px;
+    font-family: Consolas, monospace;
+    color: #E0E0E0;
+    overflow-x: scroll;
+}
+
+.output {
+    background-color: #F0F0F0;
+    padding-top: 16px;
+    padding-left: 48px;
+    padding-right: 16px;
+    padding-bottom: 16px;
+    font-family: Consolas, monospace;
+    color: #000000;
+    overflow-x: scroll;
+}
+
+.lock-sh {
+    background-image: url('../images/security-sh.png');
+}
+
+.configuration-dependent-value {
+    font-weight: bold;
+    color: #FFFFFF;
+}
+
+.copy-to-clipboard {
+    cursor: default;
+}
+
+.command, .path, .url, .prompt, .thumbprint {
+    font-family: Consolas, monospace;
+}
+
+.navigation {
+    display: block;
+    list-style: none;
+    padding: 0;
+    font-family: "Trebuchet MS", sans-serif;
+}
+
+.previous {
+    display: inline-block;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    margin-left: 16px;
+    margin-right: 16px;
+    background-color: #E9EDF4;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    white-space: nowrap;
+}
+
+.next {
+    display: inline-block;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    margin-left: 16px;
+    margin-right: 16px;
+    background-color: #E9EDF4;
+    padding-top: 16px;
+    padding-bottom: 16px;
+}
+
+.previous > a, .next > a {
+    padding: 16px;
+    color: #000000;
+}
+
+@media all and (max-width: 384px) {
+    .windows-client, .linux-client, .windows-server {
+        background-position: 8px 16px;
+        background-size: 24px;
+        padding-left: 40px;
+        padding-right: 8px;
+    }
+
+    .important-for-security > div {
+        background-position: 8px 16px;
+        padding-left: 32px;
+        padding-right: 8px;
+    }
+
+    .lock-powershell, .lock-sh {
+        left: 8px;
+    }
+
+    .powershell, .sh, .output {
+        padding-left: 32px;
+        padding-right: 16px;
+        font-size: smaller;
+    }
+
+    .previous, .next {
+        font-size: small;
+        margin-left: 8px;
+        margin-right: 8px;
+    }
+}

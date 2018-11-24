@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Visual Studio Geeks | How to configure WinRM for HTTPS manually </title>
+    
+    <meta name="description" content="In this post we will see how you can configure WinRM (Windows Remote Management) service to work with HTTPS manually.">
+    <meta property="og:description" content="In this post we will see how you can configure WinRM (Windows Remote Management) service to work with HTTPS manually.">
+    <meta property="og:title" content="How to configure WinRM for HTTPS manually | Visual Studio Geeks">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.visualstudiogeeks.com/devops/how-to-configure-winrm-for-https-manually">
+    
+    <meta property="og:site_name" content="Visual Studio Geeks - Great posts on DevOps, Azure, Azure DevOps (VSTS) and Visual Studio">
+    <meta property="og:locale" content="en_GB">
+    
+    <meta name="twitter:image" content="https://www.visualstudiogeeks.com/images/screenshots/utkarsh/2016-05-21_winrm_client_validation_cmd.png">
+    <meta property="og:image" content="https://www.visualstudiogeeks.com/images/screenshots/utkarsh/2016-05-21_winrm_client_validation_cmd.png">
+    
+    <meta name="twitter:image:alt" content="Visual Studio Geeks">
+    <meta name="twitter:card" content="summary">
+    
+    
+    <meta name="twitter:creator" content="@onlyutkarsh">
+    <meta name="twitter:site" content="@onlyutkarsh">
+    
+    
+    <meta name="twitter:title" content="DevOps | How to configure WinRM for HTTPS manually">
+    
+    
+    <meta name="keywords" content="TFS2015, DevOps, VSTS, WinRM">
+    
+    <link rel="canonical" href="https://www.visualstudiogeeks.com/devops/how-to-configure-winrm-for-https-manually">
+    <link rel="alternate" type="application/rss+xml" title="Visual Studio Geeks" href="https://www.visualstudiogeeks.com/rss.xml">
+    <link type="application/atom+xml" rel="alternate" href="https://www.visualstudiogeeks.com/atom.xml" title="Visual Studio Geeks">
+    <link rel="shortcut icon" href="https://www.visualstudiogeeks.com/favicon.ico" type="image/x-icon">
+    
+    <meta name="twitter:url" content="https://www.visualstudiogeeks.com/devops/how-to-configure-winrm-for-https-manually">
+    
+    
+    <meta name="twitter:description" content="In this post we will see how you can configure WinRM (Windows Remote Management) service to work with HTTPS manually.">
+    
+    
+    <meta property="article:published_time" content="2016-05-21">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="Visual%20Studio%20Geeks%20|%20How%20to%20configure%20WinRM%20for%20HTTPS%20manually_fichiers/font-awesome.css">
+    <!-- Bootstrap core CSS -->
+    <link href="Visual%20Studio%20Geeks%20|%20How%20to%20configure%20WinRM%20for%20HTTPS%20manually_fichiers/bootstrap.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="Visual%20Studio%20Geeks%20|%20How%20to%20configure%20WinRM%20for%20HTTPS%20manually_fichiers/mdb.css" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="Visual%20Studio%20Geeks%20|%20How%20to%20configure%20WinRM%20for%20HTTPS%20manually_fichiers/style.css" rel="stylesheet">
+    <!-- Syntax -->
+    <link href="Visual%20Studio%20Geeks%20|%20How%20to%20configure%20WinRM%20for%20HTTPS%20manually_fichiers/syntax-monokai.css" rel="stylesheet">
+    <!-- Algolia Search -->
+    <link rel="stylesheet" type="text/css" href="Visual%20Studio%20Geeks%20|%20How%20to%20configure%20WinRM%20for%20HTTPS%20manually_fichiers/instantsearch.css">
+    <link rel="stylesheet" type="text/css" href="Visual%20Studio%20Geeks%20|%20How%20to%20configure%20WinRM%20for%20HTTPS%20manually_fichiers/instantsearch-theme-algolia.css">
+    <meta name="google-site-verification" content="IaDh_QpdxDooLFnoS2RDVvEpOagEJ24tCjVrgsvL9-k">
+    <script async="" src="Visual%20Studio%20Geeks%20|%20How%20to%20configure%20WinRM%20for%20HTTPS%20manually_fichiers/gtm.js"></script><script async="" src="Visual%20Studio%20Geeks%20|%20How%20to%20configure%20WinRM%20for%20HTTPS%20manually_fichiers/adsbygoogle.js"></script>
+    <!-- Google -->
+    <script src="Visual%20Studio%20Geeks%20|%20How%20to%20configure%20WinRM%20for%20HTTPS%20manually_fichiers/google.js"></script>
+<script type="text/javascript" async="" src="Visual%20Studio%20Geeks%20|%20How%20to%20configure%20WinRM%20for%20HTTPS%20manually_fichiers/embed.js"></script><style type="text/css">/* Chart.js */
+@-webkit-keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}@keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}.chartjs-render-monitor{-webkit-animation:chartjs-render-animation 0.001s;animation:chartjs-render-animation 0.001s;}</style><style></style></head>
+
+<body class="grey lighten-3" id="top-section"><div role="dialog" aria-live="polite" aria-label="cookieconsent" aria-describedby="cookieconsent:desc" class="cc-window cc-floating cc-type-info cc-theme-block cc-bottom cc-left cc-color-override--1899974903  cc-invisible" style="display: none;"><!--googleoff: all--><span id="cookieconsent:desc" class="cc-message">This website uses cookies to ensure you get the best experience on our website. <a aria-label="learn more about cookies" role="button" tabindex="0" class="cc-link" href="http://cookiesandyou.com/" target="_blank">Learn more</a></span><div class="cc-compliance"><a aria-label="dismiss cookie message" role="button" tabindex="0" class="cc-btn cc-dismiss">Got it!</a></div><!--googleon: all--></div>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5J2Q5L3"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <!--Main Navigation-->
+<header>
+  <!-- Navbar -->
+  <nav class="navbar fixed-top navbar-expand-lg light-blue darken-4 scrolling-navbar top-nav-collapse">
+      <div class="container">
+
+          <!-- Brand -->
+          <a class="navbar-brand waves-effect" href="https://www.visualstudiogeeks.com/">
+            <img src="Visual%20Studio%20Geeks%20|%20How%20to%20configure%20WinRM%20for%20HTTPS%20manually_fichiers/navbar-logo.png" alt="Visual Studio Geeks">
+          </a>
+          <!-- Collapse -->
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+          <!-- Links -->
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <!-- Left -->
+              <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link waves-effect white-text" href="https://www.visualstudiogeeks.com/">Home
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link waves-effect white-text" href="https://www.visualstudiogeeks.com/tags">Tags</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link waves-effect white-text" href="https://www.visualstudiogeeks.com/category">Categories</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link waves-effect white-text" href="https://www.visualstudiogeeks.com/archive">Archive</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link waves-effect white-text" href="https://www.visualstudiogeeks.com/contact">Contact Us</a>
+                    </li>
+                </ul>
+              <!-- Right -->
+                <span style="font-size: 12px;" class="disabled white-text">
+                        Great posts on DevOps, Azure, Azure DevOps (VSTS) and Visual Studio
+                </span>
+          </div>
+      </div>
+  </nav>
+  <!-- Navbar -->
+</header>
+  <!--Main layout-->
+  <main class="mt-5 pt-5">
+    <div class="container">
+      <!--Section: Post-->
+      <section class="mt-4">
+        <!--Grid row-->
+        <div class="row">
+          <!--Grid column-->
+          <div class="col-md-9 mb-4">
+            <div class="card mb-4">
+    <div class="card-body post-content">
+        <div>
+            <h1>How to configure WinRM for HTTPS manually</h1>
+            
+            <i class="fa fa-calendar teal-text"></i> May 21, 2016 | 
+            <img src="Visual%20Studio%20Geeks%20|%20How%20to%20configure%20WinRM%20for%20HTTPS%20manually_fichiers/utkarsh_16x16.png" class="img-fluid wow fadeIn z-depth-1" data-action="zoom" style="visibility: visible; animation-name: fadeIn;">
+            <a href="#author">
+                <strong>Utkarsh Shigihalli</strong>
+            </a> <p></p>
+            
+            <a href="https://www.visualstudiogeeks.com/tags/#devops">
+                <span class="badge badge-pill light-blue darken-4"><i class="fa fa-tag yellow-text" aria-hidden="true"></i> DevOps </span>
+            </a>
+            
+            <a href="https://www.visualstudiogeeks.com/tags/#tfs">
+                <span class="badge badge-pill light-blue darken-4"><i class="fa fa-tag yellow-text" aria-hidden="true"></i> TFS </span>
+            </a>
+            
+            <a href="https://www.visualstudiogeeks.com/tags/#winrm">
+                <span class="badge badge-pill light-blue darken-4"><i class="fa fa-tag yellow-text" aria-hidden="true"></i> WinRM </span>
+            </a>
+            
+            <div class="ml-0 pl-0 mt-2 mb-2">
+    
+    <!-- twitter -->
+    <a class="btn btn-twitter btn-sm waves-effect waves-light" data-toggle="tooltip" title="" href="https://twitter.com/intent/tweet?hashtags=vsgeeks&amp;text=Visual+Studio+Geeks&amp;url=https://www.visualstudiogeeks.com/devops/how-to-configure-winrm-for-https-manually" onclick="window.open(this.href, 'mywin', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" data-original-title="Share on Twitter"><i class="fa fa-twitter mr-2"></i> Twitter</a>
+    <!-- facebook -->
+    <a class="btn btn-facebook btn-sm waves-effect waves-light" data-toggle="tooltip" title="" href="https://www.facebook.com/sharer/sharer.php?u=https://www.visualstudiogeeks.com/devops/how-to-configure-winrm-for-https-manually" onclick="window.open(this.href, 'mywin', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" data-original-title="Share on Facebook"><i class="fa fa-facebook mr-2"></i> Facebook</a>
+    <!-- google plus -->
+    <a class="btn btn-gplus btn-sm waves-effect waves-light" data-toggle="tooltip" title="" href="https://plus.google.com/share?url=?url=https://www.visualstudiogeeks.com/devops/how-to-configure-winrm-for-https-manually" onclick="window.open(this.href, 'mywin', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" data-original-title="Share on Google"><i class="fa fa-google-plus mr-2"></i> Google +</a>
+    <!-- linkedin -->
+    <a class="btn btn-linkedin btn-sm waves-effect waves-light" data-toggle="tooltip" title="" href="https://www.linkedin.com/shareArticle??mini=true&amp;url=https://www.visualstudiogeeks.com/devops/how-to-configure-winrm-for-https-manually&amp;title=How%20to%20configure%20WinRM%20for%20HTTPS%20manually&amp;summary=In%20this%20post%20we%20will%20see%20how%20you%20can%20configure%20WinRM%20(Windows%20Remote%20Management)%20service%20to%20work%20with%20HTTPS%20manually.&amp;source=Visual+Studio+Geeks" onclick="window.open(this.href, 'mywin', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" data-original-title="Share on LinkedIn"><i class="fa fa-linkedin mr-2"></i> Linkedin</a>
+    <!-- email -->
+    <a class="btn btn-email btn-sm waves-effect waves-light" data-toggle="tooltip" title="" href="mailto:?subject=How to configure WinRM for HTTPS manually&amp;body=Check this out: https://www.visualstudiogeeks.com/devops/how-to-configure-winrm-for-https-manually" data-original-title="Email"><i class="fa fa-envelope mr-2"></i> Email</a>
+</div>
+            <hr>
+        </div>
+        <p>In this post we will see how you can configure <a href="https://msdn.microsoft.com/en-us/library/aa384426(v=vs.85).aspx">WinRM (Windows Remote Management)</a> service to work with HTTPS manually.</p>
+
+<!--more-->
+
+<p>Configuring for HTTPS involves following steps.</p>
+
+<ul>
+  <li>Check whether WinRM service is running</li>
+  <li>Create HTTPS listener</li>
+  <li>Add firewall exception</li>
+  <li>Validate HTTPS listener</li>
+  <li>Verify you can connect to the machine via HTTPS</li>
+</ul>
+
+<p>For the demo purposes I have built a new VM using AzureDevTestLab. We
+ will perform the above steps in this VM and enable it for HTTPS 
+communication.</p>
+
+<h3 id="check-whether-winrm-service-is-running">Check whether WinRM service is running</h3>
+<p>WinRM is installed by default in all supported Windows machines. Ensure that service is in <code class="highlighter-rouge">running</code> state in <code class="highlighter-rouge">services</code>.</p>
+
+<p><img src="Visual%20Studio%20Geeks%20|%20How%20to%20configure%20WinRM%20for%20HTTPS%20manually_fichiers/2016-05-21_winrm_service_status.png" alt="Service Status" class="img-fluid wow fadeIn z-depth-1" data-action="zoom" style="visibility: visible; animation-name: fadeIn;"></p>
+
+<h3 id="create-https-listener">Create HTTPS listener</h3>
+
+<p>By default when you run <code class="highlighter-rouge">winrm quickconfig</code> command WinRM is only configured for HTTP (port 5985). You can check already registered listeners by running following command.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre><span class="go">WinRM e winrm/config/listener
+</span></pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>You will see output like below.</p>
+
+<p><img src="Visual%20Studio%20Geeks%20|%20How%20to%20configure%20WinRM%20for%20HTTPS%20manually_fichiers/2016-05-21_winrm_listener.png" alt="WinRM Listener" class="img-fluid wow fadeIn z-depth-1" data-action="zoom" style="visibility: visible; animation-name: fadeIn;"></p>
+
+<p>To enable HTTPS for WinRM, you need to open port 5986 and add HTTPS listener in the VM.</p>
+
+<p>Before we start doing that, we will first need to create a 
+self-signed certificate and get its thumbprint. To create a self signed 
+certificate we can use either <code class="highlighter-rouge">makecert</code> command or a <code class="highlighter-rouge">New-SelfSignedCertificate</code> powershell commandlet. I am using powershell commandlet here. Open your powershell window in <code class="highlighter-rouge">Adminstrator</code> mode and run the below command.</p>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre><span class="nb">New-SelfSignedCertificate</span> -DnsName <span class="s2">"&lt;YOUR_DNS_NAME&gt;"</span> -CertStoreLocation Cert:\LocalMachine\My
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>This command will create a new self signed certificate and output the  certificate thumbprint.</p>
+
+<p><img src="Visual%20Studio%20Geeks%20|%20How%20to%20configure%20WinRM%20for%20HTTPS%20manually_fichiers/2016-05-21_winrm_self_signed_certificate.png" alt="WinRM Self Signed Certificate" class="img-fluid wow fadeIn z-depth-1" data-action="zoom" style="visibility: visible; animation-name: fadeIn;"></p>
+
+<p>DNS name used in the above command is your machine hostname and for 
+Aure portal VM’s you can get it from the portal from VM properties.</p>
+
+<p><img src="Visual%20Studio%20Geeks%20|%20How%20to%20configure%20WinRM%20for%20HTTPS%20manually_fichiers/2016-05-21_winrm_dns_name.png" alt="WinRM DNS Name" class="img-fluid wow fadeIn z-depth-1" data-action="zoom" style="visibility: visible; animation-name: fadeIn;"></p>
+
+<p>Copy the thumbprint to clipboard and run the following command. This command will register the HTTPS listener in WinRM</p>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>winrm create winrm/config/Listener?Address<span class="o">=</span><span class="k">*</span>+Transport<span class="o">=</span>HTTPS <span class="s1">'@{Hostname="&lt;YOUR_DNS_NAME&gt;"; CertificateThumbprint="&lt;COPIED_CERTIFICATE_THUMBPRINT&gt;"}'</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>You will see output as below.</p>
+
+<p><img src="Visual%20Studio%20Geeks%20|%20How%20to%20configure%20WinRM%20for%20HTTPS%20manually_fichiers/2016-05-21_winrm_create_https_listener.png" alt="WinRM HTTPS Listener" class="img-fluid wow fadeIn z-depth-1" data-action="zoom" style="visibility: visible; animation-name: fadeIn;"></p>
+
+<h3 id="add-firewall-exception">Add firewall exception</h3>
+
+<h4 id="via-firewall-applet-from-control-panel"><strong>Via Firewall applet from Control Panel</strong></h4>
+<ul>
+  <li>Open <code class="highlighter-rouge">Windows Firewall</code> from Control Panel</li>
+  <li>Go to <code class="highlighter-rouge">Inbound Rules</code> then click <code class="highlighter-rouge">New Rule</code></li>
+  <li>This will open the wizard</li>
+</ul>
+
+<p><img src="Visual%20Studio%20Geeks%20|%20How%20to%20configure%20WinRM%20for%20HTTPS%20manually_fichiers/2016-05-21_winrm_firwall_wizard.png" alt="WinRM Firewall Wizard" class="img-fluid wow fadeIn z-depth-1" data-action="zoom" style="visibility: visible; animation-name: fadeIn;"></p>
+
+<ul>
+  <li>Select Port and then TCP</li>
+  <li>Enter port as <code class="highlighter-rouge">5986</code></li>
+</ul>
+
+<p><img src="Visual%20Studio%20Geeks%20|%20How%20to%20configure%20WinRM%20for%20HTTPS%20manually_fichiers/2016-05-21_winrm_firwall_port_add_wiz.png" alt="WinRM Firewall Port" class="img-fluid wow fadeIn z-depth-1" data-action="zoom" style="visibility: visible; animation-name: fadeIn;"></p>
+
+<ul>
+  <li>In the next screens select <code class="highlighter-rouge">Allow the connection</code></li>
+  <li>In the profile page check all the checkboxes.</li>
+  <li>Finally give a name to the rule.</li>
+</ul>
+
+<h4 id="via-command"><strong>Via command</strong></h4>
+
+<p>You can also do the same operation and add firwall exception for port <code class="highlighter-rouge">5986</code> by running the following command in powershell console as <code class="highlighter-rouge">Administrator</code>.</p>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre><span class="c1"># Add a new firewall rule</span>
+<span class="nv">port</span><span class="o">=</span>5986
+netsh advfirewall firewall add rule <span class="nv">name</span><span class="o">=</span><span class="s2">"Windows Remote Management (HTTPS-In)"</span> <span class="nb">dir</span><span class="o">=</span><span class="k">in </span><span class="nv">action</span><span class="o">=</span>allow <span class="nv">protocol</span><span class="o">=</span>TCP <span class="nv">localport</span><span class="o">=</span><span class="nv">$port</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p><img src="Visual%20Studio%20Geeks%20|%20How%20to%20configure%20WinRM%20for%20HTTPS%20manually_fichiers/2016-05-21_winrm_firwall_port_add_cmd.png" alt="WinRM Firwall Port Add" class="img-fluid wow fadeIn z-depth-1" data-action="zoom" style="visibility: visible; animation-name: fadeIn;"></p>
+
+<h3 id="validate-https-listener">Validate HTTPS listener</h3>
+
+<p>You can verify listener you added by running the same command you used above - <code class="highlighter-rouge">WinRM e winrm/config/listener</code>. This will show the new HTTP listener now along with previous HTTPS listener.</p>
+
+<p><img src="Visual%20Studio%20Geeks%20|%20How%20to%20configure%20WinRM%20for%20HTTPS%20manually_fichiers/2016-05-21_winrm_https_listener.png" alt="WinRM HTTPS Listener" class="img-fluid wow fadeIn z-depth-1" data-action="zoom" style="visibility: visible; animation-name: fadeIn;"></p>
+
+<h3 id="verify-you-can-connect-to-the-machine-via-https">Verify you can connect to the machine via HTTPS</h3>
+
+<p>We have done with your WinRM configuration and now we need to verify we can connect to this VM using HTTPS.</p>
+
+<p>Run the following commands in powershell window as <code class="highlighter-rouge">Administrator</code></p>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="rouge-code"><pre><span class="nv">$hostName</span><span class="o">=</span><span class="s2">"&lt;DNS_NAME&gt;"</span> <span class="c1"># example: "mywindowsvm.westus.cloudapp.azure.com"</span>
+<span class="nv">$winrmPort</span> <span class="o">=</span> <span class="s2">"5986"</span>
+
+<span class="c1"># Get the credentials of the machine</span>
+<span class="nv">$cred</span> <span class="o">=</span> <span class="nb">Get-Credential</span>
+
+<span class="c1"># Connect to the machine</span>
+<span class="nv">$soptions</span> <span class="o">=</span> New-PSSessionOption -SkipCACheck
+Enter-PSSession -ComputerName <span class="nv">$hostName</span> -Port <span class="nv">$winrmPort</span> -Credential <span class="nv">$cred</span> -SessionOption <span class="nv">$soptions</span> -UseSSL
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>On entering the last command, you will be logged in to remote 
+machine’s powershell session. As you can see in the screenshot below, 
+you are connected and you can get the items from the remote virtual 
+machine.</p>
+
+<p><img src="Visual%20Studio%20Geeks%20|%20How%20to%20configure%20WinRM%20for%20HTTPS%20manually_fichiers/2016-05-21_winrm_client_validation_cmd.png" alt="WinRM Validate" class="img-fluid wow fadeIn z-depth-1" data-action="zoom" style="visibility: visible; animation-name: fadeIn;"></p>
+
+<p>That is it then. You can read these other great blog posts on WinRM, AzureDevTestLab and DevOps.</p>
+
+<ul>
+  <li><a href="https://www.visualstudiogeeks.com/blog/DevOps/Deploy-New-VM-To-Existing-AzureDevTestLab-From-VSTS">Deploy new VM in an existing AzureDevTestLab using VSTS</a></li>
+  <li><a href="https://www.visualstudiogeeks.com/blog/DevOps/How-To-Move-CustomImages-VHD-Between-AzureDevTestLabs">Copy custom images (VHD) between AzureDevTestLabs</a></li>
+  <li><a href="https://www.visualstudiogeeks.com/blog/DevOps/Configure-winrm-with-ARM-template-in-AzureDevTestLab-VM-deployment-using-PowerShell-artifact">Configure WinRm with ARM template using PowerShell artifact</a></li>
+</ul>
+
+    </div>
+</div>
+
+
+
+
+<div class="card mb-4 wow fadeIn" style="visibility: hidden; animation-name: none;">
+  <div class="card-header font-weight-bold">
+    Related Posts
+  </div>
+  <div class="card-body post-content m-0 p-0">
+      <ul class="list-group list-group-flush ">
+          
+            <li class="list-group-item">
+              <a href="https://www.visualstudiogeeks.com/azure/how-i-built-a-dashboard-in-azure-portal-to-track-gitflow-feature-branches">How I built a dashboard in Azure Portal to track Gitflow feature branches</a>
+            </li>
+          
+            <li class="list-group-item">
+              <a href="https://www.visualstudiogeeks.com/devops/installing-aspnet-core-site-extensions-for-azure-app-service-using-arm">Installing ASP.NET Core Site Extension for Azure App Service Using ARM template</a>
+            </li>
+          
+            <li class="list-group-item">
+              <a href="https://www.visualstudiogeeks.com/devops/sitecore/provisioning-sitecore-xm-environment-with-azure-devops">Provisioning Sitecore environment with Azure DevOps on Azure PaaS</a>
+            </li>
+          
+            <li class="list-group-item">
+              <a href="https://www.visualstudiogeeks.com/devops/monitor-unhandled-exception-in-your-build-extensions">Monitor unhandled exceptions in your VS Marketplace task extensions using Sentry</a>
+            </li>
+          
+            <li class="list-group-item">
+              <a href="https://www.visualstudiogeeks.com/devops/continuous-build-and-deployment-of-visual-studio-extensions">Continuous build and deployment of Visual Studio extensions using Azure Pipelines</a>
+            </li>
+          
+        </ul>
+  </div>
+</div>
+
+
+
+
+<!--Card-->
+<div class="card mb-4 wow fadeIn" id="author" style="visibility: hidden; animation-name: none;">
+    <div class="card-header font-weight-bold">
+        <span>About author</span>
+        <span class="pull-right">
+            
+            <a href="https://www.twitter.com/onlyutkarsh" data-toggle="tooltip" title="" target="_blank" data-original-title="Twitter">
+                <i class="fa fa-twitter mr-2"></i>
+            </a>
+            
+            
+            <a href="https://www.github.com/onlyutkarsh" data-toggle="tooltip" title="" target="_blank" data-original-title="GitHub">
+                <i class="fa fa-github mr-2"></i>
+            </a>
+            
+            
+            
+            <a href="https://marketplace.visualstudio.com/search?term=publisher%3Autkarsh&amp;target=VSTS&amp;sortBy=Downloads" data-toggle="tooltip" title="" target="_blank" data-original-title="VSTS Marketplace"><img src="Visual%20Studio%20Geeks%20|%20How%20to%20configure%20WinRM%20for%20HTTPS%20manually_fichiers/marketplace.png" class="marketplaceIcon"></a>
+            
+            
+            <a href="https://marketplace.visualstudio.com/search?term=publisher%3A%22Utkarsh%20Shigihalli%20and%20Tarun%20Arora%22&amp;target=VS&amp;category=All%20categories&amp;vsVersion=&amp;sortBy=Relevance" data-toggle="tooltip" title="" target="_blank" data-original-title="VS Marketplace"><img src="Visual%20Studio%20Geeks%20|%20How%20to%20configure%20WinRM%20for%20HTTPS%20manually_fichiers/marketplace.png" class="marketplaceIcon"></a>
+            
+        </span>
+    </div>
+    <!--Card content-->
+    <div class="card-body">
+
+        <div class="media d-block d-md-flex mt-3">
+            <img class="d-flex mb-3 mx-auto z-depth-1" src="Visual%20Studio%20Geeks%20|%20How%20to%20configure%20WinRM%20for%20HTTPS%20manually_fichiers/utkarsh_100x100.png" alt="Author Image" style="width: 100px;">
+            <div class="media-body text-center text-md-left ml-md-3 ml-0">
+                <h5 class="mt-0 font-weight-bold">Utkarsh Shigihalli</h5>
+                <small>Utkarsh is passionate about software development 
+and has more than 12 years of work experience in the areas of Azure, 
+VSTS, C# and TypeScript. He has developed numerous extensions for Visual
+ Studio and Visual Studio Team Services. He is currently working as a 
+Consultant in the United States.</small>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<!--/.Card-->
+
+    
+    
+        
+        <div class="card mb-4 wow fadeIn" style="visibility: hidden; animation-name: none;">
+            <div class="card-header font-weight-bold">
+                Comments
+            </div>
+            <div class="card-body post-content">
+                <div id="disqus_thread"></div>
+                <script type="text/javascript">
+                    var disqus_shortname = 'visualstudiogeeks'; // required: replace example with your forum shortname
+                    (function () {
+                        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                    })();
+                </script>
+            </div>
+        </div>
+        
+    
+
+
+          </div>
+          <!--Grid column-->
+          <!--Grid column-->
+          <div class="col-md-3 mb-4">
+            <div class="card mb-4">
+    <div class="card-header text-uppercase">Search</div>
+    <!--Card content-->
+    <div class="card-body">
+        <!-- Search form -->
+        <div class="md-form blue-darken-3 m-0">
+            <input class="form-control" type="text" placeholder="Search in to posts" aria-label="Search" id="search-input">
+        </div>
+    </div>
+</div>
+<!--Card-->
+<div class="card mb-4 wow fadeIn" style="visibility: visible; animation-name: fadeIn;">
+    <div class="card-header text-uppercase">We Are</div>
+    <!--Card content-->
+    <div class="card-body p-2">
+        <ul class="list-unstyled">
+            
+            <li class="media">
+                <img class="d-flex z-depth-1 mr-3 img-fluid" src="Visual%20Studio%20Geeks%20|%20How%20to%20configure%20WinRM%20for%20HTTPS%20manually_fichiers/utkarsh_75x75.png" alt="onlyutkarsh">
+                <div class="media-body">
+                    <h6 class="mt-0 mb-1 font-weight-bold">Utkarsh Shigihalli</h6>
+                    <small style="font-size: x-small">Microsoft MVP (2014-2018), Technologist &amp; DevOps Coach</small>
+                    <p class="m-0"></p>
+                    
+                    <a href="https://mvp.microsoft.com/en-us/PublicProfile/5000686" class="btn btn-mvp btn-xs mt-0 ml-0 mr-2 waves-effect waves-light" data-toggle="tooltip" target="_blank" title="" data-original-title="MVP Profile">
+                        <i class="fa fa-trophy fa-lg" aria-hidden="true"></i>
+                    </a>
+                     
+                    <a href="https://www.twitter.com/onlyutkarsh" class="btn btn-twitter btn-xs mt-0 mr-2 waves-effect waves-light" data-toggle="tooltip" target="_blank" title="" data-original-title="Twitter">
+                        <i class="fa fa-twitter fa-lg" aria-hidden="true"></i>
+                    </a>
+                      
+                    <a href="https://www.github.com/onlyutkarsh" class="btn btn-github btn-xs mt-0 mr-2 waves-effect waves-light" data-toggle="tooltip" target="_blank" title="" data-original-title="GitHub">
+                        <i class="fa fa-github fa-lg" aria-hidden="true"></i>
+                    </a>
+                    
+                </div>
+            </li>
+            
+            <hr class="mt-2 mb-2">
+            
+            
+            <li class="media">
+                <img class="d-flex z-depth-1 mr-3 img-fluid" src="Visual%20Studio%20Geeks%20|%20How%20to%20configure%20WinRM%20for%20HTTPS%20manually_fichiers/tarun_75x75.png" alt="arora_tarun">
+                <div class="media-body">
+                    <h6 class="mt-0 mb-1 font-weight-bold">Tarun Arora</h6>
+                    <small style="font-size: x-small">Microsoft MVP, Author &amp; DevOps Coach at Avanade</small>
+                    <p class="m-0"></p>
+                    
+                    <a href="https://mvp.microsoft.com/en-us/PublicProfile/4038243" class="btn btn-mvp btn-xs mt-0 ml-0 mr-2 waves-effect waves-light" data-toggle="tooltip" target="_blank" title="" data-original-title="MVP Profile">
+                        <i class="fa fa-trophy fa-lg" aria-hidden="true"></i>
+                    </a>
+                     
+                    <a href="https://www.twitter.com/arora_tarun" class="btn btn-twitter btn-xs mt-0 mr-2 waves-effect waves-light" data-toggle="tooltip" target="_blank" title="" data-original-title="Twitter">
+                        <i class="fa fa-twitter fa-lg" aria-hidden="true"></i>
+                    </a>
+                      
+                    <a href="https://github.com/tarunaroraonline" class="btn btn-github btn-xs mt-0 mr-2 waves-effect waves-light" data-toggle="tooltip" target="_blank" title="" data-original-title="GitHub">
+                        <i class="fa fa-github fa-lg" aria-hidden="true"></i>
+                    </a>
+                    
+                </div>
+            </li>
+            
+            
+        </ul>
+    </div>
+</div>
+<!--/.Card-->
+
+<!--Card-->
+<div class="card mb-4 wow fadeIn" style="visibility: visible; animation-name: fadeIn;">
+    <div class="card-body">
+        <h5>Do you like our posts? Subscribe to our newsletter!</h5>
+        <div class="text-center mt-4">
+            <a class="btn btn-unique btn-sm waves-effect waves-light" href="https://visualstudiogeeks.us13.list-manage.com/subscribe/post?u=5760080323192d8418b5b1c39&amp;id=8f924b625a" target="_blank">Subscribe</a>
+        </div>
+    </div>
+</div>
+<!--/.Card-->
+
+<div class="card mb-4 wow fadeIn" style="visibility: visible; animation-name: fadeIn;">
+    <div class="card-header text-uppercase">We Blog About</div>
+    <div class="card-body scrollbar scrollbar-primary thin">
+        
+
+
+
+
+
+
+
+
+<div class="tagcloud">
+  <ul>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#arm"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> ARM</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#agile"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> Agile</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#azure"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> Azure</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#azure-devops"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> Azure DevOps</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#azure-hybrid-benefit"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> Azure Hybrid Benefit</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#azure-key-vault"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> Azure Key vault</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#azure-pipelines"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> Azure Pipelines</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#azureappservice"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> AzureAppService</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#azureautomation"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> AzureAutomation</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#azuredevtestlabs"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> AzureDevTestLabs</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#azuresqldw"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> AzureSQLDW</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#bug2mail"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> Bug2Mail</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#build"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> Build</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#buildpipeline"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> BuildPipeline</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#chef"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> Chef</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#chrome"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> Chrome</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#continuous-delivery"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> Continuous Delivery</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#dependency-visualizer"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> Dependency Visualizer</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#devops"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> DevOps</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#devops-book"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> DevOps Book</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#devsecops"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> DevSecOps</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#exception"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> Exception</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#extensions"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> Extensions</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#git"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> Git</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#githooks"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> GitHooks</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#github"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> GitHub</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#iac"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> IaC</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#keyvault"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> KeyVault</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#licensing"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> Licensing</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#machine-groups"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> Machine Groups</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#msbuild"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> MsBuild</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#oms"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> OMS</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#perf"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> Perf</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#personal"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> Personal</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#pester"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> Pester</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#pipelines"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> Pipelines</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#powershell"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> PowerShell</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#releasegates"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> ReleaseGates</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#releasemanagement"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> ReleaseManagement</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#servicenow"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> ServiceNow</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#sitecore"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> Sitecore</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#sonarqube"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> SonarQube</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#specflow"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> SpecFlow</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#tfs"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> TFS</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#tfs15"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> TFS15</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#tfs2015"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> TFS2015</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#teambuild"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> TeamBuild</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#teamfoundationserver"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> TeamFoundationServer</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#tools"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> Tools</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#training"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> Training</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#vsts"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> VSTS</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#visualstudio"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> VisualStudio</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#wpf"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> WPF</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#winrm"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> WinRM</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#windows-mobile"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> Windows Mobile</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#xaml"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> XAML</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#angularjs"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> angularjs</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#build"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> build</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#burndown"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> burndown</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#csharp"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> csharp</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#dotnet"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> dotnet</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#ie"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> ie</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#mvc"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> mvc</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#quartz-net"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> quartz.net</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#shell"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> shell</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#windows"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> windows</small></span> </h6></a>
+  </li>
+  
+  <li>
+      <a href="https://www.visualstudiogeeks.com/tags/#workitem"><h6> <span class="badge badge-pill light-blue darken-4 text-uppercase"><i class="fa fa-tag yellow-text" aria-hidden="true"></i><small> workitem</small></span> </h6></a>
+  </li>
+  
+  </ul>
+</div>
+    </div>
+</div>
+
+<!--Card-->
+<div class="card mb-4 wow fadeIn" style="visibility: visible; animation-name: fadeIn;">
+    <div class="card-header text-uppercase">Recent Posts</div>
+    <div class="card-body m-0 p-3">
+        <ul class="list-unstyled">
+            
+            <li class="media">
+                
+                <img src="Visual%20Studio%20Geeks%20|%20How%20to%20configure%20WinRM%20for%20HTTPS%20manually_fichiers/featureimage.png" class="d-flex mr-3 mt-2 img-fluid" alt="Generic placeholder image" width="30px" height="30px">
+                
+                <div class="media-body">
+                    <small><a class="mt-0 mb-1" href="https://www.visualstudiogeeks.com/azure/how-i-built-a-dashboard-in-azure-portal-to-track-gitflow-feature-branches" data-toggle="tooltip" title="" data-original-title="How I built a dashboard in Azure Portal to track Gitflow feature branches">
+                            How I built a dashboard in Azure Portal to track Gitflow ...
+                        </a>
+                    </small>
+                </div>
+            </li>
+            
+            <hr class="m-1">
+            
+
+            
+            <li class="media">
+                
+                <img class="d-flex mr-3 mt-2 img-fluid" src="Visual%20Studio%20Geeks%20|%20How%20to%20configure%20WinRM%20for%20HTTPS%20manually_fichiers/azure.png" alt="Generic placeholder image" width="30px" height="30px">
+                
+                <div class="media-body">
+                    <small><a class="mt-0 mb-1" href="https://www.visualstudiogeeks.com/devops/installing-aspnet-core-site-extensions-for-azure-app-service-using-arm" data-toggle="tooltip" title="" data-original-title="Installing ASP.NET Core Site Extension for Azure App Service Using ARM template">
+                            Installing ASP.NET Core Site Extension for Azure App Serv...
+                        </a>
+                    </small>
+                </div>
+            </li>
+            
+            <hr class="m-1">
+            
+
+            
+            <li class="media">
+                
+                <img class="d-flex mr-3 mt-2 img-fluid" src="Visual%20Studio%20Geeks%20|%20How%20to%20configure%20WinRM%20for%20HTTPS%20manually_fichiers/azurehybrid.jpg" alt="Generic placeholder image" width="30px" height="30px">
+                
+                <div class="media-body">
+                    <small><a class="mt-0 mb-1" href="https://www.visualstudiogeeks.com/azure/how-to-enable-azure-hybrid-license-to-save-40-percent-on-windows-license-cost" data-toggle="tooltip" title="" data-original-title="How to enable Azure Hybrid License to save 40% on your Windows License Cost...">
+                            How to enable Azure Hybrid License to save 40% on your Wi...
+                        </a>
+                    </small>
+                </div>
+            </li>
+            
+            <hr class="m-1">
+            
+
+            
+            <li class="media">
+                
+                <img class="d-flex mr-3 mt-2 img-fluid" src="Visual%20Studio%20Geeks%20|%20How%20to%20configure%20WinRM%20for%20HTTPS%20manually_fichiers/sitecore.png" alt="Generic placeholder image" width="30px" height="30px">
+                
+                <div class="media-body">
+                    <small><a class="mt-0 mb-1" href="https://www.visualstudiogeeks.com/devops/sitecore/provisioning-sitecore-xm-environment-with-azure-devops" data-toggle="tooltip" title="" data-original-title="Provisioning Sitecore environment with Azure DevOps on Azure PaaS">
+                            Provisioning Sitecore environment with Azure DevOps on Az...
+                        </a>
+                    </small>
+                </div>
+            </li>
+            
+            <hr class="m-1">
+            
+
+            
+            <li class="media">
+                
+                <img class="d-flex mr-3 mt-2 img-fluid" src="Visual%20Studio%20Geeks%20|%20How%20to%20configure%20WinRM%20for%20HTTPS%20manually_fichiers/sentry.png" alt="Generic placeholder image" width="30px" height="30px">
+                
+                <div class="media-body">
+                    <small><a class="mt-0 mb-1" href="https://www.visualstudiogeeks.com/devops/monitor-unhandled-exception-in-your-build-extensions" data-toggle="tooltip" title="" data-original-title="Monitor unhandled exceptions in your VS Marketplace task extensions using Sentry">
+                            Monitor unhandled exceptions in your VS Marketplace task ...
+                        </a>
+                    </small>
+                </div>
+            </li>
+            
+
+            
+        </ul>
+    </div>
+</div>
+<!--/.Card-->
+          </div>
+          <!--Grid column-->
+        </div>
+        <!--Grid row-->
+      </section>
+      <!--Section: Post-->
+    </div>
+  </main>
+  
+<!--Footer-->
+<footer class="page-footer font-small elegant-color pt-4 mt-4">
+    <!--Copyright-->
+    <div class="footer-copyright py-3 text-center elegant-color-black">
+				©
+				<span id="copyright">
+						<script>document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))</script>2018 Copyright:
+						<strong>Utkarsh Shigihalli &amp; Tarun Arora</strong>
+				</span>
+    </div>
+    <!--/.Copyright-->
+</footer>
+<!--/.Footer-->
+                      
+<!-- JQuery -->
+<script type="text/javascript" src="Visual%20Studio%20Geeks%20|%20How%20to%20configure%20WinRM%20for%20HTTPS%20manually_fichiers/jquery-3.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="Visual%20Studio%20Geeks%20|%20How%20to%20configure%20WinRM%20for%20HTTPS%20manually_fichiers/popper.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="Visual%20Studio%20Geeks%20|%20How%20to%20configure%20WinRM%20for%20HTTPS%20manually_fichiers/bootstrap.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="Visual%20Studio%20Geeks%20|%20How%20to%20configure%20WinRM%20for%20HTTPS%20manually_fichiers/mdb.js"></script>
+<link href="Visual%20Studio%20Geeks%20|%20How%20to%20configure%20WinRM%20for%20HTTPS%20manually_fichiers/zoom.css" rel="stylesheet">
+<script src="Visual%20Studio%20Geeks%20|%20How%20to%20configure%20WinRM%20for%20HTTPS%20manually_fichiers/zoom.js"></script>
+<!-- VSGeeks JavaScript -->
+<script type="text/javascript" src="Visual%20Studio%20Geeks%20|%20How%20to%20configure%20WinRM%20for%20HTTPS%20manually_fichiers/vsgeeks.js"></script>
+ 
+<!-- Cookie Consent -->
+<link rel="stylesheet" type="text/css" href="Visual%20Studio%20Geeks%20|%20How%20to%20configure%20WinRM%20for%20HTTPS%20manually_fichiers/cookieconsent.css">
+<script src="Visual%20Studio%20Geeks%20|%20How%20to%20configure%20WinRM%20for%20HTTPS%20manually_fichiers/cookieconsent.js"></script>
+<!-- Algolia -->
+<script src="Visual%20Studio%20Geeks%20|%20How%20to%20configure%20WinRM%20for%20HTTPS%20manually_fichiers/algoliasearch.js"></script>
+<script src="Visual%20Studio%20Geeks%20|%20How%20to%20configure%20WinRM%20for%20HTTPS%20manually_fichiers/autocomplete.js"></script>
+<script type="text/template" id="my-custom-menu-template">
+  <div class="my-custom-menu">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="aa-dataset-d1"></div>
+      </div>
+    </div>
+  </div>
+</script>
+<script>
+  var client = algoliasearch("D1EWGWOPWN", "461801ef59cc78039b9027e93f32131c")
+  var index = client.initIndex("vsgeeks-blog-index");
+		$('#search-input').autocomplete(
+			{
+				openOnFocus:true,
+				hint:false,
+				templates: {
+					dropdownMenu: '#my-custom-menu-template',
+					footer: '<hr/><div class="branding pull-right mr-3 mb-3 mt-0">Powered by<img src="https://www.algolia.com/static_assets/images/press/downloads/algolia-logo-light.svg" /></div>'
+				}
+			},
+			[
+				{
+					source: $.fn.autocomplete.sources.hits(index, { hitsPerPage: 5 }),
+					displayKey: 'title',
+					templates: {
+						suggestion: function (suggestion) {
+							return suggestion._highlightResult.title.value;
+						}
+					}
+				},
+			]).on('autocomplete:selected', function (event, suggestion, dataset) {
+				window.location.href = suggestion.url;
+			});
+</script>
+
+<!-- End Algolia -->
+<!-- Cookie Consent -->
+<script>
+window.addEventListener("load", function(){
+window.cookieconsent.initialise({
+  "palette": {
+    "popup": {
+      "background": "#252e39"
+    },
+    "button": {
+      "background": "#4285F4"
+    }
+  },
+  "position": "bottom-left"
+})});
+</script>
+<script type="application/ld+json">
+{"url":"https://www.visualstudiogeeks.com/devops/how-to-configure-winrm-for-https-manually","headline":"How to configure WinRM for HTTPS manually","dateModified":"2016-05-21","datePublished":"2016-05-21","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.visualstudiogeeks.com/devops/how-to-configure-winrm-for-https-manually"},"author":{"@type":"Person","name":"Utkarsh Shigihalli"},"image":"https://www.visualstudiogeeks.com/images/screenshots/utkarsh/2016-05-21_winrm_client_validation_cmd.png","description":"In this post we will see how you can configure WinRM (Windows Remote Management) service to work with HTTPS manually.","@type":"BlogPosting","keywords":"TFS2015, DevOps, VSTS, WinRM","publisher":{"@type": "Organization","name": "Visual Studio Geeks","logo": {"@type": "imageObject","url": "https://www.visualstudiogeeks.com/images/social/logo.png"}},"@context":"http://schema.org"}
+</script>
+
+<div class="hiddendiv common"></div></body></html>

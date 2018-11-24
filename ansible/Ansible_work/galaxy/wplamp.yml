@@ -1,0 +1,6 @@
+---
+- hosts: server2
+  become: yes
+  roles:
+    - roles/geerlingguy.apache
+    - roles/wordpress

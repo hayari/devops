@@ -1,0 +1,48 @@
+---
+- include_tasks: delete_swapfile.yml
+  when: delete_swapfile_exist
+
+- include_tasks: init_lvm.yml
+  when: not init_lvm_ok
+
+- include_tasks: delete_swaplv.yml
+
+- name: Create or resize {{lvm_swap_vg}} volume group on top 
+  lvg:
+    vg: "{{lvm_swap_vg}}"
+    pvs: "{{disks_add_swap_vg}}"
+  when: add_disk_swap_vg
+
+- name: Create a logical volume {{swap_lvname}} of size {{swap_size_mb}}
+  lvol:
+    vg: "{{lvm_swap_vg}}"
+    lv: "{{swap_lvname}}"
+    size: "{{swap_size_mb}}"
+    force: yes
+
+- name: Initialize swap partition
+  command: mkswap /dev/{{lvm_swap_vg}}/{{swap_lvname}}
+
+- name: Remove swapfile/swap partition from /etc/fstab
+  mount:
+    name: "{{swap_name}}"
+    fstype: swap
+    state: absent
+
+- name: Disable swap
+  command: swapoff -a
+
+- name: Manage swap partition in /etc/fstab
+  mount:
+    src: "/dev/{{lvm_swap_vg}}/{{swap_lvname}}"
+    name: "{{swap_name}}"
+    fstype: "swap"
+    opts: "sw,nofail"
+    dump: "0"
+    passno: "0"
+    state: present
+   
+- name: Enable swap partition
+  command: swapon "/dev/{{lvm_swap_vg}}/{{swap_lvname}}"
+
+  

@@ -1,0 +1,20 @@
+---
+- name: installing lvm2 and tools
+  yum:
+    name: "lvm2, sg3_utils"
+    state: "present"
+  become: true
+
+- name: checking for scsi devices
+  shell: "sg_scan"
+  become: true
+  register: "scsi_devices"
+  changed_when: False
+
+- name: rescanning for new disks
+  command: "/usr/bin/rescan-scsi-bus.sh"
+  become: true
+  changed_when: False
+
+- set_fact:  
+    init_lvm_ok: yes

@@ -1,0 +1,12 @@
+[localepel]
+name=localepel
+baseurl= ftp://192.168.122.1/pub/repo/centos7/epel/$releasever/$basearch/
+gpgcheck= false
+enabled= true 
+
+
+[localcentos]
+name=localcentos
+baseurl= ftp://192.168.122.1/pub/repo/centos7/cdrom
+gpgcheck= false
+enabled= true

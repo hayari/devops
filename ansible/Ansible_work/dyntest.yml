@@ -1,0 +1,11 @@
+---
+- hosts: all
+  gather_facts: no
+  become: yes
+  tasks:
+    - name: ping the machine
+      ping:
+    - name: install elinks
+      yum:
+        name: elinks
+        state: "absent"

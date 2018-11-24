@@ -1,0 +1,40 @@
+---
+# Swap space allocation relative to RAM (Oracle Database)
+#
+# Between 1 GB and 2 GB: 1.5 times the size of the RAM
+# Between 2 GB and 16 GB: Equal to the size of the RAM
+# More than 16 GB: 16 GB
+# Note: If you enable HugePages for your Linux servers,
+# then you should deduct the memory allocated to HugePages
+# from the available RAM before calculating swap space.
+
+# Swap space allocation relative to RAM (Oracle Restart)
+#
+# Between 8 GB and 16 GB: Equal to the size of the RAM
+# More than 16 GB: 16 GB
+# Note: If you enable HugePages for your Linux servers,
+# then you should deduct the memory allocated to HugePages
+# from the available RAM before calculating swap space.
+
+- set_fact:
+    name: Must we autocreate swapfile?
+    swap_under_sized: True
+  when: (ansible_swaptotal_mb < swap_size_mb|int)
+
+
+- name: check swapfile size
+  fail: msg="Consider increase swap size. {{ swap_size_mb }} GB is required. Actual is {{ansible_memory_mb.swap.total}}"
+  when: (not autocreate_swap) and swap_under_sized
+
+# TODO: create swap partition
+- include_tasks: create_swap_lvm.yml
+  when:  (use_swap_partition) and autocreate_swap and swap_under_sized
+
+# Create swap file
+- include_tasks: create_swap_file.yml
+  when:  (not use_swap_partition) and autocreate_swap and swap_under_sized
+
+
+ 
+
+

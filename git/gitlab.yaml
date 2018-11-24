@@ -1,0 +1,54 @@
+---
+- name: install gitlab-ce
+  become: yes
+  hosts: gitlab
+  gather_facts: no
+  vars:
+    install_pkg:
+      - ca-certificates
+    ufw_ports:
+      - 80
+      - 443
+    fqdn: gitlab.example.com
+
+  tasks:
+    - name: update repo
+      raw: apt-get update
+
+    - name: install python
+      raw: apt-get install -y python
+
+    - name: install packages
+      apt:
+        name: "{{install_pkg}}"
+
+    - name: set full HOSTNAME
+      hostname: name="{{fqdn}}"
+
+    - name: Download the download script
+      get_url:
+        url: https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh
+        dest: /tmp/script.deb.sh
+        mode: 0551
+
+    - name: exec the download script
+      shell: /tmp/script.deb.sh
+
+
+    - name: install gitlab-ce
+      apt:
+        name: gitlab-ce
+
+    - name: open ufw ports
+      ufw:
+        rule: allow
+        port: "{{item}}"
+      with_items: "{{ufw_ports}}"
+
+    - name: modify configuration file of gitlab
+      template:
+        src: gitlab.j2
+        dest: /etc/gitlab/gitlab.rb
+
+    - name: reconfigure gitlab
+      shell: gitlab-ctl reconfigure

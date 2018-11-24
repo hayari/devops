@@ -1,0 +1,224 @@
+# ---------------------------------------------------
+# .bashrc
+# runs whenever a non-login shell is created
+# ---------------------------------------------------
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+        . /etc/bashrc
+fi
+
+# Uncomment the following line if you don't like systemctl's auto-paging feature:
+# export SYSTEMD_PAGER=
+
+# User specific aliases and functions
+if [ -f ~/.aliases ]; then
+	. ~/.aliases
+fi
+
+# ---------------------------------------------------
+# ORACLE_SID
+# ---------------------------------------------------
+# Specifies the Oracle system identifier (SID)
+# for the Automatic Storage Management (ASM)instance
+# running on this node.
+# Each RAC node must have a unique ORACLE_SID.
+# (i.e. +ASM1, +ASM2,...)
+# ---------------------------------------------------
+ORACLE_SID={{ oracle_sid }}; export ORACLE_SID
+
+# ---------------------------------------------------
+# ORACLE_UNQNAME
+# ---------------------------------------------------
+# In previous releases of Oracle Database, you were
+# required to set environment variables for
+# ORACLE_HOME and ORACLE_SID to start, stop, and
+# check the status of Enterprise Manager. With
+# Oracle Database 11g release 2 (11.2) and later, you
+# need to set the environment variables ORACLE_HOME
+# and ORACLE_UNQNAME to use Enterprise Manager.
+# Set ORACLE_UNQNAME equal to the database unique
+# name.
+# ---------------------------------------------------
+ORACLE_UNQNAME={{ oracle_uniquename }}; export ORACLE_UNQNAME
+
+# ---------------------------------------------------
+# JAVA_HOME
+# ---------------------------------------------------
+# Specifies the directory of the Java SDK and Runtime
+# Environment.
+# ---------------------------------------------------
+JAVA_HOME=/usr/java/latest; export JAVA_HOME
+
+# ---------------------------------------------------
+# ORACLE_BASE
+# ---------------------------------------------------
+# Specifies the base of the Oracle directory structure
+# for Optimal Flexible Architecture (OFA) compliant
+# database software installations.
+# ---------------------------------------------------
+ORACLE_BASE={{ oracle_base }}; export ORACLE_BASE
+
+# ---------------------------------------------------
+# ORACLE_HOME
+# ---------------------------------------------------
+# Specifies the directory containing the Oracle
+# Database software.
+# ---------------------------------------------------
+ORACLE_HOME={{ oracle_home }}; export ORACLE_HOME
+
+# ---------------------------------------------------
+# GRID_HOME
+# ---------------------------------------------------
+# Specifies the directory containing the Oracle
+# Grid Infrastructure software.
+# ---------------------------------------------------
+GRID_HOME={{ grid_home }}; export GRID_HOME
+
+# ---------------------------------------------------
+# ORACLE_PATH
+# ---------------------------------------------------
+# Specifies the search path for files used by Oracle
+# applications such as SQL*Plus. If the full path to
+# the file is not specified, or if the file is not
+# in the current directory, the Oracle application
+# uses ORACLE_PATH to locate the file.
+# This variable is used by SQL*Plus, Forms and Menu.
+# ---------------------------------------------------
+ORACLE_PATH=/u01/app/common/oracle/sql; export ORACLE_PATH
+
+# ---------------------------------------------------
+# SQLPATH
+# ---------------------------------------------------
+# Specifies the directory or list of directories that
+# SQL*Plus searches for a login.sql file.
+# ---------------------------------------------------
+SQLPATH=/u01/app/common/oracle/sql; export SQLPATH
+
+# ---------------------------------------------------
+# ORACLE_TERM
+# ---------------------------------------------------
+# Defines a terminal definition. If not set, it
+# defaults to the value of your TERM environment
+# variable. Used by all character mode products.
+# ---------------------------------------------------
+ORACLE_TERM=xterm; export ORACLE_TERM
+
+# ---------------------------------------------------
+# NLS_DATE_FORMAT
+# ---------------------------------------------------
+# Specifies the default date format to use with the
+# TO_CHAR and TO_DATE functions. The default value of
+# this parameter is determined by NLS_TERRITORY. The
+# value of this parameter can be any valid date
+# format mask, and the value must be surrounded by
+# double quotation marks. For example:
+#
+#         NLS_DATE_FORMAT = "MM/DD/YYYY"
+#
+# ---------------------------------------------------
+NLS_DATE_FORMAT="DD-MON-YYYY HH24:MI:SS"; export NLS_DATE_FORMAT
+
+# ---------------------------------------------------
+# TNS_ADMIN
+# ---------------------------------------------------
+# Specifies the directory containing the Oracle Net
+# Services configuration files like listener.ora,
+# tnsnames.ora, and sqlnet.ora.
+# ---------------------------------------------------
+TNS_ADMIN=$ORACLE_HOME/network/admin; export TNS_ADMIN
+
+# ---------------------------------------------------
+# ORA_NLS11
+# ---------------------------------------------------
+# Specifies the directory where the language,
+# territory, character set, and linguistic definition
+# files are stored.
+# ---------------------------------------------------
+ORA_NLS11=$ORACLE_HOME/nls/data; export ORA_NLS11
+
+# ---------------------------------------------------
+# PATH
+# ---------------------------------------------------
+# Used by the shell to locate executable programs;
+# must include the $ORACLE_HOME/bin directory.
+# ---------------------------------------------------
+PATH=.:${JAVA_HOME}/bin:$HOME/bin:$ORACLE_HOME/OPatch:$ORACLE_HOME/bin
+PATH=${PATH}:/usr/bin:/bin:/usr/bin/X11:/usr/local/bin
+PATH=${PATH}:/u01/app/common/oracle/bin:/opt/sqlcl/bin
+export PATH
+
+# ---------------------------------------------------
+# LD_LIBRARY_PATH
+# ---------------------------------------------------
+# Specifies the list of directories that the shared
+# library loader searches to locate shared object
+# libraries at runtime.
+# ---------------------------------------------------
+LD_LIBRARY_PATH=$ORACLE_HOME/lib
+LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$ORACLE_HOME/oracm/lib
+LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/lib:/usr/lib:/usr/local/lib
+export LD_LIBRARY_PATH
+
+# ---------------------------------------------------
+# CLASSPATH
+# ---------------------------------------------------
+# Specifies the directory or list of directories that
+# contain compiled Java classes.
+# ---------------------------------------------------
+export CLASSPATH=$ORACLE_HOME/jlib:$ORACLE_HOME/rdbms/jlib:$ORACLE_HOME/network/jlib
+
+# ---------------------------------------------------
+# THREADS_FLAG
+# ---------------------------------------------------
+# All the tools in the JDK use green threads as a
+# default. To specify that native threads should be
+# used, set the THREADS_FLAG environment variable to
+# "native". You can revert to the use of green
+# threads by setting THREADS_FLAG to the value
+# "green".
+# ---------------------------------------------------
+THREADS_FLAG=native; export THREADS_FLAG
+
+# ---------------------------------------------------
+# TEMP, TMP, and TMPDIR
+# ---------------------------------------------------
+# Specify the default directories for temporary
+# files; if set, tools that create temporary files
+# create them in one of these directories.
+# ---------------------------------------------------
+export TEMP=/u01/tmp
+export TMPDIR=/u01/tmp
+export _JAVA_OPTIONS=-Djava.io.tmpdir=/u01/tmp
+
+# ---------------------------------------------------
+# UMASK
+# ---------------------------------------------------
+# Set the default file mode creation mask
+# (umask) to 022 to ensure that the user performing
+# the Oracle software installation creates files
+# with 644 permissions.
+# ---------------------------------------------------
+umask 022
+
+export ADR_HOME="/u01/app/oracle/diag"
+
+export SHLIB_PATH="${ORACLE_HOME}/lib"
+
+export EDITOR="vi"
+
+export PAGER="less"
+
+export PS1="[\u@\h] \W {\!}$ "
+
+export RANDFILE="/root/.rnd"
+
+# User specific environment and startup programs
+export ORACLE_HOSTNAME=`hostname`
+
+#export DB_HOME=${ORACLE_BASE}/product/11.2.0/dbhome_1
+#export GRID_HOME=/u01/app/11.2.0/grid
+
+export ORACLE_PATH=${ORACLE_BASE}/common/oracle/sql:.:${ORACLE_HOME}/rdbms/admin
+export CV_JDKHOME=/usr/local/java
+set -o vi

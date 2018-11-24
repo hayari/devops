@@ -1,0 +1,2 @@
+---
+- copy: content="{{sepecial_password}}" dest=/home/vagrant/encrypted_output

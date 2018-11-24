@@ -1,0 +1,24 @@
+---
+# tasks file for oracle-database
+- include: validate.yml
+  when: not oracle_database_already_installed
+
+- debug:
+    msg: "OS Family: {{ ansible_distribution }}"
+
+- include: prepare-OracleLinux.yml
+  become: yes
+  when: ansible_distribution == 'OracleLinux' and not oracle_database_already_installed
+
+- include: prepare.yml
+  become: yes
+  when: ansible_distribution != 'OracleLinux' and not oracle_database_already_installed
+
+- include: install.yml
+  become: yes
+  become_user: "{{ oracle_database_user }}"
+  when: not oracle_database_already_installed
+
+- include: postinstall.yml
+  become: yes
+  become_user: root

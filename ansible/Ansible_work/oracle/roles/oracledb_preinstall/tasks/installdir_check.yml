@@ -1,0 +1,29 @@
+---
+#    * ORACLE_INSTALL_DIR
+# Oracle Grid Infrastructure Home (includes software files) - 12GB
+# Oracle Database Home Enterprise Edition (includes
+# software files and data files) - 12GB
+
+# Minimum local disk storage space for Oracle software
+#  For Linux x86-64:
+#  At least 8.6 GB for an Oracle Grid Infrastructure for a standalone server installation.
+#  At least 7.5 GB for Oracle Database Enterprise Edition.
+
+- name: Check to see if ORACLE_INSTALL_DIR exists
+  stat:
+    path: "{{oracle_install_dir}}"
+  register: oracle_install_dir_exists
+
+  
+- fail:
+    msg: "{{oracle_install_dir}} exist!!! Aborting"
+  when: (not ignore_oracle_install_dir_exist) and oracle_install_dir_exists.stat.exists 
+
+- name: Check if the free space on "{{oracle_install_dir}}" meets the minimum size
+  shell: /usr/bin/df --block-size=1G /u01 | awk 'END { print $4 }'
+  register: installdir_size
+  when: oracle_install_dir_exists.stat.exists
+
+# create logical volume for oracle_install_dir
+- include_tasks: create_oralv.yml
+  when: create_ora_lv and installdir_size.stdout | int < installdir_size_gb

@@ -1,0 +1,7 @@
+---
+- hosts: centrale
+  tasks:
+  - debug: msg="{{ item }}"
+    with_file:
+    - firstfile
+    - secondfile

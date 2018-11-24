@@ -1,0 +1,47 @@
+---
+- hosts: all
+  user: vagrant
+  become: yes
+  gather_facts: no
+
+  vars:
+  vars_files:
+  vars_prompt:
+
+  tasks:
+  - name: date/time stamp for when the playbook start
+    command: /usr/bin/date
+    register: startdatetime
+
+  - debug: msg="Playbook started at {{startdatetime.stdout}}"
+
+  - name: install the apache webserver
+    package: name=httpd state=latest
+    notify: start the web service
+
+  - name: verify that web server is running
+    shell: systemctl status httpd
+    register: httpdstate
+
+  - debug: var=httpdstate
+
+  - name: install client software
+    package: name={{item}} state=latest
+    with_item:
+     - epel
+     - telnet
+     - lynx
+  - name: log all the packages install on the system
+    shell: yum list installed
+    register: installedsoftware
+  - debug: var=installedsoftware
+
+  - name: date/time stamp for when the playbook ends
+    command: /usr/bin/date
+    register: enddatetime
+
+  - debug: msg="Playbook ended at {{enddatetime.stdout}}"
+
+  handlers:
+  - name: start the web service
+    service: name=httpd state=started

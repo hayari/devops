@@ -1,0 +1,15 @@
+---
+- hosts: server1, server2
+  become: y
+  tasks:
+  - name: install mysql server
+    yum: name=mysqld-server state=latest
+    ignore_errors: yes
+    register: installmsg
+    tags: 
+    - packages
+  - name: start mysql if there
+    service: name=mysqld state=started
+    register: runmsg
+    tags:
+    - startup

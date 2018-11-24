@@ -1,0 +1,73 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+Vagrant.configure("2") do |config|
+ 
+  config.vm.define "ansible1" do |ansible1|
+    ansible1.vm.box = "centos/7"
+    ansible1.vm.network "private_network", ip: "192.168.121.11"
+    ansible1.vm.hostname = "ansible1.example.com"
+    ansible1.hostsupdater.aliases = ["ansible1", "ansible1.example.com"]
+    ansible1.ssh.host = "192.168.121.11"
+    ansible1.vm.provision "shell", inline: <<-SHELL
+        sudo sed -i 's/PasswordAuthentication no/ PasswordAuthentication yes/g' /etc/ssh/sshd_config    
+        sudo systemctl reload sshd
+      SHELL
+  end
+  
+  config.vm.define "ansible2" do |ansible2|
+    ansible2.vm.box = "centos/7"
+    ansible2.vm.network "private_network", ip: "192.168.121.12"
+    ansible2.vm.hostname = "ansible2.example.com"
+    ansible2.hostsupdater.aliases = ["ansible2", "ansible2.example.com"]
+    ansible2.ssh.host = "192.168.121.12"
+    ansible2.vm.provision "shell", inline: <<-SHELL
+        sudo sed -i 's/PasswordAuthentication no/ PasswordAuthentication yes/g' /etc/ssh/sshd_config    
+        sudo systemctl reload sshd
+      SHELL
+  end
+  
+  config.vm.define "ubuntu" do |ubuntu|
+     ubuntu.vm.box = "generic/ubuntu1804"
+     ubuntu.vm.network "private_network", ip: "192.168.121.13"
+     ubuntu.vm.hostname = "ubuntu.example.com"
+     ubuntu.hostsupdater.aliases = ["ubuntu", "ubuntu.example.com"]
+     ubuntu.ssh.host = "192.168.121.13"
+     ubuntu.vm.provision "shell", inline: <<-SHELL
+         sudo sed -i 's/PasswordAuthentication no/ PasswordAuthentication yes/g' /etc/ssh/sshd_config    
+         sudo systemctl reload sshd
+       SHELL
+   end
+
+  # config.vm.provider "libvirt" do |v|
+  #   v.memory = 4096
+  #   v.cpus = 2
+  # end
+
+  # config.vm.define "tower" do |tower|
+  #   tower.vm.box = "centos/7"
+  #   tower.vm.network "private_network", ip: "192.168.4.10"
+  #   tower.vm.hostname = "tower.example.com"
+  #   tower.hostsupdater.aliases = ["tower", "tower.example.com"]
+  #   tower.ssh.host = "192.168.4.10"
+  #   tower.vm.provision "shell", inline: <<-SHELL
+  #       sudo sed -i 's/PasswordAuthentication no/ PasswordAuthentication yes/g' /etc/ssh/sshd_config    
+  #       sudo systemctl reload sshd
+  #     SHELL
+  # end
+  
+  config.vm.provision "file", source: "id_rsa", destination: "/home/vagrant/.ssh/id_rsa"
+  public_key = File.read("id_rsa.pub")
+  config.vm.provision :shell, :inline =>"
+     echo 'Copying ansible-vm public SSH Keys to the VM'
+     mkdir -p /home/vagrant/.ssh
+     chmod 700 /home/vagrant/.ssh
+     echo '#{public_key}' >> /home/vagrant/.ssh/authorized_keys
+     chmod -R 600 /home/vagrant/.ssh/authorized_keys
+     echo 'Host 192.168.*.*' >> /home/vagrant/.ssh/config
+     echo 'StrictHostKeyChecking no' >> /home/vagrant/.ssh/config
+     echo 'UserKnownHostsFile /dev/null' >> /home/vagrant/.ssh/config
+     chmod -R 600 /home/vagrant/.ssh/config
+     ", privileged: false
+  config.hostsupdater.remove_on_suspend = true
+end
+

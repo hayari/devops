@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creating Windows virtual machines using virtIO drivers :: Fedora Docs Site</title>
+    <link rel="canonical" href="https://docs.fedoraproject.org/quick-docs/creating-windows-virtual-machines-using-virtio-drivers/">
+    <meta name="generator" content="Antora 1.1.1">
+    <link rel="stylesheet" href="Creating%20Windows%20virtual%20machines%20using%20virtIO%20drivers%20::%20Fedora%20Docs%20Site_fichiers/site.css">
+  </head>
+  <body class="article">
+<header class="header" role="banner">
+  <nav class="navbar" style="">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://docs.fedoraproject.org/">
+        <img src="Creating%20Windows%20virtual%20machines%20using%20virtIO%20drivers%20::%20Fedora%20Docs%20Site_fichiers/docs_logo.png" style="height:40px">
+      </a>
+      <!-- We don't have anything in the menu, but the burger still appears
+           on mobile devices. So let's remove it. -->
+      <!--<button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>-->
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="main-wrapper">
+<div class="navigation-container" data-component="quick-docs" data-version="master">
+  <aside class="navigation" role="navigation">
+    <div class="panels">
+<div class="navigation-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="https://docs.fedoraproject.org/en-US/quick-docs/">Quick Docs</a></h3>
+<ul class="nav-list">
+  <li class="nav-item is-active is-current-path" data-depth="0" data-id="menu-0-0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1" data-id="menu-1-1">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/howto-file-a-bug/">How to file a bug</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-2">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/using-aide/">Checking integrity with AIDE</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-3">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/anaconda/anaconda/">Anaconda</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2" data-id="menu-2-4">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/anaconda/anaconda_distros/">Anaconda-based Distributions</a>
+  </li>
+  <li class="nav-item" data-depth="2" data-id="menu-2-5">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/anaconda/anaconda_updates/">Anaconda Updates</a>
+  </li>
+  <li class="nav-item" data-depth="2" data-id="menu-2-6">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/anaconda/anaconda_logging/">Anaconda Logging</a>
+  </li>
+  <li class="nav-item" data-depth="2" data-id="menu-2-7">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/anaconda/anaconda_product_image/">Anaconda Product Image</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-8">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/getting-started-with-apache-http-server/">Getting started with Apache HTTP Server</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-9">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/finding-and-installing-linux-applications/">Finding and installing Linux applications</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-10">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/installing-chromium-or-google-chrome-browsers/">Installing Chromium or Google Chrome browsers</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-11">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/switching-desktop-environments/">Switching desktop environments</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-12">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/fedora-and-red-hat-enterprise-linux/">Difference between Fedora and Red Hat Enterprise Linux</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-13">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/dnf/">Using the DNF software package manager</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-14">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/dnf-system-upgrade/">Upgrading Fedora using the DNF system upgrade</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-15">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/securing-the-system-by-keeping-it-up-to-date/">Securing the system by keeping it up-to-date</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-16">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/upgrading/">Upgrading to a new release of Fedora</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-17">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/firewalld/">Controlling network traffic with firewalld</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-18">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/using-adobe-flash/">Using Adobe Flash</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-19">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/adding-new-fonts-fedora/">Adding new fonts in Fedora</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-20">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/create-gpg-keys/">Creating GPG Keys</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-21">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/bootloading-with-grub2/">Bootloading with GRUB2</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-22">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/creating-and-using-a-live-installation-image/">Creating and using a live installation image</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-23">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/installing-java/">Installing Java</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-24">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/kernel/overview/">Kernel</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2" data-id="menu-2-25">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/kernel/troubleshooting/">Troubleshooting</a>
+  </li>
+  <li class="nav-item" data-depth="2" data-id="menu-2-26">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/kernel/build-custom-kernel/">Building a Custom Kernel</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-27">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/managing-keyboard-shortcuts-for-running-app-in-gnome/">Managing keyboard shortcuts for running an application in GNOME</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-28">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/proc_setting-key-shortcut/">Setting a key shortcut to run an application in GNOME</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-29">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/disabling-automatic-screenlock/">Disabling the GNOME automatic screen locking</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-30">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/viewing-logs/">Viewing logs in Fedora</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-31">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/encrypting-drives-using-LUKS/">Encrypting drives using LUKS</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-32">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/assembly_installing-plugins-for-playing-movies-and-music/">Installing plugins for playing movies and music</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-33">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/installing-and-running-vlc/">Installing and running the VLC player</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-34">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/configuring-ip-networking-with-nmcli/">Configuring networking with NetworkManager CLI (nmcli)</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-35">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/creating-a-disk-partition-in-linux/">Creating disk partitions</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-36">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/bumblebee/">NVIDIA Optimus Bumblebee</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-37">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/raspberry-pi/">Fedora on Raspberry Pi</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-38">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/repositories/">Fedora Repositories</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-39">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/adding-or-removing-software-repositories-in-fedora/">Adding or removing software repositories in Fedora</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-40">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/reset-root-password/">Resetting a root password</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-41">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/proc_installing-RPM/">Installing an RPM File</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-42">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/creating-rpm-packages/">Creating RPM packages</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-43">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/create-hello-world-rpm/">Creating a GNU Hello World RPM Package</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-44">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/getting-started-with-selinux/">Getting started using SELinux</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-45">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/changing-selinux-states-and-modes/">Changing SELinux states and modes</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-46">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/troubleshooting_selinux/">Troubleshooting SELinux</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-47">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/using-shared-system-certificates/">Using shared system certificates</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-48">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/installing-software-from-source/">Installing software from source code</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-49">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/installing-spotify/">Installing Spotify on Fedora</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-50">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/adding_user_to_sudoers_file/">Adding a user to sudoers</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-51">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/performing-administration-tasks-using-sudo/">Performing administration tasks using sudo</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-52">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/understanding-and-administering-systemd/">Understanding and administering systemd</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-53">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/displaying_user_prompt_on_gnome_login_screen/">Displaying a user prompt on the GNOME login screen</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-54">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/installing-virtual-systems-with-gnome-boxes/">Installing virtual operating systems with GNOME Boxes</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-55">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/qemu/">Using virtualization emulation in QEMU</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-56">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/getting-started-with-virtualization/">Getting started with virtualization (libvirt)</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-57">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/using-nested-virtualization-in-kvm/">Using nested virtualization in KVM</a>
+  </li>
+  <li class="nav-item is-current-page is-active" data-depth="1" data-id="menu-1-58">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/creating-windows-virtual-machines-using-virtio-drivers/">Creating Windows virtual machines using virtIO drivers</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-59">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/wine/">Running Windows applications with Wine</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-60">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/configuring-x-window-system-using-the-xorg-conf-file/">Configuring X Window System using the xorg.conf file</a>
+  </li>
+  <li class="nav-item" data-depth="1" data-id="menu-1-61">
+    <a class="nav-link" href="https://docs.fedoraproject.org/en-US/quick-docs/configuring-xorg-as-default-gnome-session/">Configuring X.org as the default GNOME session</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="navigation-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Quick Docs</span>
+    <span class="version">master</span>
+  </div>
+  <ul class="components">
+    <li class="component">
+      <span class="title">CommOps</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="https://docs.fedoraproject.org/en-US/commops/">master</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">Diversity and Inclusion</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="https://docs.fedoraproject.org/en-US/diversity-inclusion/">master</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">Engineering Teams</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="https://docs.fedoraproject.org/en-US/engineering/">master</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">Fedora Badges</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="https://docs.fedoraproject.org/en-US/badges/">master</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">Fedora Council</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="https://docs.fedoraproject.org/en-US/council/">master</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">Fedora Docs</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="https://docs.fedoraproject.org/en-US/fedora-docs/">master</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">Fedora Documentation</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="https://docs.fedoraproject.org/en-US/docs/">master</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">Fedora Internet Of Things</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="https://docs.fedoraproject.org/en-US/iot/">master</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">Fedora Project</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="https://docs.fedoraproject.org/en-US/project/">master</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">Fedora Silverblue</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="https://docs.fedoraproject.org/en-US/fedora-silverblue/">master</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">Fedora User Docs</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="https://docs.fedoraproject.org/en-US/fedora/rawhide/">rawhide</a>
+        </li>
+        <li class="version">
+          <a href="https://docs.fedoraproject.org/en-US/fedora/f29/">f29</a>
+        </li>
+        <li class="version">
+          <a href="https://docs.fedoraproject.org/en-US/fedora/f28/">f28</a>
+        </li>
+        <li class="version">
+          <a href="https://docs.fedoraproject.org/en-US/fedora/f27/">f27</a>
+        </li>
+        <li class="version">
+          <a href="https://docs.fedoraproject.org/en-US/fedora/f26/">f26</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">FESCo</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="https://docs.fedoraproject.org/en-US/fesco/">master</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">Flatpak</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="https://docs.fedoraproject.org/en-US/flatpak/">master</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">Mentored Projects</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="https://docs.fedoraproject.org/en-US/mentored-projects/gsoc/2018/">master</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">Mindshare Committee</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="https://docs.fedoraproject.org/en-US/mindshare-committee/">master</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">Mindshare Teams</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="https://docs.fedoraproject.org/en-US/mindshare/">master</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">Modularity</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="https://docs.fedoraproject.org/en-US/modularity/">master</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">Packaging Guidelines</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="https://docs.fedoraproject.org/en-US/packaging-guidelines/">master</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component is-current">
+      <span class="title">Quick Docs</span>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="https://docs.fedoraproject.org/en-US/quick-docs/">master</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+  <main class="main" role="main">
+<div class="toolbar" role="navigation">
+  <button class="navigation-toggle"></button>
+<nav class="crumbs" role="navigation" aria-label="breadcrumbs">
+  
+  <ul>
+      <li class="crumb HO"><a href="https://docs.fedoraproject.org/en-US/docs/">Home</a></li>
+    <li class="crumb HO"><a href="https://docs.fedoraproject.org/en-US/quick-docs/">Quick Docs</a></li>
+    <li class="crumb HA"><a href="https://docs.fedoraproject.org/en-US/quick-docs/creating-windows-virtual-machines-using-virtio-drivers/">Creating Windows virtual machines using virtIO drivers</a></li>
+  </ul>
+  
+</nav>
+  <div class="edit-this-page"><a href="https://pagure.io/fedora-docs/quick-docs/blob/master/f/modules/ROOT/pages/creating-windows-virtual-machines-using-virtio-drivers.adoc">Edit this Page</a></div>
+</div>
+<article class="doc">
+<h1>Creating Windows virtual machines using virtIO drivers</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This document describes how to obtain virtIO drivers  and additional 
+software agents for Windows virtual machines running on kernel-based 
+virtual machines (KVM). <a href="https://www.linux-kvm.org/page/Virtio">virtIO</a> is a virtualization standard for network and disk device drivers.</p>
+</div>
+<div class="paragraph">
+<p>Fedora cannot ship Windows virtIO drivers because they cannot be 
+built automatically as part of Fedora’s build system: the only way to 
+build Windows virtIO drivers is on a machine running Windows.  In 
+addition, shipping pre-compiled sources is generally against Fedora 
+policies.  Microsoft does not provide virtIO drivers, you must download 
+them yourself in order to make virtIO drivers available for Windows VMs 
+running on Fedora hosts.</p>
+</div>
+<div class="paragraph">
+<p>The drivers in these repos are licensed under the <a href="https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html">GPLv2</a> license.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="virtio-win-repo-overview"><a class="anchor" href="#virtio-win-repo-overview"></a>VirtIO-Win Repo Overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There is a yum|dnf repo available via the RPM package manager (RPM) 
+that ships virtio-win packages. You can use these RPMs to install driver
+ binaries and agent installers into the <code>/usr/share</code> directory on your host machine. You can then share the bits with Windows VMs running on the host.</p>
+</div>
+<div class="paragraph">
+<p>The .repo file provides two different repositories:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>virtio-win-stable</strong> - This repository provides builds 
+of virtio-win that roughly correlate to what was shipped with the most 
+recent Red Hat Enterprise Linux release, meaning these builds have 
+undergone testing and are considered stable. This repo is enabled by 
+default.</p>
+</li>
+<li>
+<p><strong>virtio-win-latest</strong> - This repository provides the latest driver builds. The builds may be bug free, development quality, or completely broken. <a href="https://en.wikipedia.org/wiki/Caveat_emptor">Caveat emptor</a>. This repo is disabled by default.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="fedora-virtio-drivers-vs-rhel"><a class="anchor" href="#fedora-virtio-drivers-vs-rhel"></a>Fedora VirtIO Drivers vs. RHEL VirtIO Drivers</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The RPMs in the <strong>virtio-win-stable</strong> repository are the
+ same driver builds as what is shipped with Red Hat Enterprise Linux.  
+All the Windows binaries are from builds done on Red Hat’s internal 
+build system, which are generated using publicly available code.  For 
+more details about how the RPM and repo are built, see the  <a href="https://github.com/crobinso/virtio-win-pkg-scripts">README for this repo</a>.</p>
+</div>
+<div class="paragraph">
+<p>The drivers are cryptographically signed with Red Hat’s vendor signature. However they are not signed with Microsoft’s <a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/install/whql-release-signature">WHQL signature</a>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Historically the .iso files shipped on alt.fedoraproject.org did <em>not</em> match the layout of the .iso shipped with Red Hat Enterprise Linux. This changed in April 2015.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p>The current Fedora RPM/ISO directory structure is laid out to mirror 
+exactly the layout that is shipped with the latest release of Red Hat 
+Enterprise Linux. This is so that users and developers don’t seen any 
+differences between the two distros.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The <code>.iso</code> directories are named after the driver code directories from the upstream driver git tree.</p>
+</li>
+<li>
+<p>Below the driver directories, the <code>$winversion/$arch/</code> directory naming
+is a Windows convention.</p>
+</li>
+<li>
+<p>The RPM layout is arbitrary in that it ships the <code>.vfd</code> content in the <code>drivers/</code> dir, but not many of the other drivers from the <code>.iso</code>. This seems to be an historical oversight and should probably be fixed.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="installing-virtio-win-repo"><a class="anchor" href="#installing-virtio-win-repo"></a>Installing the Windows VirtIO Repository</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Install the repo file using the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre># wget https://fedorapeople.org/groups/virt/virtio-win/virtio-win.repo \
+  -O /etc/yum.repos.d/virtio-win.repo</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then install the <em>virtio-win</em> package:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre># dnf&nbsp;install&nbsp;virtio-win</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="enabling-latest-virtio-win-repo"><a class="anchor" href="#enabling-latest-virtio-win-repo"></a>Enabling the latest Windows VirtIO Repository</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>By default, the <strong>virtio-win-latest</strong> repository is disabled and <strong>virtio-win-stable</strong> repo is enabled.</p>
+</div>
+<div class="paragraph">
+<p>To enable the <strong>virtio-win-latest</strong> repo with DNF:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre># dnf --enablerepo=virtio-win-latest upgrade virtio-win</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="virtio-win-rpm-contents"><a class="anchor" href="#virtio-win-rpm-contents"></a>RPM contents</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The virtio-win RPM package contains the following files:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>/usr/share/virtio-win/*.iso</code> -  ISO CDROM containing all the drivers.</p>
+</li>
+<li>
+<p><code>/usr/share/virtio-win/*.vfd</code> - VFD floppy images for using during install of Windows XP</p>
+</li>
+<li>
+<p><code>/usr/share/virtio-win/drivers</code> - Copy of the extracted VFD driver contents</p>
+</li>
+<li>
+<p><code>/usr/share/guest-agent/*.msi</code> - QEMU Guest Agent 32bit and 64bit MSI installers</p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="virtio-win-iso-contents"><a class="anchor" href="#virtio-win-iso-contents"></a>ISO contents</h3>
+<div class="paragraph">
+<p>ISO is used to install paravirtual drivers in Windows guests. The <code>virtio-win/*.iso</code> included in the RPM  contains the following bits:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>NetKVM/</code> - Virtio network driver</p>
+</li>
+<li>
+<p><code>viostor/</code> - Virtio block driver</p>
+</li>
+<li>
+<p><code>vioscsi/</code>  - Virtio Small Computer System Interface (SCSI) driver</p>
+</li>
+<li>
+<p><code>viorng/</code> - Virtio RNG driver</p>
+</li>
+<li>
+<p><code>vioser/</code> - Virtio serial driver</p>
+</li>
+<li>
+<p><code>Balloon/</code> - Virtio memory balloon driver</p>
+</li>
+<li>
+<p><code>qxl/</code> - QXL graphics driver for Windows 7 and earlier. (build virtio-win-0.1.103-1 and later)</p>
+</li>
+<li>
+<p><code>qxldod/</code> -  QXL graphics driver for Windows 8 and later. (build virtio-win-0.1.103-2 and later)</p>
+</li>
+<li>
+<p><code>pvpanic/</code> - <a href="https://github.com/qemu/qemu/blob/master/docs/specs/pvpanic.txt">QEMU pvpanic</a> device driver (build virtio-win-0.1.103-2 and later)</p>
+</li>
+<li>
+<p><code>guest-agent/</code> - QEMU Guest Agent 32bit and 64bit MSI installers</p>
+</li>
+<li>
+<p><code>qemupciserial/</code> - <a href="https://github.com/qemu/qemu/blob/master/docs/qemupciserial.inf">QEMU PCI
+serial</a> device driver</p>
+</li>
+<li>
+<p><code>*.vfd</code>  VFD floppy images for using during install of Windows XP</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If you previously used isos from alt.fedoraproject.org, note that the 
+current isos have a different file layout that matches the layout of the
+ Red Hat Enterprise Linux isos.   If you need old isos for backwards 
+compatiblity you can find them on the  <a href="https://fedorapeople.org/groups/virt/virtio-win/deprecated-isos/">deprecated isos page</a>.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="virtio-win-direct-downloads"><a class="anchor" href="#virtio-win-direct-downloads"></a>Direct downloads</h3>
+<div class="paragraph">
+<p>Direct downloads are available for the <code>.iso</code>, <code>.vfd</code>, and qemu-ga installers.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Stable <a href="https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso">virtio-win iso</a></p>
+</li>
+<li>
+<p>Stable <a href="https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win_x86.vfd">virtio-win x86 floppy</a></p>
+</li>
+<li>
+<p>Stable <a href="https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win_amd64.vfd">virtio-win amd64 floppy</a></p>
+</li>
+<li>
+<p>Latest <a href="https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/latest-virtio/virtio-win.iso">virtio-win iso</a></p>
+</li>
+<li>
+<p>Latest <a href="https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/latest-virtio/virtio-win_x86.vfd">virtio-win x86 floppy</a></p>
+</li>
+<li>
+<p>Latest <a href="https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/latest-virtio/virtio-win_amd64.vfd">virtio-win amd64 floppy</a></p>
+</li>
+<li>
+<p>Latest <a href="https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/latest-qemu-ga/">gemu-qa files</a></p>
+</li>
+<li>
+<p><a href="https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/">Full archive</a></p>
+</li>
+<li>
+<p><a href="https://fedorapeople.org/groups/virt/virtio-win/CHANGELOG">Changelog</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="filing-virtio-win-bugs"><a class="anchor" href="#filing-virtio-win-bugs"></a>Filing Windows VirtIO Bugs</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Please file any bug reports in Bugzilla against <a href="https://bugzilla.redhat.com/enter_bug.cgi?product=Virtualization%20Tools&amp;component=virtio-win">Product=Virtualization Tools Component=virtio-win</a>.</p>
+</div>
+<div class="paragraph">
+<p>When filing a bug, please provide the following information:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The virtio-win version</p>
+</li>
+<li>
+<p>The host distro</p>
+</li>
+<li>
+<p>The qemu version</p>
+<div class="ulist">
+<ul>
+<li>
+<p>If using libvirt: <code>sudo virsh dumpxml $vmname</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>The qemu command log</p>
+<div class="ulist">
+<ul>
+<li>
+<p>If using libvirt this can be found at <code>/var/log/libvirt/qemu/$vmname.log</code></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Questions/Comments about the RPMs or the yum|dnf repos should be sent to the regular Fedora virt <a href="https://fedoraproject.org/wiki/Virtualization#Mailing_list_and_IRC">mailing list and IRC</a> channels.
+Questions/Comments about the actual drivers are best send to the upstream <a href="https://lists.nongnu.org/mailman/listinfo/qemu-devel">qemu-devel</a> or <a href="http://www.linux-kvm.org/page/Lists,_IRC">kvm</a> mailing lists.</p>
+</div>
+<h2 id="_additional_resources" class="discrete">Additional resources</h2>
+<div class="ulist">
+<ul>
+<li>
+<p>KVM windows guest drivers upstream code: <a href="https://github.com/virtio-win/kvm-guest-drivers-windows" class="bare">https://github.com/virtio-win/kvm-guest-drivers-windows</a></p>
+</li>
+<li>
+<p>QXL XDDM driver code: <a href="http://cgit.freedesktop.org/spice/win32/qxl" class="bare">http://cgit.freedesktop.org/spice/win32/qxl</a></p>
+</li>
+<li>
+<p>QXL WDDM driver code: <a href="https://github.com/vrozenfe/qxl-dod" class="bare">https://github.com/vrozenfe/qxl-dod</a></p>
+</li>
+<li>
+<p>Tree used by gnome-boxes for automatic driver installation: <a href="https://zeenix.fedorapeople.org/drivers/" class="bare">https://zeenix.fedorapeople.org/drivers/</a></p>
+</li>
+<li>
+<p>Windows spice agent git repo: <a href="http://cgit.freedesktop.org/spice/win32/vd_agent" class="bare">http://cgit.freedesktop.org/spice/win32/vd_agent</a></p>
+</li>
+<li>
+<p>Spice guest tools installer code: <a href="http://cgit.freedesktop.org/~teuf/spice-nsis/" class="bare">http://cgit.freedesktop.org/~teuf/spice-nsis/</a></p>
+</li>
+<li>
+<p>spice-guest-tools downloads: <a href="http://www.spice-space.org/download/binaries/spice-guest-tools/" class="bare">http://www.spice-space.org/download/binaries/spice-guest-tools/</a></p>
+</li>
+<li>
+<p>Fedora virtio-win build scripts: <a href="https://github.com/crobinso/virtio-win-pkg-scripts" class="bare">https://github.com/crobinso/virtio-win-pkg-scripts</a>
+:!context:</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</article>
+  </main>
+</div>
+<footer class="footer">
+  <p>All Fedora Documentation content available under <a href="http://creativecommons.org/licenses/by-sa/3.0/legalcode">CC-BY-SA 3.0</a> or, when specifically noted, under another <a href="https://fedoraproject.org/wiki/Licensing:Main">accepted</a> free and open content license.</p>
+</footer>
+<script src="Creating%20Windows%20virtual%20machines%20using%20virtIO%20drivers%20::%20Fedora%20Docs%20Site_fichiers/site.js"></script>
+<script src="Creating%20Windows%20virtual%20machines%20using%20virtIO%20drivers%20::%20Fedora%20Docs%20Site_fichiers/highlight.js"></script>
+<script>hljs.initHighlighting()</script>
+  
+
+</body></html>

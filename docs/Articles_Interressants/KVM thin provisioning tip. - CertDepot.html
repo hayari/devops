@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<!--[if !IE]>
+	<html class="no-js non-ie" lang="en-US" prefix="og: http://ogp.me/ns#"> <![endif]-->
+<!--[if IE 7 ]>
+	<html class="no-js ie7" lang="en-US" prefix="og: http://ogp.me/ns#"> <![endif]-->
+<!--[if IE 8 ]>
+	<html class="no-js ie8" lang="en-US" prefix="og: http://ogp.me/ns#"> <![endif]-->
+<!--[if IE 9 ]>
+	<html class="no-js ie9" lang="en-US" prefix="og: http://ogp.me/ns#"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class=" js flexbox canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients no-cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths" prefix="og: http://ogp.me/ns#" lang="en-US"><!--<![endif]--><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><script type="text/javascript">
+
+(function() {
+	window.trackingUtils=function(k,b,d,n,o,g,c,p,r,m){var f={},i=new RegExp("/(ref=[\\w]+)/?","i"),h=function(s){return s&&encodeURIComponent(s).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/>/g,"&gt;");},l=(function(){var s=document.createElement("a");s.href=(window.location!==window.parent.location)?document.referrer:document.location;return s.protocol+"//"+s.hostname+((s.port===""||s.port==="80"||s.port==="443")?"":(":"+s.port))+(s.pathname.indexOf("/")!==0?("/"+s.pathname):s.pathname);}()),q=(function(){return h(l);}()),j=function(s,u,v,t){if(typeof v==="string"&&v!==""){if(s.search===""){s.search="?"+u+"="+v;}else{if(!s.search.match(new RegExp("[?&]"+u+"="))){s.search=s.search.replace(/\?/,"?"+u+"="+v+"&");}else{if(t){s.search=s.search.replace(new RegExp(u+"=([^&]*)"),u+"="+v);}}}}return s;},e=function(u,s,t){if(typeof t==="string"&&t!==""){if(!u.match(/\?/)){u=u+"?"+s+"="+t;}else{if(!u.match(s)){u=u.replace(/\?/,"?"+s+"="+t+"&");}}}return u;},a=function(t){var s=(typeof c!=="undefined")?c:0;if(typeof t!=="undefined"){s=t;}return s;};f.addRefUrls=function(x,y,t,s){var z=new RegExp("^http://.*(amazon|endless|myhabit|amazonwireless|javari|smallparts)\\.(com|ca|co\\.jp|de|fr|co\\.uk|cn|it|es)/.*","i"),u,w,v;for(v=0;v<x.length;v++){x[v].rel="nofollow";u=String(x[v].href);if(w=u.match(z)){x[v].href=f.addTrackingParameters(x[v],y,t,s);}}};f.addRefRefUrl=function(s){return j(s,"ref-refURL",q);};f.getRefRefUrl=function(){return q;};f.getRawRefUrl=function(){return l;};f.addSignature=function(t,s,u){return j(j(t,"sig",s),"sigts",u);};f.addLinkCode=function(t,s){return j(t,"linkCode",s);};f.addTrackingId=function(t,s){return j(t,"tag",s);};f.addLinkId=function(s,t){return j(s,"linkId",t);};f.addSubtag=function(s,t){return j(s,"ascsubtag",t);};f.addCreativeAsin=function(s,t){return j(j(s,"creativeASIN",t),"adId",t);};f.addAdType=function(t,s){return j(t,"adType",s);};f.addAdMode=function(s,t){return j(s,"adMode",t);};f.addAdFormat=function(t,s){return j(t,"adFormat",s);};f.addImpressionTimestamp=function(s,t){if(typeof t==="number"){t=t.toString();}return j(s,"impressionTimestamp",t);};f.convertToRedirectedUrl=function(s,v,t){var u=document.createElement("a");u.setAttribute("href",v);if(typeof t!=="undefined"){j(u,t,h(s.getAttribute("href")),true);}else{u.setAttribute("href",v+"/"+u.getAttribute("href"));}s.setAttribute("href",u.getAttribute("href"));return s;};f.getImpressionToken=function(){return g;};f.getClickUrl=function(){return o;};f.addImpressionToken=function(t,u){var s=a(u);if(typeof g==="string"&&g!==""){j(t,"imprToken",g);if(typeof s!=="undefined"){j(t,"slotNum",s);}}return t;};f.addImpressionTokenStr=function(u,t){var s=a(t);if(typeof g==="string"&&g!==""){u=e(u,"imprToken",g);if(typeof s!=="undefined"){u=e(u,"slotNum",s);}}return u;};f.addTrackingParameters=function(y,z,x,C,v,s,w,u,t,D,B,A){return f.addSignature(f.addCreativeAsin(f.addLinkId(f.addTrackingId(f.addSubtag(f.addLinkCode(f.addRefRefUrl(f.addImpressionToken(f.addRefMarker(f.addAdType(f.addAdMode(f.addAdFormat(f.addImpressionTimestamp(y,A),B),D),t),v))),x),p),C),z),s),w,u);};f.addRefMarker=function(t,v){var u,s=false;if(typeof v==="undefined"){return t;}if(u=t.pathname.match(i)){t.pathname=t.pathname.replace(u[1],"ref="+v);}else{s=(t.pathname.charAt(t.pathname.length-1)==="/");t.pathname=t.pathname+(s?"":"/")+"ref="+v;}return t;};f.getRefMarker=function(s){var t;if(t=s.pathname.match(i)){return t[1].substr(4);}else{return undefined;}};f.makeForesterCall=function(u){var s=undefined,t;u.refUrl=(window.location!==window.parent.location)?document.referrer:document.location.href;if(typeof JSON!=="undefined"){t=JSON.stringify(u);}else{if(typeof amzn_assoc_utils!=="undefined"&&typeof amzn_assoc_utils.stringify==="function"){t=amzn_assoc_utils.stringify(u);}else{return;}}if(typeof n==="string"){s=n+"?assoc_payload="+encodeURIComponent(t);}if(typeof s!=="undefined"){(new Image()).src=s;}};f.recordImpression=function(t,s,v,u,w){v.linkCode=t;v.trackingId=s;if(m||!r){f.makeForesterCall(v);}else{f.addABPFlag(v,f.makeForesterCall);}if(typeof u==="undefined"||!u){(new Image()).src=d+"?l="+t+"&t="+s+"&o="+k+"&cb="+(new Date()).getTime()+((typeof w!=="undefined")?w:"");}};f.addAAXClickUrls=function(t){var v,u,s;if(typeof t==="undefined"||typeof o==="undefined"){return;}for(u=0;u<t.length;u++){s=String(t[u].href);if(s.indexOf(o)<0){v=o+s;t[u].href=v;}}};f.addAAXClickUrl=function(s){if(typeof s==="undefined"||s.indexOf(o)===0){return s;}return o+s;};f.updateLinks=function(t,v){var u,s;if(typeof v!=="function"){return;}for(u=0;u<t.length;u++){s=String(t[u].href);t[u].href=v(s);}};f.elementInViewPort=function(s){var t=s.getBoundingClientRect(),u=(t.top>=0&&t.left>=0&&t.bottom<=(window.innerHeight||document.documentElement.clientHeight)&&t.right<=(window.innerWidth||document.documentElement.clientWidth));return{posX:t.left+window.pageXOffset,posY:t.top+window.pageYOffset,inViewPort:u};};f.initialViewabilityCall=function(y,t,v,x){var s=undefined,u,w={adViewability:[{above_the_fold:y,topPos:t,leftPos:v,slotNum:x}]};if(typeof JSON!=="undefined"){u=JSON.stringify(w);}else{if(typeof amzn_assoc_utils!=="undefined"&&typeof amzn_assoc_utils.stringify==="function"){u=amzn_assoc_utils.stringify(w);}else{u="";}}if(typeof n==="string"){s=n+u;}if(typeof s!=="undefined"){(new Image()).src=s+"&cb="+(new Date()).getTime();}};f.makeViewabilityCall=function(v){var s=undefined,t,u={adViewability:[{viewable:true,slotNum:v}]};if(typeof JSON!=="undefined"){t=JSON.stringify(u);}else{if(typeof amzn_assoc_utils!=="undefined"&&typeof amzn_assoc_utils.stringify==="function"){t=amzn_assoc_utils.stringify(u);}else{t="";}}if(typeof n==="string"){s=n+t;}if(typeof s!=="undefined"){(new Image()).src=s+"&cb="+(new Date()).getTime();}};f.addABPFlag=function(v,D){var x=false,w=2,u=document.body?document.body.appendChild(new Image()):new Image(),t=document.body?document.body.appendChild(new Image()):new Image(),A=false,y=false,s=Math.random()*11,C=r+"?ch=*&rn=*",B=function(F,E){if(w===0||E>1000){v.supplySideMetadata={ABPInstalled:w===0&&x};F(v);}else{setTimeout(function(){B(F,E*2);},E*2);}},z=function(){if(--w){return;}x=!A&&y;};u.style.display="none";t.style.display="none";u.onload=z;u.onerror=function(){A=true;z();};u.src=C.replace(/\*/,1).replace(/\*/,s);t.onload=z;t.onerror=function(){y=true;z();};t.src=C.replace(/\*/,2).replace(/\*/,s);B(D,250);};return f;};window.elemTracker=function(b){var a={};a.trackElements=function(d,c){var f,e;if(typeof d!=="undefined"&&d.length>0&&typeof c==="function"){window.addEventListener("scroll",function(){for(f=0;f<d.length;f++){e=b.elementInViewPort(d[f]);if(e.inViewPort){c();}}},false);}};return a;};
+	var amznAutoTaggerMaker=function(h,v,B){var D={CA:"ca",CN:"cn",IN:"in",DE:"de",FR:"fr",GB:"co.uk",JP:"co.jp",US:"com"},j={CA:[],CN:[],IN:[],DE:["javari"],FR:["javari"],GB:["javari"],JP:["javari"],US:["smallparts","amazonwireless","endless","myhabit"]},F=(function(){var O=-1,N={};N.getNextSlotNum=function(){return ++O;};return N;}()),q,o,e=Math.max(document.body.scrollHeight,document.body.offsetHeight,document.documentElement.clientHeight,document.documentElement.scrollHeight,document.documentElement.offsetHeight),m=Math.max(document.body.scrollWidth,document.body.offsetWidth,document.documentElement.clientWidth,document.documentElement.scrollWidth,document.documentElement.offsetWidth),y={totalDocWidth:m,totalDocHeight:e,logType:"onetag_pageload",pageTitle:document.title},a="w50",I="w61",H="g12",C={},b=new RegExp("%3F"),w=new Object(),x=false,l="",s="",u=0,K=0,d=0,G=new RegExp("amzn.to"),r=new RegExp(h.redirectorEndPoint),E=["kdp.amazon.com"],M=[],c=function(O){var P,N=false;for(P=0;P<E.length;P++){if(O.match(E[P])){N=true;break;}}return N;},p=function(N){return N.nextSibling&&N.nextSibling.tagName==="IMG"&&N.nextSibling.hasAttribute("src")&&(N.nextSibling.getAttribute("src").search(/ir-[a-z]{2}\.amazon-adsystem\.com/)>-1||N.nextSibling.getAttribute("src").search(/www\.assoc-amazon\.*/)>-1);},n=function(N){if(!N.href.match(r)){N.href=h.redirectorEndPoint+N.href;}},k=function(X,ad){var Y=new RegExp("/(ref=[\\w]+)/?","i"),T,ac=false,O,R,S=false,W=X.search.match(/\?tag=([^&]+)|&tag=([^&]+)|\?tag-value=([^&]+)|&tag-value=([^&]+)|\?tag_value=([^&]+)|&tag_value=([^&]+)|\?t=([^&]+)|&t=([^&]+)/),Q=X.search.match(/\?tag=|&tag=|\?tag-value=|&tag-value=|\?tag_value=|&tag_value=|\?t=|&t=/),N=X.search.match(/(linkCode|link_code|lc)=([^&]+)/i),V=v.elementInViewPort(X),ab={autoTagged:false,overwritten:false,geoRedirected:false,atf:V.inViewPort},P=F.getNextSlotNum(),U={destinationURL:X.href,slotNum:P,atfInFirstLoad:V.inViewPort,posX:V.posX,posY:V.posY,logType:"onetag_textlink"},aa=p(X),Z;ab.slotNum=P;if(X.pathname.charAt(X.pathname.length-1)!=="/"){X.pathname=X.pathname+"/";}if(X.search===""){X.search="?imprToken="+v.getImpressionToken()+"&slotNum="+P;}else{X.search=X.search.replace(/\?/,"?imprToken="+v.getImpressionToken()+"&slotNum="+P+"&");}if(h.enableAutoTagging){ab.autoTagged=true;if(W){if(h.overwrite){for(R=1;R<9;R++){if(W[R]!=undefined){X.search=X.search.replace(W[R],ad);break;}}ab.overwritten=true;ac=true;}}else{if(Q){X.search=X.search.replace(/tag=/,"tag="+ad);ac=true;}else{X.search=X.search.replace(/\?/,"?tag="+ad+"&");ac=true;}}}if(N&&typeof h.overridableLinkCodes[N[2]]!=="undefined"){S=true;}if(N&&!S){O=N[2];}else{O=ac?a:I;}if(N){U.oldLinkCode=N[2];X.search=X.search.replace(N[2],O);}else{X.search=X.search.replace(/\?/,"?linkCode="+O+"&");}if(T=X.pathname.match(Y)){X.pathname=X.pathname.replace(T[1],"ref=as_at");}else{X.pathname=X.pathname+"ref=as_at";}if(ac){Z=ad;}else{if(typeof W!=="undefined"&&W instanceof Array&&W.length>=R+1&&typeof W[R]==="string"){Z=W[R];}else{Z="";}}if(C.shouldBeGeoRedirected()){ab.geoRedirected=true;n(X);}if(X.hasAttribute("data-amzn-asin")&&!X.search.match("creativeASIN")){X.search=X.search.replace(/\?/,"?creativeASIN="+X.getAttribute("data-amzn-asin")+"&");}M.push({pos:V,slotNum:P,linkCode:O,linkInfo:U,skipIRCall:aa,imprTag:Z});X.href=v.addAAXClickUrl(X.href);return ab;},A=function(N){if(N.href.match(b)){o=N.href.split(b);N.href=o[0]+"?"+decodeURIComponent(o[1]);}},t=function(O,N,R){var Q,P;for(Q=0;Q<O.length;Q++){for(P=0;P<N.length;P++){if(window.addEventListener){O[Q].addEventListener(N[P],R,false);}else{O[Q].attachEvent("on"+N[P],R);}}}},J=function(N,O){var P=false;t([N],["touchstart"],function(){P=false;});t([N],["touchmove"],function(){P=true;});t([N],["click","touchend"],function(Q){if(P){return;}N.setAttribute("href",O);});t([N],["auxclick","contextmenu"],function(Q){N.setAttribute("href",O);});t([N],["mouseup"],function(Q){if(Q.button===1||Q.ctrlKey){N.setAttribute("href",O);}});},L=function(){var N="";for(i=0;i<h.itemRefs.length;i++){if(typeof h.itemRefs[i].type!=="undefined"&&h.itemRefs[i].type==="ASIN"&&typeof h.itemRefs[i].sourceLink!=="undefined"&&String(h.itemRefs[i].sourceLink).match(G)!==null&&typeof h.itemRefs[i].destinationLink!=="undefined"){w[h.itemRefs[i].sourceLink]=h.itemRefs[i].destinationLink;if(l!==""){N=",";}l=l+N+h.itemRefs[i].sourceLink;u++;}}},f=function(O,N){B.trackElements([O],function(){if(typeof N!==undefined&&N.slotNum!==undefined&&(N.viewed===undefined||!N.viewed)){v.makeViewabilityCall(N.slotNum);N.viewed=true;}});},g=function(N,O){J(N,N.getAttribute("href"));N.setAttribute("href",O);},z=function(){var P,O,N;for(P=0;P<M.length;P++){O=M[P];N=O.pos;v.recordImpression(O.linkCode,O.imprTag,O.linkInfo,O.skipIRCall,O.slotNum);v.initialViewabilityCall(N.inViewPort,N.posX,N.posY,O.slotNum);}M=[];};if(h.locale!=undefined){q=h.locale;}else{q="US";}C.shouldBeGeoRedirected=function(){return h.enableGeoRedirection&&(h.region!==""&&h.region!==h.viewerCountry);};C.publisherCallBack=function(){window["amzn_assoc_client_cb_"+h.adUnitSlotNum]({type:"onload",data:{},widget:C});};C.decorateLinkElement=function(N){A(N);linkProperties=k(N,h.trackingId);f(N,linkProperties);return linkProperties;};C.tagLinks=function(ae){var ag,af,O,Z,ai,ab=[],ak=0,W,Y,ah,ad,aj,N,X,U=0,Q=0,aa=0,P=0,T=0,R=0,S,V,ac="";O=D[q];Z=j[q];ai=new RegExp("^(http|https)://(www|[\\w\\-\\.]+)?amazon\\.("+O+")/","i");if(Z){for(ak=0;ak<Z.length;ak++){W=O;if(O=="co.jp"){W="co.jp|jp";}ab[ak]=new RegExp("^(http|https)://(www\\.)?("+Z[ak]+")\\.("+W+")/","i");}}Y=ae.getElementsByTagName("a");if(!x){L();x=true;}for(ag=0;ag<Y.length;ag++){X=undefined;ah=String(Y[ag].href);if(ad=ah.match(ai)&&!c(ah)){X=C.decorateLinkElement(Y[ag]);g(Y[ag],ah);}else{if(h.isShortLinksSupported&&(aj=ah.match(G))!==null){K++;if(s!==""){ac=",";}s=s+ac+Y[ag].href;S=w[Y[ag].href];if(typeof S!=="undefined"){d++;Y[ag].setAttribute("href",S);X=C.decorateLinkElement(Y[ag]);g(Y[ag],ah);}else{if(C.shouldBeGeoRedirected()){X=C.decorateLinkElement(Y[ag]);g(Y[ag],ah);}}}else{for(N=0;N<ab.length;N++){if(ad=ah.match(ab[N])){C.decorateLinkElement(Y[ag]);g(Y[ag],ah);}}}}if(typeof X!=="undefined"){if(X.autoTagged){Q++;}if(X.overwritten){R++;}if(X.geoRedirected){aa++;}if(X.atf){P++;}else{T++;}U++;}}y.numLinks=U;y.numAutoTaggedLinks=Q;y.autoTaggingEnabled=h.enableAutoTagging;y.geoRedirectEnabled=h.enableGeoRedirection;y.numLinksATF=P;y.numLinksBTF=T;y.shortLinksInLivePool=l;y.shortLinksInPage=s;y.shortLinksInLivePoolCount=u;y.shortLinksInPageCount=K;y.shortLinksMatchCount=d;v.recordImpression(h.linkCode,h.trackingId,y);t([window],["load"],z);};return C;};
+    var spec = {
+        trackingId : "wwwcertdepotn-20",
+        region : "US",
+        overwrite : false,
+        enableAutoTagging : false,
+        linkCode : "w49",
+        overridableLinkCodes :  {   "am1": ""   , "am2": ""   , "am3": ""   , "as1": ""   , "as2": ""   , "as3": ""   , "as4": ""   , "li1": ""   , "li2": ""   , "li3": ""   , "ll1": ""   , "ll2": ""   },
+        enableGeoRedirection : true,
+        redirectorEndPoint : "https://assoc-redirect.amazon.com/g/r/",
+        adUnitSlotNum : "0",
+        itemRefs : [],
+        isShortLinksSupported : true,
+        viewerCountry : "TN"
+    }, trackingUtils = window.trackingUtils(
+        "1",
+        "//fls-na.amazon-adsystem.com/1/associates-ads/1/OP/r/json",
+        "//ir-na.amazon-adsystem.com/e/ir",
+        "https://aax-us-east.amazon-adsystem.com/x/px/QtUM8TCHMzEm1_AaaCL3MmgAAAFnI27gVAEAAAFKARQPriQ/", "https://aax-us-east.amazon-adsystem.com/x/c/QtUM8TCHMzEm1_AaaCL3MmgAAAFnI27gVAEAAAFKARQPriQ/", "XnK8ZrMO0THfs-HzCt2INw", undefined, undefined, undefined, true
+    );
+
+    window.amznAutoTagger = amznAutoTaggerMaker(spec, trackingUtils, window.elemTracker(trackingUtils));
+    window.amznAutoTagger.tagLinks(document);
+    window.amznAutoTagger.publisherCallBack();
+}());
+
+ //# sourceURL=dynscript-0.js</script>
+
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>KVM thin provisioning tip. - CertDepot</title>
+
+		<link rel="profile" href="http://gmpg.org/xfn/11">
+		<link rel="pingback" href="https://www.certdepot.net/xmlrpc.php">
+
+		
+<!-- This site is optimized with the Yoast SEO plugin v8.3 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="https://www.certdepot.net/kvm-thin-provisioning-tip/">
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="KVM thin provisioning tip. - CertDepot">
+<meta property="og:description" content="If you use KVM for managing your virtual machines, you can sometimes run out of space in the /var/lib/libvirt/images directory, the default location for the&nbsp;RHEL/CentOS distributions. Because KVM knows the concept of thin provisioning through the qcow2 image format, the…Read more ›">
+<meta property="og:url" content="https://www.certdepot.net/kvm-thin-provisioning-tip/">
+<meta property="og:site_name" content="CertDepot">
+<meta property="article:section" content="RHEL7">
+<meta property="article:published_time" content="2015-08-16T10:53:15+00:00">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:description" content="If you use KVM for managing your virtual machines, you can sometimes run out of space in the /var/lib/libvirt/images directory, the default location for the&nbsp;RHEL/CentOS distributions. Because KVM knows the concept of thin provisioning through the qcow2 image format, the…Read more ›">
+<meta name="twitter:title" content="KVM thin provisioning tip. - CertDepot">
+<meta name="twitter:site" content="@CertDepot">
+<meta name="twitter:creator" content="@CertDepot">
+<script type="text/javascript" async="" defer="defer" src="KVM%20thin%20provisioning%20tip.%20-%20CertDepot_fichiers/piwik.js"></script><script id="twitter-wjs" src="KVM%20thin%20provisioning%20tip.%20-%20CertDepot_fichiers/widgets.js"></script><script type="application/ld+json">{"@context":"https:\/\/schema.org","@type":"Person","url":"https:\/\/www.certdepot.net\/","sameAs":["https:\/\/twitter.com\/CertDepot"],"@id":"#person","name":"CertDepot"}</script>
+<!-- / Yoast SEO plugin. -->
+
+<link rel="dns-prefetch" href="https://s.w.org/">
+<link rel="alternate" type="application/rss+xml" title="CertDepot » Feed" href="https://www.certdepot.net/feed/">
+<link rel="alternate" type="application/rss+xml" title="CertDepot » Comments Feed" href="https://www.certdepot.net/comments/feed/">
+<link rel="alternate" type="application/rss+xml" title="CertDepot » KVM thin provisioning tip. Comments Feed" href="https://www.certdepot.net/kvm-thin-provisioning-tip/feed/">
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/www.certdepot.net\/wp-includes\/js\/wp-emoji-release.min.js"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56760,9792,65039],[55358,56760,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script><script src="KVM%20thin%20provisioning%20tip.%20-%20CertDepot_fichiers/wp-emoji-release.js" type="text/javascript" defer="defer"></script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel="stylesheet" id="calp-general-css" href="KVM%20thin%20provisioning%20tip.%20-%20CertDepot_fichiers/general.css" type="text/css" media="all">
+<link rel="stylesheet" id="wp-polls-css" href="KVM%20thin%20provisioning%20tip.%20-%20CertDepot_fichiers/polls-css.css" type="text/css" media="all">
+<style id="wp-polls-inline-css" type="text/css">
+.wp-polls .pollbar {
+	margin: 1px;
+	font-size: 6px;
+	line-height: 8px;
+	height: 8px;
+	background-image: url('https://www.certdepot.net/wp-content/plugins/wp-polls/images/default/pollbg.gif');
+	border: 1px solid #c8c8c8;
+}
+
+</style>
+<link rel="stylesheet" id="wp-postratings-css" href="KVM%20thin%20provisioning%20tip.%20-%20CertDepot_fichiers/postratings-css.css" type="text/css" media="all">
+<link rel="stylesheet" id="wpProQuiz_front_style-css" href="KVM%20thin%20provisioning%20tip.%20-%20CertDepot_fichiers/wpProQuiz_front.css" type="text/css" media="all">
+<link rel="stylesheet" id="wpdiscuz-font-awesome-css" href="KVM%20thin%20provisioning%20tip.%20-%20CertDepot_fichiers/fontawesome-all.css" type="text/css" media="all">
+<link rel="stylesheet" id="wpdiscuz-frontend-css-css" href="KVM%20thin%20provisioning%20tip.%20-%20CertDepot_fichiers/wpdiscuz.css" type="text/css" media="all">
+<link rel="stylesheet" id="wpdiscuz-user-content-css-css" href="KVM%20thin%20provisioning%20tip.%20-%20CertDepot_fichiers/wpdiscuz-user-content.css" type="text/css" media="all">
+<link rel="stylesheet" id="responsive-style-css" href="KVM%20thin%20provisioning%20tip.%20-%20CertDepot_fichiers/style_002.css" type="text/css" media="all">
+<link rel="stylesheet" id="responsive-child-style-css" href="KVM%20thin%20provisioning%20tip.%20-%20CertDepot_fichiers/style.css" type="text/css" media="all">
+<script type="text/javascript" src="KVM%20thin%20provisioning%20tip.%20-%20CertDepot_fichiers/jquery_002.js"></script>
+<script type="text/javascript" src="KVM%20thin%20provisioning%20tip.%20-%20CertDepot_fichiers/jquery-migrate.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var calp_event = {"language":"en","ajaxurl":"https:\/\/www.certdepot.net\/wp-admin\/admin-ajax.php"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="KVM%20thin%20provisioning%20tip.%20-%20CertDepot_fichiers/event.js"></script>
+<script type="text/javascript" src="KVM%20thin%20provisioning%20tip.%20-%20CertDepot_fichiers/customcookie.js"></script>
+<script type="text/javascript" src="KVM%20thin%20provisioning%20tip.%20-%20CertDepot_fichiers/jquery_005.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var wpdiscuzAjaxObj = {"url":"https:\/\/www.certdepot.net\/wp-admin\/admin-ajax.php","customAjaxUrl":"https:\/\/www.certdepot.net\/wp-content\/plugins\/wpdiscuz\/utils\/ajax\/wpdiscuz-ajax.php","wpdiscuz_options":{"wc_hide_replies_text":"Hide Replies","wc_show_replies_text":"View Replies","wc_msg_required_fields":"Please fill out required fields","wc_invalid_field":"Some of field value is invalid","wc_error_empty_text":"please fill out this field to comment","wc_error_url_text":"url is invalid","wc_error_email_text":"email address is invalid","wc_invalid_captcha":"Invalid Captcha Code","wc_login_to_vote":"You Must Be Logged In To Vote","wc_deny_voting_from_same_ip":"You are not allowed to vote for this comment","wc_self_vote":"You cannot vote for your comment","wc_vote_only_one_time":"You've already voted for this comment","wc_voting_error":"Voting Error","wc_held_for_moderate":"Comment awaiting moderation","wc_comment_edit_not_possible":"Sorry, this comment no longer possible to edit","wc_comment_not_updated":"Sorry, the comment was not updated","wc_comment_not_edited":"You've not made any changes","wc_new_comment_button_text":"new comment","wc_new_comments_button_text":"new comments","wc_new_reply_button_text":"new reply on your comment","wc_new_replies_button_text":"new replies on your comments","wc_msg_input_min_length":"Input is too short","wc_msg_input_max_length":"Input is too long","wc_follow_user":"Follow this user","wc_unfollow_user":"Unfollow this user","wc_follow_success":"You started following this comment author","wc_follow_canceled":"You stopped following this comment author.","wc_follow_email_confirm":"Please check your email and confirm the user following request.","wc_follow_email_confirm_fail":"Sorry, we couldn't send confirmation email.","wc_follow_login_to_follow":"Please login to follow users.","wc_follow_impossible":"We are sorry, but you can't follow this user.","wc_follow_not_added":"Following failed. Please try again later.","is_user_logged_in":false,"commentListLoadType":"0","commentListUpdateType":"0","commentListUpdateTimer":"30","liveUpdateGuests":"1","wc_comment_bg_color":"#FEFEFE","wc_reply_bg_color":"#F8F8F8","wpdiscuzCommentsOrder":"asc","wpdiscuzCommentOrderBy":"comment_date_gmt","commentsVoteOrder":false,"wordpressThreadCommentsDepth":"5","wordpressIsPaginate":"","commentTextMaxLength":null,"storeCommenterData":100000,"isCaptchaInSession":true,"isGoodbyeCaptchaActive":false,"socialLoginAgreementCheckbox":0,"enableFbLogin":0,"enableFbShare":0,"facebookAppID":"","facebookUseOAuth2":0,"enableGoogleLogin":0,"googleAppID":"","cookiehash":"4405083aaa0f5c25d978e5e067fa1d2f","isLoadOnlyParentComments":0,"ahk":"","enableDropAnimation":0,"isNativeAjaxEnabled":1,"cookieCommentsSorting":"wpdiscuz_comments_sorting","version":"5.2.2","wc_post_id":6206,"loadLastCommentId":0,"lastVisitKey":"wordpress_last_visit","lastVisitExpires":1545083316,"lastVisitCookie":{"1":{"6206":1542491316}},"isCookiesEnabled":true,"wc_captcha_show_for_guest":"1","wc_captcha_show_for_members":"0","is_email_field_required":"1"}};
+/* ]]> */
+</script>
+<script type="text/javascript" src="KVM%20thin%20provisioning%20tip.%20-%20CertDepot_fichiers/wpdiscuz.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var wpdiscuzUCObj = {"msgConfirmDeleteComment":"Are you sure you want to delete this comment?","msgConfirmCancelSubscription":"Are you sure you want to cancel this subscription?","msgConfirmCancelFollow":"Are you sure you want to cancel this follow?"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="KVM%20thin%20provisioning%20tip.%20-%20CertDepot_fichiers/wpdiscuz-user-content.js"></script>
+<script type="text/javascript" src="KVM%20thin%20provisioning%20tip.%20-%20CertDepot_fichiers/lity.js"></script>
+<script type="text/javascript" src="KVM%20thin%20provisioning%20tip.%20-%20CertDepot_fichiers/responsive-modernizr.js"></script>
+<link rel="https://api.w.org/" href="https://www.certdepot.net/wp-json/">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.certdepot.net/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://www.certdepot.net/wp-includes/wlwmanifest.xml"> 
+<meta name="generator" content="WordPress 4.9.8">
+<link rel="shortlink" href="https://www.certdepot.net/?p=6206">
+<link rel="alternate" type="application/json+oembed" href="https://www.certdepot.net/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.certdepot.net%2Fkvm-thin-provisioning-tip%2F">
+<link rel="alternate" type="text/xml+oembed" href="https://www.certdepot.net/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.certdepot.net%2Fkvm-thin-provisioning-tip%2F&amp;format=xml">
+            <style>
+                #wpcomm .wc_new_comment{background:#00B38F;}
+                #wpcomm .wc_new_reply{background:#00B38F;}
+                #wpcomm .wc-form-wrapper{ background:none; } /* ->formBGColor */
+                #wpcomm .wpdiscuz-front-actions{background:#F9F9F9;}
+                #wpcomm .wpdiscuz-subscribe-bar{background:#F9F9F9;}
+                #wpcomm select,
+                #wpcomm input[type="text"],
+                #wpcomm input[type="email"],
+                #wpcomm input[type="url"],
+                #wpcomm input[type="date"],
+                #wpcomm input[type="color"]{border:#D9D9D9 1px solid;}
+                #wpcomm .wc-comment .wc-comment-right{background:#FEFEFE;}
+                #wpcomm .wc-reply .wc-comment-right{background:#F8F8F8;}
+                #wpcomm .wc-comment-right .wc-comment-text, 
+                #wpcomm .wc-comment-right .wc-comment-text *{
+                    font-size:14px;
+                }
+                #wpcomm .wc-blog-administrator > .wc-comment-right .wc-comment-author, #wpcomm .wc-blog-administrator > .wc-comment-right .wc-comment-author a{color:#00B38F;}#wpcomm .wc-blog-administrator > .wc-comment-left .wc-comment-label{color:#00B38F; border:none; border-bottom: 1px solid #dddddd; }#wpcomm .wc-blog-editor > .wc-comment-right .wc-comment-author, #wpcomm .wc-blog-editor > .wc-comment-right .wc-comment-author a{color:#00B38F;}#wpcomm .wc-blog-editor > .wc-comment-left .wc-comment-label{color:#00B38F; border:none; border-bottom: 1px solid #dddddd; }#wpcomm .wc-blog-author > .wc-comment-right .wc-comment-author, #wpcomm .wc-blog-author > .wc-comment-right .wc-comment-author a{color:#00B38F;}#wpcomm .wc-blog-author > .wc-comment-left .wc-comment-label{color:#00B38F; border:none; border-bottom: 1px solid #dddddd; }#wpcomm .wc-blog-contributor > .wc-comment-right .wc-comment-author, #wpcomm .wc-blog-contributor > .wc-comment-right .wc-comment-author a{color:#00B38F;}#wpcomm .wc-blog-contributor > .wc-comment-left .wc-comment-label{color:#00B38F; border:none; border-bottom: 1px solid #dddddd; }#wpcomm .wc-blog-subscriber > .wc-comment-right .wc-comment-author, #wpcomm .wc-blog-subscriber > .wc-comment-right .wc-comment-author a{color:#00B38F;}#wpcomm .wc-blog-subscriber > .wc-comment-left .wc-comment-label{color:#00B38F; border:none; border-bottom: 1px solid #dddddd; }#wpcomm .wc-blog-ai1ec_event_assistant > .wc-comment-right .wc-comment-author, #wpcomm .wc-blog-ai1ec_event_assistant > .wc-comment-right .wc-comment-author a{color:#00B38F;}#wpcomm .wc-blog-ai1ec_event_assistant > .wc-comment-left .wc-comment-label{color:#00B38F; border:none; border-bottom: 1px solid #dddddd; }#wpcomm .wc-blog-calp_event_assistant > .wc-comment-right .wc-comment-author, #wpcomm .wc-blog-calp_event_assistant > .wc-comment-right .wc-comment-author a{color:#00B38F;}#wpcomm .wc-blog-calp_event_assistant > .wc-comment-left .wc-comment-label{color:#00B38F; border:none; border-bottom: 1px solid #dddddd; }#wpcomm .wc-blog-post_author > .wc-comment-right .wc-comment-author, #wpcomm .wc-blog-post_author > .wc-comment-right .wc-comment-author a{color:#00B38F;}#wpcomm .wc-blog-post_author > .wc-comment-left .wc-comment-label{color:#00B38F; border:none; border-bottom: 1px solid #dddddd; }#wpcomm .wc-blog-guest > .wc-comment-right .wc-comment-author, #wpcomm .wc-blog-guest > .wc-comment-right .wc-comment-author a{color:#00B38F;}#wpcomm .wc-blog-guest > .wc-comment-left .wc-comment-label{color:#00B38F; border:none; border-bottom: 1px solid #dddddd; }#wpcomm .wc-blog-wpseo_manager > .wc-comment-right .wc-comment-author, #wpcomm .wc-blog-wpseo_manager > .wc-comment-right .wc-comment-author a{color:#00B38F;}#wpcomm .wc-blog-wpseo_manager > .wc-comment-left .wc-comment-label{color:#00B38F; border:none; border-bottom: 1px solid #dddddd; }#wpcomm .wc-blog-wpseo_editor > .wc-comment-right .wc-comment-author, #wpcomm .wc-blog-wpseo_editor > .wc-comment-right .wc-comment-author a{color:#00B38F;}#wpcomm .wc-blog-wpseo_editor > .wc-comment-left .wc-comment-label{color:#00B38F; border:none; border-bottom: 1px solid #dddddd; }                #wpcomm .wc-comment .wc-comment-left .wc-comment-label{ background: #ffffff;}
+                #wpcomm .wc-comment-left .wc-follow-user{color:#00B38F;}
+                #wpcomm .wc-load-more-submit{border:1px solid #D9D9D9;}
+                #wpcomm .wc-new-loaded-comment > .wc-comment-right{background:#FFFAD6;}
+                #wpcomm .wpdiscuz-subscribe-bar{color:#777;}
+                #wpcomm .wpdiscuz-front-actions .wpdiscuz-sbs-wrap span{color: #777;}
+                #wpcomm .page-numbers{color:#555;border:#555 1px solid;}
+                #wpcomm span.current{background:#555;}
+                #wpcomm .wpdiscuz-readmore{cursor:pointer;color:#00B38F;}
+                #wpcomm .wpdiscuz-textarea-wrap{border:#D9D9D9 1px solid;} .wpd-custom-field .wcf-pasiv-star, #wpcomm .wpdiscuz-item .wpdiscuz-rating > label {color: #DDDDDD;}
+                #wpcomm .wpdiscuz-item .wpdiscuz-rating:not(:checked) > label:hover,.wpdiscuz-rating:not(:checked) > label:hover ~ label {   }#wpcomm .wpdiscuz-item .wpdiscuz-rating > input ~ label:hover, #wpcomm .wpdiscuz-item .wpdiscuz-rating > input:not(:checked) ~ label:hover ~ label, #wpcomm .wpdiscuz-item .wpdiscuz-rating > input:not(:checked) ~ label:hover ~ label{color: #FFED85;} 
+                #wpcomm .wpdiscuz-item .wpdiscuz-rating > input:checked ~ label:hover, #wpcomm .wpdiscuz-item .wpdiscuz-rating > input:checked ~ label:hover, #wpcomm .wpdiscuz-item .wpdiscuz-rating > label:hover ~ input:checked ~ label, #wpcomm .wpdiscuz-item .wpdiscuz-rating > input:checked + label:hover ~ label, #wpcomm .wpdiscuz-item .wpdiscuz-rating > input:checked ~ label:hover ~ label, .wpd-custom-field .wcf-activ-star, #wpcomm .wpdiscuz-item .wpdiscuz-rating > input:checked ~ label{ color:#FFD700;}
+                #wpcomm .wc-comment-header{border-top: 1px solid #dedede;}
+                #wpcomm .wc-reply .wc-comment-header{border-top: 1px solid #dedede;}
+                /* Buttons */
+                #wpcomm button, 
+                #wpcomm input[type="button"], 
+                #wpcomm input[type="reset"], 
+                #wpcomm input[type="submit"]{ border: 1px solid ; color: ; background-color: ; }
+                #wpcomm button:hover, 
+                #wpcomm button:focus,
+                #wpcomm input[type="button"]:hover, 
+                #wpcomm input[type="button"]:focus, 
+                #wpcomm input[type="reset"]:hover, 
+                #wpcomm input[type="reset"]:focus, 
+                #wpcomm input[type="submit"]:hover, 
+                #wpcomm input[type="submit"]:focus{ border: 1px solid #333333; background-color: #333333;  }
+                #wpcomm .wpdiscuz-sort-buttons{color:#777777;}
+                #wpcomm .wpdiscuz-sort-button{color:; cursor:pointer;}
+                #wpcomm .wpdiscuz-sort-button:hover{color:#00B38F!important;cursor:pointer;}
+                #wpcomm .wpdiscuz-sort-button-active{color:#00B38F!important;cursor:default!important;}
+                #wpcomm .wc-cta-button, 
+                #wpcomm .wc-cta-button-x{color:; }
+                #wpcomm .wc-vote-link.wc-up{color:;}
+                #wpcomm .wc-vote-link.wc-down{color:;}
+                #wpcomm .wc-vote-result{color:#999999;}
+                #wpcomm .wpf-cta{color:#999999; }
+                #wpcomm .wc-comment-link .wc-share-link .wpf-cta{color:#eeeeee;}
+                #wpcomm .wc-footer-left .wc-reply-button{border:1px solid #00B38F!important; color: #00B38F;}
+                #wpcomm .wpf-cta:hover{background:#00B38F!important; color:#FFFFFF;}
+                #wpcomm .wc-footer-left .wc-reply-button.wc-cta-active, #wpcomm .wc-cta-active{background:#00B38F!important; color:#FFFFFF;}
+                #wpcomm .wc-cta-button:hover{background:#00B38F!important; color:#FFFFFF;}
+                #wpcomm .wc-footer-right .wc-toggle,
+                #wpcomm .wc-footer-right .wc-toggle a,
+                #wpcomm .wc-footer-right .wc-toggle i{color:#00B38F;}
+                /* STICKY COMMENT HEADER */
+                #wpcomm .wc-sticky-comment.wc-comment .wc-comment-header{}
+                #wpcomm .wc-sticky-comment.wc-comment .wc-comment-header .wpd-sticky{background: #1ecea8; color: #ffffff; }
+                #wpcomm .wc-closed-comment.wc-comment .wc-comment-header{}
+                #wpcomm .wc-closed-comment.wc-comment .wc-comment-header .wpd-closed{background: #aaaaaa; color: #ffffff;}
+                /* PRIVATE COMMENT HEADER */
+                #wpcomm .wc-private-comment.wc-comment .wc-comment-header{}
+                #wpcomm .wc-private-comment.wc-comment .wc-comment-header .wpd-private{background: #999999; color: #ffffff;}
+                /* FOLLOW LINK */
+
+                #wpcomm .wc-follow{color:;}
+                #wpcomm .wc-follow-active{color:#ff7a00;}
+                #wpcomm .wc-follow:hover i,
+                #wpcomm .wc-unfollow:hover i,
+                #wpcomm .wc-follow-active:hover i{color:#00B38F;}
+                                .wpd-wrapper .wpd-list-item.wpd-active{border-top: 3px solid #00B38F;}
+                                .comments-area{width:auto;}
+            </style>
+            <!-- We need this for debugging -->
+<!-- Responsive 9.9.9.9 -->
+<!-- Responsive Child Theme 1.0.0 -->
+<script type="text/javascript" src="KVM%20thin%20provisioning%20tip.%20-%20CertDepot_fichiers/si_captcha.js"></script>
+<!-- begin SI CAPTCHA Anti-Spam - login/register form style -->
+<style type="text/css">
+.si_captcha_small { width:175px; height:45px; padding-top:10px; padding-bottom:10px; }
+.si_captcha_large { width:250px; height:60px; padding-top:10px; padding-bottom:10px; }
+img#si_image_com { border-style:none; margin:0; padding-right:5px; float:left; }
+img#si_image_reg { border-style:none; margin:0; padding-right:5px; float:left; }
+img#si_image_log { border-style:none; margin:0; padding-right:5px; float:left; }
+img#si_image_side_login { border-style:none; margin:0; padding-right:5px; float:left; }
+img#si_image_checkout { border-style:none; margin:0; padding-right:5px; float:left; }
+img#si_image_jetpack { border-style:none; margin:0; padding-right:5px; float:left; }
+img#si_image_bbpress_topic { border-style:none; margin:0; padding-right:5px; float:left; }
+.si_captcha_refresh { border-style:none; margin:0; vertical-align:bottom; }
+div#si_captcha_input { display:block; padding-top:15px; padding-bottom:5px; }
+label#si_captcha_code_label { margin:0; }
+input#si_captcha_code_input { width:65px; }
+p#si_captcha_code_p { clear: left; padding-top:10px; }
+.si-captcha-jetpack-error { color:#DC3232; }
+</style>
+<!-- end SI CAPTCHA Anti-Spam - login/register form style -->
+	<style id="fit-vids-style">.fluid-width-video-wrapper{width:100%;position:relative;padding:0;}.fluid-width-video-wrapper iframe,.fluid-width-video-wrapper object,.fluid-width-video-wrapper embed {position:absolute;top:0;left:0;width:100%;height:100%;}</style><script charset="utf-8" src="KVM%20thin%20provisioning%20tip.%20-%20CertDepot_fichiers/gridmomenttimelinetweet.js"></script><script charset="utf-8" src="KVM%20thin%20provisioning%20tip.%20-%20CertDepot_fichiers/momenttimelinetweet.js"></script><script charset="utf-8" src="KVM%20thin%20provisioning%20tip.%20-%20CertDepot_fichiers/timeline.js"></script></head>
+
+<body class="post-template-default single single-post postid-6206 single-format-standard do-etfw wpdiscuz_5.2.2">
+
+<div id="container" class="hfeed">
+
+	<div class="skip-container cf">
+		<a class="skip-link screen-reader-text focusable" href="#content">↓ Skip to Main Content</a>
+	</div><!-- .skip-container -->
+	<div id="header">
+
+		
+		
+		
+		
+		
+			<div id="logo">
+				<span class="site-name"><a href="https://www.certdepot.net/" title="CertDepot" rel="home">CertDepot</a></span>
+				<span class="site-description">Everything you need to pass your RHCSA, RHCE, LFCS, LFCE and much more.</span>
+			</div><!-- end of #logo -->
+
+		
+			<div id="top-widget" class="top-widget">
+		
+		
+			<div id="search-2" class="widget_search"><form method="get" id="searchform" action="https://www.certdepot.net/">
+	<label class="screen-reader-text" for="s">Search for:</label>
+	<input type="text" class="field" name="s" id="s" placeholder="search here …">
+	<input type="submit" class="submit" name="submit" id="searchsubmit" value="Go">
+</form></div>
+		
+			</div><!-- end of #top-widget -->
+		<div class="main-nav"><div id="responsive_current_menu_item">KVM thin provisioning tip.</div><ul id="menu-menu-1" class="menu"><li id="menu-item-35" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-35"><a href="https://www.certdepot.net/">Home</a></li>
+<li id="menu-item-36" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-36"><a href="https://www.certdepot.net/about/">About</a></li>
+<li id="menu-item-3074" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-3074"><a href="https://www.certdepot.net/rhel6/">RHEL6</a>
+<ul class="sub-menu">
+	<li id="menu-item-41" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-41"><a href="https://www.certdepot.net/rhcsa-rhce-free-available-resources/">RHEL6 Free available resources</a></li>
+	<li id="menu-item-40" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-40"><a href="https://www.certdepot.net/rhcsa-rhce-book-review/">RHEL6 Book review</a></li>
+	<li id="menu-item-39" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-39"><a href="https://www.certdepot.net/rhcsa/">RHEL6 RHCSA (EX200)</a>
+	<ul class="sub-menu">
+		<li id="menu-item-72" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-72"><a href="https://www.certdepot.net/redhat-certification-overview/">RHEL6 Red Hat Certification overview</a></li>
+		<li id="menu-item-42" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-42"><a href="https://www.certdepot.net/rhcsa-exam-objectives/">RHEL6 RHCSA Exam objectives</a></li>
+		<li id="menu-item-522" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-522"><a href="https://www.certdepot.net/rhcsa-other-requirements/">RHEL6 RHCSA Other requirements</a></li>
+		<li id="menu-item-2675" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2675"><a href="https://www.certdepot.net/rhcsa-rhce-faq/">RHEL6 RHCSA &amp; RHCE FAQ</a></li>
+		<li id="menu-item-1405" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1405"><a href="https://www.certdepot.net/rhcsa-quiz/">RHEL6 RHCSA Quiz</a></li>
+		<li id="menu-item-1027" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1027"><a href="https://www.certdepot.net/rhcsa-sample-exam-1/">RHEL6 RHCSA Sample exam 1</a></li>
+		<li id="menu-item-2559" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2559"><a href="https://www.certdepot.net/rhcsa-sample-exam-2/">RHEL6 RHCSA Sample exam 2</a></li>
+	</ul>
+</li>
+	<li id="menu-item-37" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-37"><a href="https://www.certdepot.net/rhce/">RHEL6 RHCE (EX300)</a>
+	<ul class="sub-menu">
+		<li id="menu-item-3949" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3949"><a href="https://www.certdepot.net/redhat-certification-overview/">RHEL6 Red Hat Certification overview</a></li>
+		<li id="menu-item-38" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-38"><a href="https://www.certdepot.net/rhce-exam-objectives/">RHEL6 RHCE Exam objectives</a></li>
+		<li id="menu-item-509" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-509"><a href="https://www.certdepot.net/rhce-other-requirements/">RHEL6 RHCE Other requirements</a></li>
+		<li id="menu-item-3950" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3950"><a href="https://www.certdepot.net/rhcsa-rhce-faq/">RHEL6 RHCSA &amp; RHCE FAQ</a></li>
+		<li id="menu-item-1392" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1392"><a href="https://www.certdepot.net/rhce-quiz/">RHEL6 RHCE Quiz</a></li>
+		<li id="menu-item-2815" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2815"><a href="https://www.certdepot.net/rhce-sample-exam-1/">RHEL6 RHCE Sample exam 1</a></li>
+	</ul>
+</li>
+	<li id="menu-item-3908" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-3908"><a href="https://www.certdepot.net/rhel6-lfcs/">RHEL6 LFCS</a>
+	<ul class="sub-menu">
+		<li id="menu-item-3909" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3909"><a href="https://www.certdepot.net/rhel6-lfcs-exam-objectives/">RHEL6 LFCS Exam objectives</a></li>
+	</ul>
+</li>
+	<li id="menu-item-3913" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-3913"><a href="https://www.certdepot.net/rhel6-lfce/">RHEL6 LFCE</a>
+	<ul class="sub-menu">
+		<li id="menu-item-3912" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3912"><a href="https://www.certdepot.net/rhel6-lfce-exam-objectives/">RHEL6 LFCE Exam objectives</a></li>
+	</ul>
+</li>
+</ul>
+</li>
+<li id="menu-item-1476" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-1476"><a href="https://www.certdepot.net/rhel7/">RHEL7</a>
+<ul class="sub-menu">
+	<li id="menu-item-1874" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1874"><a href="https://www.certdepot.net/rhel7-free-available-resources/">RHEL7 Free available resources</a></li>
+	<li id="menu-item-7811" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7811"><a href="https://www.certdepot.net/rhel7-available-online-trainings/">RHEL7 Available online trainings</a></li>
+	<li id="menu-item-5600" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5600"><a href="https://www.certdepot.net/rhel7-book-review/">RHEL7 Book review</a></li>
+	<li id="menu-item-3079" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-3079"><a href="https://www.certdepot.net/rhel7-rhcsa-ex200/">RHEL7 RHCSA (EX200)</a>
+	<ul class="sub-menu">
+		<li id="menu-item-3167" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3167"><a href="https://www.certdepot.net/rhel7-certification-overview/">RHEL7 Red Hat Certification overview</a></li>
+		<li id="menu-item-3080" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3080"><a href="https://www.certdepot.net/rhel7-rhcsa-exam-objectives/">RHEL7 RHCSA Exam objectives</a></li>
+		<li id="menu-item-3115" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3115"><a href="https://www.certdepot.net/rhel7-rhcsa-whats-new/">RHEL7 RHCSA What’s new?</a></li>
+		<li id="menu-item-3514" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3514"><a href="https://www.certdepot.net/rhel7-rhcsa-requirements/">RHEL7 RHCSA Other requirements</a></li>
+		<li id="menu-item-7668" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7668"><a href="https://www.certdepot.net/rhel7-rhcsa-reasons-failure/">RHEL7 RHCSA Main reasons for failure</a></li>
+		<li id="menu-item-4876" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4876"><a href="https://www.certdepot.net/rhel7-rhcsa-quiz/">RHEL7 RHCSA Quiz</a></li>
+		<li id="menu-item-3807" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3807"><a href="https://www.certdepot.net/rhel7-rhcsa-sample-exam-1/">RHEL7 RHCSA Sample exam 1</a></li>
+	</ul>
+</li>
+	<li id="menu-item-3103" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-3103"><a href="https://www.certdepot.net/rhel7-rhce-ex300/">RHEL7 RHCE (EX300)</a>
+	<ul class="sub-menu">
+		<li id="menu-item-3955" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3955"><a href="https://www.certdepot.net/rhel7-certification-overview/">RHEL7 Red Hat Certification overview</a></li>
+		<li id="menu-item-3104" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3104"><a href="https://www.certdepot.net/rhel7-rhce-exam-objectives/">RHEL7 RHCE Exam objectives</a></li>
+		<li id="menu-item-3118" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3118"><a href="https://www.certdepot.net/rhel7-rhce-whats-new/">RHEL7 RHCE What’s new?</a></li>
+		<li id="menu-item-3440" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3440"><a href="https://www.certdepot.net/rhel7-rhce-requirements/">RHEL7 RHCE Other requirements</a></li>
+		<li id="menu-item-4971" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4971"><a href="https://www.certdepot.net/rhel7-rhce-quiz/">RHEL7 RHCE Quiz</a></li>
+	</ul>
+</li>
+	<li id="menu-item-6483" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-6483"><a href="https://www.certdepot.net/rhel7-lfcs/">RHEL7 LFCS</a>
+	<ul class="sub-menu">
+		<li id="menu-item-6492" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6492"><a href="https://www.certdepot.net/rhel7-lfcs-exam-objectives/">RHEL7 LFCS Exam objectives</a></li>
+	</ul>
+</li>
+	<li id="menu-item-6487" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-6487"><a href="https://www.certdepot.net/rhel7-lfce/">RHEL7 LFCE</a>
+	<ul class="sub-menu">
+		<li id="menu-item-6495" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6495"><a href="https://www.certdepot.net/rhel7-lfce-exam-objectives/">RHEL7 LFCE Exam objectives</a></li>
+	</ul>
+</li>
+	<li id="menu-item-1510" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1510"><a href="https://www.certdepot.net/rhel7-changes/">RHEL7 Changes</a></li>
+	<li id="menu-item-1477" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1477"><a href="https://www.certdepot.net/rhel7-quick-recipes/">RHEL7 Quick recipes</a></li>
+	<li id="menu-item-2932" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2932"><a href="https://www.certdepot.net/rhel7-advanced-recipes/">RHEL7 Advanced recipes</a></li>
+	<li id="menu-item-7194" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7194"><a href="https://www.certdepot.net/rhel7-latest-tutorials/">RHEL7 Latest tutorials</a></li>
+</ul>
+</li>
+<li id="menu-item-7923" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7923"><a href="https://www.certdepot.net/rhel8/">RHEL8</a></li>
+<li id="menu-item-7990" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-7990"><a href="https://www.certdepot.net/openshift/">OpenShift</a>
+<ul class="sub-menu">
+	<li id="menu-item-7993" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7993"><a href="https://www.certdepot.net/openshift-free-available-resources/">OpenShift Free available resources</a></li>
+	<li id="menu-item-7991" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7991"><a href="https://www.certdepot.net/openshift-articles/">OpenShift Articles</a></li>
+	<li id="menu-item-8008" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8008"><a href="https://www.certdepot.net/openshift-certification-overview/">OpenShift Certification overview</a></li>
+</ul>
+</li>
+</ul><a id="responsive_menu_button"></a></div>
+		
+		
+	</div><!-- end of #header -->
+
+	<div id="wrapper" class="clearfix">
+
+<div id="content" class="grid col-620">
+
+	
+	
+		
+						<div id="post-6206" class="post-6206 post type-post status-publish format-standard hentry category-rhel7">
+				
+				
+	<h1 class="entry-title post-title">KVM thin provisioning tip.</h1>
+
+<div class="post-meta">
+	<span class="meta-prep meta-prep-author posted">Last updated on </span><a href="https://www.certdepot.net/kvm-thin-provisioning-tip/" title="KVM thin provisioning tip." rel="bookmark"><time class="timestamp updated" datetime="2015-08-16T12:53:15+00:00">August 16, 2015</time></a> (12,844 views) - <span class="vcard author author_name"><span class="fn">CertDepot</span></span>
+			<span class="comments-link">
+		<span class="mdash">—</span>
+			<a href="https://www.certdepot.net/kvm-thin-provisioning-tip/#respond">No Comments ↓</a>		</span>
+	</div><!-- end of .post-meta -->
+
+				<div class="post-entry">
+					<div id="fsb-social-bar" class="fsb-social-bar fsb-no-float" data-post-id="6206" data-socialite="true"><style type="text/css">            #fsb-social-bar { width: 100%; border-bottom: 1px solid #dbdbdb; border-top: 1px solid #dbdbdb; padding: 10px 0; margin: 0px 0 20px 0; float: left; background: #fff; position: relative; clear: both; }            #fsb-social-bar a { border: 0px !important }            #fsb-social-bar.fsb-fixed { position: fixed; top: -2px; z-index: 99999; }            #fsb-social-bar .fsb-title { display: block; float: left; margin: 3px 20px 0 0; font-size: 16px; font-family: Arial, Helvetica, sans-serif; text-decoration: none; color: #333; }            #fsb-social-bar .fsb-share-facebook { width: 120px; float: left; padding: 3px 0 2px; height: 25px; }            #fsb-social-bar .fsb-share-facebook.fsb-hide-count { width: 44px; overflow: hidden; margin-right: 30px; }            #fsb-social-bar .fsb-share-twitter { float: left; width: 135px; padding: 3px 0 2px; height: 25px; }            #fsb-social-bar .fsb-share-twitter.fsb-hide-count { width: 61px; overflow: hidden; margin-right: 30px; }            #fsb-social-bar .fsb-share-google { float: left; width: 105px; padding: 3px 0 2px; height: 25px; }            #fsb-social-bar .fsb-share-google.fsb-hide-count { width: 33px; overflow: hidden; margin-right: 30px; }            #fsb-social-bar .fsb-share-linkedin { float: left; width: 135px; padding: 3px 0 2px; height: 25px; }            #fsb-social-bar .fsb-share-linkedin.fsb-hide-count { width: 61px; overflow: hidden; margin-right: 30px; }            #fsb-social-bar .fsb-share-pinterest { float: left; width: 115px; padding: 3px 0 2px; height: 25px;}            #fsb-social-bar .fsb-share-pinterest.fsb-hide-count { width: 43px; overflow: hidden; margin-right: 30px; }            #fsb-social-bar .socialite { display: block; position: relative; background: url(https://www.certdepot.net/wp-content/plugins/floating-social-bar/images/fsb-sprite.png) no-repeat scroll 0 0; }            #fsb-social-bar .socialite-loaded { background: none !important; }            #fsb-social-bar .fsb-service-title { display: none; }            #fsb-social-bar a { color: #333; text-decoration: none; font-size: 12px; font-family: Arial, Helvetica, sans-serif; }            #fsb-social-bar .fsb-twitter { width: 105px; height: 25px; background-position: -13px -10px; line-height: 25px; vertical-align: middle; }            #fsb-social-bar .fsb-twitter .fsb-count { width: 30px; text-align: center; display: inline-block; margin: 0px 0 0 69px; color: #333; }            #fsb-social-bar .fsb-google { width: 75px; height: 25px; background-position: -136px -10px; line-height: 25px; vertical-align: middle; }            #fsb-social-bar .fsb-google .fsb-count { width: 30px; text-align: center; display: inline-block; margin: 0px 0 0 41px; color: #333; }            #fsb-social-bar .fsb-google .socialite-button { margin: 0 !important; }            #fsb-social-bar .fsb-share-google .socialite-loaded .socialite-button{padding: 2px 0 0}            #fsb-social-bar .fsb-facebook { width: 89px; height: 25px; background-position: -231px -10px; line-height: 25px; vertical-align: middle; }            #fsb-social-bar .fsb-facebook .fsb-count { width: 30px; text-align: center; display: inline-block; margin: 0px 0 0 52px; color: #333; }            #fsb-social-bar .fsb-facebook .socialite-button { margin: 0 !important;}            #fsb-social-bar .fsb-share-facebook .socialite-loaded .socialite-button {padding: 2px 0 0}            #fsb-social-bar .fsb-linkedin { width: 105px; height: 25px; background-position: -347px -10px; line-height: 25px; vertical-align: middle; }            #fsb-social-bar .fsb-linkedin .fsb-count { width: 30px; text-align: center; display: inline-block; margin: 0px 0 0 70px; color: #333; }            #fsb-social-bar .fsb-linkedin .socialite-button { margin: 0 !important; }            #fsb-social-bar .fsb-pinterest { width: 88px; height: 25px; background-position: -484px -10px; line-height: 25px; vertical-align: middle; }            #fsb-social-bar .fsb-pinterest .fsb-count { width: 30px; text-align: center; display: inline-block; margin: 0px 0 0 50px; color: #333; }            #fsb-social-bar .fsb-pinterest .socialite-button { margin: 0 !important; }            .fsb-clear { clear: both; }            .fsb-clear:after { clear:both; content:; display:block; height:0; line-height:0; overflow:auto; visibility:hidden; zoom:1; }            @media (max-width: 768px) { #fsb-social-bar.fsb-fixed { position: relative !important; top: auto !important; } }        </style><span class="fsb-title">Share this link</span><div class="fsb-share-twitter fsb-hide-count"><a href="https://twitter.com/share?original_referer=https%3A%2F%2Fwww.certdepot.net%2F&amp;source=tweetbutton&amp;text=KVM+thin+provisioning+tip.&amp;url=https%3A%2F%2Fwww.certdepot.net%2Fkvm-thin-provisioning-tip%2F&amp;via=CertDepot" class="socialite twitter fsb-twitter" data-fsb-service="twitter" rel="nofollow" target="_blank" title="Be the first one to tweet this article!"><span class="fsb-service-title">Twitter</span><span class="fsb-count">0</span></a></div><div class="fsb-share-facebook fsb-hide-count"><a href="http://www.facebook.com/sharer.php?u=https://www.certdepot.net/kvm-thin-provisioning-tip/" class="socialite facebook fsb-facebook" data-fsb-service="facebook" data-href="https://www.certdepot.net/kvm-thin-provisioning-tip/" data-send="false" data-layout="button_count" data-width="60" data-show-faces="false" rel="nofollow" target="_blank"><span class="fsb-service-title">Facebook</span><span class="fsb-count">0</span></a></div><div class="fsb-share-google fsb-hide-count"><a href="https://plus.google.com/share?url=https://www.certdepot.net/kvm-thin-provisioning-tip/" class="socialite googleplus fsb-google" data-fsb-service="google" data-size="medium" data-href="https://www.certdepot.net/kvm-thin-provisioning-tip/" rel="nofollow" target="_blank"><span class="fsb-service-title">Google+</span><span class="fsb-count">0</span></a></div><div class="fsb-share-linkedin fsb-hide-count"><a href="https://www.linkedin.com/cws/share?url=https://www.certdepot.net/kvm-thin-provisioning-tip/" class="socialite linkedin fsb-linkedin" data-fsb-service="linkedin" data-size="medium" data-href="https://www.certdepot.net/kvm-thin-provisioning-tip/" rel="nofollow" target="_blank"><span class="fsb-service-title">LinkedIn</span><span class="fsb-count">0</span></a></div></div><div class="fsb-clear"></div><p>If you use <strong>KVM</strong> for managing your virtual machines, you can sometimes run out of space in the <strong>/var/lib/libvirt/images</strong> directory, the default location for the&nbsp;<strong>RHEL</strong>/<strong>CentOS</strong> distributions.<br>
+Because <strong>KVM</strong> knows the concept of thin provisioning through the <strong>qcow2</strong> image format, the one used by the <strong>virt-install</strong> command by default, it would be crazy not to use it.<br>
+This can be done through the <strong>virt-sparsify</strong> command coming with the <strong>libguestfs-tools</strong> rpm package. So, the <strong>virt-sparsify</strong> command copies a VM image, only keeping the necessary data.</p>
+<p>Let’s try an example.<br>
+Install the <strong>libguestfs-tools</strong> package:</p>
+<pre># <strong>yum install libguestfs-tools</strong></pre>
+<p>Go to the <strong>/var/lib/libvirt/images</strong> directory (or the one that you are using for storing your VM images):</p>
+<pre># <strong>cd /var/lib/libvirt/images</strong></pre>
+<p>Choose a VM and stop it (here <strong>vm.example.com</strong>) (use the <strong>virsh destroy</strong> command if necessary):</p>
+<pre># <strong>virsh shutdown vm.example.com</strong></pre>
+<p>Execute the <strong>virt-sparsify</strong> command:</p>
+<pre># <strong>virt-sparsify -q vm.example.com.img vm.example.com.img2</strong></pre>
+<p>Note: The <strong>-q</strong> option removes any display (<strong>q</strong>uiet). Don’t ask me why this is not the default!</p>
+<p>Get the size of the VM before and after:</p>
+<pre># <strong>du -k vm.*</strong>
+8388660 vm.example.com.img
+1370168 vm.example.com.img2</pre>
+<p>Note: The <strong>ls</strong> command doesn’t display the correct information.</p>
+<p>Replace the old image with the new one:</p>
+<pre># <strong>mv -f vm.example.com.img2 vm.example.com.img</strong></pre>
+<p>Restart the VM:</p>
+<pre># <strong>virsh start vm.example.com</strong></pre>
+<p>As you can see, it’s quite simple! I’m sure you will love it!</p>
+
+					
+									</div><!-- end of .post-entry -->
+
+				<div class="navigation">
+					<div class="previous">‹ <a href="https://www.certdepot.net/rhel-disk-tip/" rel="prev">RHEL Disk tip.</a></div>
+					<div class="next"><a href="https://www.certdepot.net/time-to-play-with-ssl-certificates/" rel="next">Time to play with SSL certificates.</a> ›</div>
+				</div><!-- end of .navigation -->
+
+				
+
+	<div class="post-data">
+		Posted in <a href="https://www.certdepot.net/category/rhel7/">RHEL7</a>			</div><!-- end of .post-data -->
+
+
+<div class="post-edit"></div>
+							</div><!-- end of #post-6206 -->
+			
+						    <div class="wpdiscuz_top_clearing"></div>
+                    <div id="comments" class="comments-area">
+                    <div id="respond" style="width: 0;height: 0;clear: both;margin: 0;padding: 0;"></div>
+                                <h3 id="wc-comment-header">
+                                Leave a Reply            </h3>
+                    <div id="wpcomm" class="wpdiscuz_unauth wpd-default">
+            <div class="wpdiscuz-form-top-bar">
+                <div class="wpdiscuz-ftb-left">
+                                                            <div id="wc_show_hide_loggedin_username">
+                        <i class="fas fa-sign-in-alt"></i> <span>Please <a rel="nofollow" href="https://www.certdepot.net/wp-login.php?redirect_to=https%3A%2F%2Fwww.certdepot.net%2Fkvm-thin-provisioning-tip%2F">Login</a> to comment</span>                    </div>
+                </div>
+                                <div class="wpd-clear"></div>
+            </div>
+
+
+                        <div class="wc_social_plugin_wrapper">
+                            </div>
+                    <div class="wc-form-wrapper wc-main-form-wrapper" id="wc-main-form-wrapper-0_0">
+            <div class="wpdiscuz-comment-message" style="display: block;"></div>
+                                </div>
+                <div id="wpdiscuz_hidden_secondary_form" style="display: none;">
+                    <div class="wc-form-wrapper wc-secondary-form-wrapper" id="wc-secondary-form-wrapper-wpdiscuzuniqueid" style="display: none;">
+            <div class="wpdiscuz-comment-message" style="display: block;"></div>
+                            <div class="wc-secondary-forms-social-content"></div><div class="clearfix"></div>
+                                </div>
+                </div>
+                                           
+
+                                    <div class="wpdiscuz-front-actions">
+                                                    <div class="wpdiscuz-sbs-wrap">
+                                <span><i class="far fa-envelope" aria-hidden="true"></i>&nbsp; Subscribe &nbsp;<i class="fas fa-caret-down" aria-hidden="true"></i></span>
+                            </div>
+                                                                        <div class="clearfix"></div>
+                    </div>
+                                                    <div class="wpdiscuz-subscribe-bar wpdiscuz-hidden">
+                                                    <form action="https://www.certdepot.net/wp-admin/admin-ajax.php?action=addSubscription" method="post" id="wpdiscuz-subscribe-form">
+                                <div class="wpdiscuz-subscribe-form-intro">Notify of </div>
+                                <div class="wpdiscuz-subscribe-form-option" style="width:40%;">
+                                    <select class="wpdiscuz_select" name="wpdiscuzSubscriptionType">
+                                                                                    <option value="post" selected="selected">new follow-up comments</option>
+                                                                                                                            <option value="all_comment">new replies to my comments</option>
+                                                                            </select>
+                                </div>
+                                                                    <div class="wpdiscuz-item wpdiscuz-subscribe-form-email">
+                                        <input class="email" type="email" name="wpdiscuzSubscriptionEmail" required="required" placeholder="Email">
+                                    </div>
+                                                                <div class="wpdiscuz-subscribe-form-button">
+                                    <input id="wpdiscuz_subscription_button" type="submit" value="›" name="wpdiscuz_subscription_button">
+                                </div> 
+                                                                <input type="hidden" id="wpdiscuz_subscribe_form_nonce" name="wpdiscuz_subscribe_form_nonce" value="46bc854853"><input type="hidden" name="_wp_http_referer" value="/kvm-thin-provisioning-tip/">                                <input type="hidden" value="6206" name="wpdiscuzSubscriptionPostId">
+                            </form>
+                                                <div class="wpdiscuz_clear"></div>
+                                            </div>
+                    
+                                <div id="wcThreadWrapper" class="wc-thread-wrapper">
+                                    
+                    <div class="wpdiscuz-comment-pagination">
+                                            </div>
+                </div>
+                <div class="wpdiscuz_clear"></div>
+                                            </div>
+        </div>
+        <div id="wpdiscuz-loading-bar" class="wpdiscuz-loading-bar wpdiscuz-loading-bar-unauth"></div>
+        			
+		
+</div><!-- end of #content -->
+
+
+	<div id="widgets" class="grid col-300 fit">
+		
+		<div id="calp_agenda_widget-2" class="widget-wrapper widget_calp_agenda_widget">
+<div class="calp-agenda-widget-view" id="calp_agenda_widget-2-view">
+    <div class="calp-widget-loading"></div>
+    <div class="calp-widget-title">
+
+        <h2>
+            <img src="KVM%20thin%20provisioning%20tip.%20-%20CertDepot_fichiers/widget_icon.png">
+        Upcoming Events (Local Time)        </h2>
+    </div>
+    
+			<ol>
+							<li class="calp-date ">
+					<h3 class="calp-date-title">
+						<div class="calp-month">Feb</div>
+						<div class="calp-day">1</div>
+						<div class="calp-weekday">Fri</div>
+					</h3>
+					<ol class="calp-date-events">
+																					<li class="calp-event
+									calp-event-id-7946									calp-event-instance-id-146									">
+
+																		<input type="hidden" class="calp-post-id" value="7946">
+									<a href="https://www.certdepot.net/calendar/#action=calp_agenda&amp;calp_item_id=146">
+																					<span class="calp-event-time">
+												8:30 am</span>
+											
+										                                        
+                                        <span class="calp-widget-details">- View Details</span>
+                                        
+                                        <br>
+										<span class="calp-event-title">
+                                            CentOS: Dojo, Brussels, Belgium.										</span>
+									</a>
+
+								</li>
+																		</ol>
+				</li>
+					</ol>
+	
+        
+    <div class="calp-subscribe-buttons">
+        
+                
+                  
+    </div>
+
+</div>
+
+</div><div id="randomtext-4" class="widget-wrapper randomtext"><div class="widget-title"><h3>RHCSA7: Task of the day</h3></div>Allowed time: 10 minutes.
+<br>Create a XFS file system of 100MB. Mount it under /mnt. Then, increase its size by 50MB.</div><div id="randomtext-5" class="widget-wrapper randomtext"><div class="widget-title"><h3>RHCE7: Task of the day</h3></div>Allowed time: 10 minutes.
+<br>Set up a httpd virtual server called "dummy" with DocumentRoot assigned to /opt.</div><div id="recent-comments-2" class="widget-wrapper widget_recent_comments"><div class="widget-title"><h3>Recent Comments</h3></div><ul id="recentcomments"><li class="recentcomments"><span class="comment-author-link">muhammad.shakeeb</span> on <a href="https://www.certdepot.net/rhel7-get-started-firewalld/#comment-44432">RHEL7: How to get started with Firewalld.</a></li><li class="recentcomments"><span class="comment-author-link">Lisenet</span> on <a href="https://www.certdepot.net/rhel7-get-started-firewalld/#comment-44431">RHEL7: How to get started with Firewalld.</a></li><li class="recentcomments"><span class="comment-author-link">Sam</span> on <a href="https://www.certdepot.net/rhel7-get-started-firewalld/#comment-44430">RHEL7: How to get started with Firewalld.</a></li><li class="recentcomments"><span class="comment-author-link">muhammad.shakeeb</span> on <a href="https://www.certdepot.net/rhel7-get-started-firewalld/#comment-44429">RHEL7: How to get started with Firewalld.</a></li><li class="recentcomments"><span class="comment-author-link">CertDepot</span> on <a href="https://www.certdepot.net/rhel7-rhcsa-exam-objectives/#comment-44427">RHEL7 RHCSA Exam objectives</a></li></ul></div><div id="recently_updated_pages-2" class="widget-wrapper Recently_Updated_Pages"><div class="widget-title"><h3>Recently Updated Pages</h3></div><ul><li class="page_item page-item-7921"><a href="https://www.certdepot.net/rhel8/" title="RHEL8">RHEL8</a></li><li class="page_item page-item-7949"><a href="https://www.certdepot.net/openshift-free-available-resources/" title="OpenShift Free available resources">OpenShift Free available resources</a></li><li class="page_item page-item-7983"><a href="https://www.certdepot.net/openshift-articles/" title="OpenShift Articles">OpenShift Articles</a></li><li class="page_item page-item-6270"><a href="https://www.certdepot.net/rhel7-increase-typing-speed/" title="RHEL7: How to increase your typing speed.">RHEL7: How to increase your typing speed.</a></li><li class="page_item page-item-4304"><a href="https://www.certdepot.net/rhel7-set-lab/" title="RHEL7: Set up a lab.">RHEL7: Set up a lab.</a></li><li class="page_item page-item-7965"><a href="https://www.certdepot.net/rhel-7-6-changes/" title="RHEL 7.6 Changes">RHEL 7.6 Changes</a></li><li class="page_item page-item-7192"><a href="https://www.certdepot.net/rhel7-latest-tutorials/" title="RHEL7 Latest tutorials">RHEL7 Latest tutorials</a></li><li class="page_item page-item-1504"><a href="https://www.certdepot.net/rhel7-changes/" title="RHEL7 Changes">RHEL7 Changes</a></li><li class="page_item page-item-5543"><a href="https://www.certdepot.net/linux-choose-distribution/" title="LINUX: Choose a Linux distribution.">LINUX: Choose a Linux distribution.</a></li><li class="page_item page-item-2754"><a href="https://www.certdepot.net/ldap-client-configuration-authconfig/" title="LDAP: Client configuration with authconfig.">LDAP: Client configuration with authconfig.</a></li></ul></div><div id="do-etfw-2" class="widget-wrapper widget-do-etfw">					<div class="widget-title"><h3>Follow me on Twitter</h3></div>		
+		<iframe id="twitter-widget-0" scrolling="no" allowtransparency="true" allowfullscreen="true" class="twitter-timeline twitter-timeline-rendered" style="position: static; visibility: visible; display: inline-block; width: 100%; height: 1454.47px; padding: 0px; border: medium none; max-width: 100%; min-width: 180px; margin-top: 0px; margin-bottom: 0px;" data-widget-id="profile:certdepot" title="Twitter Timeline" frameborder="0"></iframe>
+</div><div id="polls-widget-4" class="widget-wrapper widget_polls-widget"><div class="widget-title"><h3>Poll for favorite RHEL 7 book</h3></div><div id="polls-3" class="wp-polls">
+	<form id="polls_form_3" class="wp-polls-form" action="/index.php" method="post">
+		<p style="display: none;"><input type="hidden" id="poll_3_nonce" name="wp-polls-nonce" value="033803a3e7"></p>
+		<p style="display: none;"><input type="hidden" name="poll_id" value="3"></p>
+		<p style="text-align: center;"><strong>What is your favorite RHEL 7 book to prepare RHCSA &amp; RHCE exams?</strong></p><div id="polls-3-ans" class="wp-polls-ans"><ul class="wp-polls-ul">
+		<li><input type="radio" id="poll-answer-14" name="poll_3" value="14"> <label for="poll-answer-14">Asghar Ghori’s book</label></li>
+		<li><input type="radio" id="poll-answer-15" name="poll_3" value="15"> <label for="poll-answer-15">Sander van Vugt's book</label></li>
+		<li><input type="radio" id="poll-answer-16" name="poll_3" value="16"> <label for="poll-answer-16">Jang/Orsaria's book</label></li>
+		<li><input type="radio" id="poll-answer-18" name="poll_3" value="18"> <label for="poll-answer-18">Andrew Mallett's book</label></li>
+		<li><input type="radio" id="poll-answer-38" name="poll_3" value="38"> <label for="poll-answer-38">Others</label></li>
+		<li><input type="radio" id="poll-answer-39" name="poll_3" value="39"> <label for="poll-answer-39">None</label></li>
+		</ul><p style="text-align: center;"><input type="button" name="vote" value="   Vote   " class="Buttons" onclick="poll_vote(3);"></p><p style="text-align: center;"><a href="#ViewPollResults" onclick="poll_result(3); return false;" title="View Results Of This Poll">View Results</a></p></div>
+	</form>
+</div>
+<div id="polls-3-loading" class="wp-polls-loading"><img src="KVM%20thin%20provisioning%20tip.%20-%20CertDepot_fichiers/loading.gif" alt="Loading ..." title="Loading ..." class="wp-polls-image" width="16" height="16">&nbsp;Loading ...</div>
+</div><div id="polls-widget-5" class="widget-wrapper widget_polls-widget"><div class="widget-title"><h3>Poll for most difficult RHCSA 7 topic</h3></div><div id="polls-4" class="wp-polls">
+	<form id="polls_form_4" class="wp-polls-form" action="/index.php" method="post">
+		<p style="display: none;"><input type="hidden" id="poll_4_nonce" name="wp-polls-nonce" value="797659b35f"></p>
+		<p style="display: none;"><input type="hidden" name="poll_id" value="4"></p>
+		<p style="text-align: center;"><strong>What do you think is the most difficult RHCSA 7 topic?</strong></p><div id="polls-4-ans" class="wp-polls-ans"><ul class="wp-polls-ul">
+		<li><input type="radio" id="poll-answer-19" name="poll_4" value="19"> <label for="poll-answer-19">Systemd</label></li>
+		<li><input type="radio" id="poll-answer-20" name="poll_4" value="20"> <label for="poll-answer-20">LVM</label></li>
+		<li><input type="radio" id="poll-answer-21" name="poll_4" value="21"> <label for="poll-answer-21">Kickstart</label></li>
+		<li><input type="radio" id="poll-answer-22" name="poll_4" value="22"> <label for="poll-answer-22">SELinux</label></li>
+		<li><input type="radio" id="poll-answer-23" name="poll_4" value="23"> <label for="poll-answer-23">LDAP</label></li>
+		<li><input type="radio" id="poll-answer-24" name="poll_4" value="24"> <label for="poll-answer-24">ACL</label></li>
+		<li><input type="radio" id="poll-answer-25" name="poll_4" value="25"> <label for="poll-answer-25">Automounter</label></li>
+		<li><input type="radio" id="poll-answer-26" name="poll_4" value="26"> <label for="poll-answer-26">Others</label></li>
+		</ul><p style="text-align: center;"><input type="button" name="vote" value="   Vote   " class="Buttons" onclick="poll_vote(4);"></p><p style="text-align: center;"><a href="#ViewPollResults" onclick="poll_result(4); return false;" title="View Results Of This Poll">View Results</a></p></div>
+	</form>
+</div>
+<div id="polls-4-loading" class="wp-polls-loading"><img src="KVM%20thin%20provisioning%20tip.%20-%20CertDepot_fichiers/loading.gif" alt="Loading ..." title="Loading ..." class="wp-polls-image" width="16" height="16">&nbsp;Loading ...</div>
+</div><div id="polls-widget-6" class="widget-wrapper widget_polls-widget"><div class="widget-title"><h3>Poll for most difficult RHCE 7 topic</h3></div><div id="polls-5" class="wp-polls">
+	<form id="polls_form_5" class="wp-polls-form" action="/index.php" method="post">
+		<p style="display: none;"><input type="hidden" id="poll_5_nonce" name="wp-polls-nonce" value="812dc31cbb"></p>
+		<p style="display: none;"><input type="hidden" name="poll_id" value="5"></p>
+		<p style="text-align: center;"><strong>What do you think is the most difficult RHCE 7 topic?</strong></p><div id="polls-5-ans" class="wp-polls-ans"><ul class="wp-polls-ul">
+		<li><input type="radio" id="poll-answer-27" name="poll_5" value="27"> <label for="poll-answer-27">Networking</label></li>
+		<li><input type="radio" id="poll-answer-28" name="poll_5" value="28"> <label for="poll-answer-28">Firewalld</label></li>
+		<li><input type="radio" id="poll-answer-29" name="poll_5" value="29"> <label for="poll-answer-29">Kerberos</label></li>
+		<li><input type="radio" id="poll-answer-30" name="poll_5" value="30"> <label for="poll-answer-30">iSCSI</label></li>
+		<li><input type="radio" id="poll-answer-31" name="poll_5" value="31"> <label for="poll-answer-31">Apache</label></li>
+		<li><input type="radio" id="poll-answer-32" name="poll_5" value="32"> <label for="poll-answer-32">DNS</label></li>
+		<li><input type="radio" id="poll-answer-33" name="poll_5" value="33"> <label for="poll-answer-33">NFS</label></li>
+		<li><input type="radio" id="poll-answer-34" name="poll_5" value="34"> <label for="poll-answer-34">Samba</label></li>
+		<li><input type="radio" id="poll-answer-35" name="poll_5" value="35"> <label for="poll-answer-35">Postfix</label></li>
+		<li><input type="radio" id="poll-answer-36" name="poll_5" value="36"> <label for="poll-answer-36">MariaDB</label></li>
+		<li><input type="radio" id="poll-answer-37" name="poll_5" value="37"> <label for="poll-answer-37">Others</label></li>
+		</ul><p style="text-align: center;"><input type="button" name="vote" value="   Vote   " class="Buttons" onclick="poll_vote(5);"></p><p style="text-align: center;"><a href="#ViewPollResults" onclick="poll_result(5); return false;" title="View Results Of This Poll">View Results</a></p></div>
+	</form>
+</div>
+<div id="polls-5-loading" class="wp-polls-loading"><img src="KVM%20thin%20provisioning%20tip.%20-%20CertDepot_fichiers/loading.gif" alt="Loading ..." title="Loading ..." class="wp-polls-image" width="16" height="16">&nbsp;Loading ...</div>
+</div><div id="archives-2" class="widget-wrapper widget_archive"><div class="widget-title"><h3>Archives</h3></div>		<ul>
+			<li><a href="https://www.certdepot.net/2018/11/">November 2018</a></li>
+	<li><a href="https://www.certdepot.net/2018/10/">October 2018</a></li>
+	<li><a href="https://www.certdepot.net/2018/09/">September 2018</a></li>
+	<li><a href="https://www.certdepot.net/2018/08/">August 2018</a></li>
+	<li><a href="https://www.certdepot.net/2018/07/">July 2018</a></li>
+	<li><a href="https://www.certdepot.net/2018/06/">June 2018</a></li>
+	<li><a href="https://www.certdepot.net/2018/05/">May 2018</a></li>
+	<li><a href="https://www.certdepot.net/2018/04/">April 2018</a></li>
+	<li><a href="https://www.certdepot.net/2018/03/">March 2018</a></li>
+	<li><a href="https://www.certdepot.net/2018/02/">February 2018</a></li>
+	<li><a href="https://www.certdepot.net/2018/01/">January 2018</a></li>
+	<li><a href="https://www.certdepot.net/2017/12/">December 2017</a></li>
+	<li><a href="https://www.certdepot.net/2017/11/">November 2017</a></li>
+	<li><a href="https://www.certdepot.net/2017/10/">October 2017</a></li>
+	<li><a href="https://www.certdepot.net/2017/09/">September 2017</a></li>
+	<li><a href="https://www.certdepot.net/2017/08/">August 2017</a></li>
+	<li><a href="https://www.certdepot.net/2017/07/">July 2017</a></li>
+	<li><a href="https://www.certdepot.net/2017/06/">June 2017</a></li>
+	<li><a href="https://www.certdepot.net/2017/05/">May 2017</a></li>
+	<li><a href="https://www.certdepot.net/2017/04/">April 2017</a></li>
+	<li><a href="https://www.certdepot.net/2017/03/">March 2017</a></li>
+	<li><a href="https://www.certdepot.net/2017/02/">February 2017</a></li>
+	<li><a href="https://www.certdepot.net/2017/01/">January 2017</a></li>
+	<li><a href="https://www.certdepot.net/2016/12/">December 2016</a></li>
+	<li><a href="https://www.certdepot.net/2016/11/">November 2016</a></li>
+	<li><a href="https://www.certdepot.net/2016/10/">October 2016</a></li>
+	<li><a href="https://www.certdepot.net/2016/09/">September 2016</a></li>
+	<li><a href="https://www.certdepot.net/2016/08/">August 2016</a></li>
+	<li><a href="https://www.certdepot.net/2016/07/">July 2016</a></li>
+	<li><a href="https://www.certdepot.net/2016/06/">June 2016</a></li>
+	<li><a href="https://www.certdepot.net/2016/05/">May 2016</a></li>
+	<li><a href="https://www.certdepot.net/2016/04/">April 2016</a></li>
+	<li><a href="https://www.certdepot.net/2016/03/">March 2016</a></li>
+	<li><a href="https://www.certdepot.net/2016/02/">February 2016</a></li>
+	<li><a href="https://www.certdepot.net/2016/01/">January 2016</a></li>
+	<li><a href="https://www.certdepot.net/2015/12/">December 2015</a></li>
+	<li><a href="https://www.certdepot.net/2015/11/">November 2015</a></li>
+	<li><a href="https://www.certdepot.net/2015/10/">October 2015</a></li>
+	<li><a href="https://www.certdepot.net/2015/09/">September 2015</a></li>
+	<li><a href="https://www.certdepot.net/2015/08/">August 2015</a></li>
+	<li><a href="https://www.certdepot.net/2015/07/">July 2015</a></li>
+	<li><a href="https://www.certdepot.net/2015/06/">June 2015</a></li>
+	<li><a href="https://www.certdepot.net/2015/05/">May 2015</a></li>
+	<li><a href="https://www.certdepot.net/2015/04/">April 2015</a></li>
+	<li><a href="https://www.certdepot.net/2015/03/">March 2015</a></li>
+	<li><a href="https://www.certdepot.net/2015/02/">February 2015</a></li>
+	<li><a href="https://www.certdepot.net/2015/01/">January 2015</a></li>
+	<li><a href="https://www.certdepot.net/2014/12/">December 2014</a></li>
+	<li><a href="https://www.certdepot.net/2014/11/">November 2014</a></li>
+	<li><a href="https://www.certdepot.net/2014/10/">October 2014</a></li>
+	<li><a href="https://www.certdepot.net/2014/09/">September 2014</a></li>
+	<li><a href="https://www.certdepot.net/2014/08/">August 2014</a></li>
+	<li><a href="https://www.certdepot.net/2014/07/">July 2014</a></li>
+	<li><a href="https://www.certdepot.net/2014/06/">June 2014</a></li>
+	<li><a href="https://www.certdepot.net/2014/05/">May 2014</a></li>
+	<li><a href="https://www.certdepot.net/2014/04/">April 2014</a></li>
+	<li><a href="https://www.certdepot.net/2014/03/">March 2014</a></li>
+	<li><a href="https://www.certdepot.net/2014/02/">February 2014</a></li>
+	<li><a href="https://www.certdepot.net/2014/01/">January 2014</a></li>
+	<li><a href="https://www.certdepot.net/2013/12/">December 2013</a></li>
+	<li><a href="https://www.certdepot.net/2013/11/">November 2013</a></li>
+	<li><a href="https://www.certdepot.net/2013/10/">October 2013</a></li>
+	<li><a href="https://www.certdepot.net/2013/09/">September 2013</a></li>
+		</ul>
+		</div><div id="meta-2" class="widget-wrapper widget_meta"><div class="widget-title"><h3>Meta</h3></div>			<ul>
+			<li><a rel="nofollow" href="https://www.certdepot.net/wp-login.php?action=register">Register</a></li>			<li><a rel="nofollow" href="https://www.certdepot.net/wp-login.php">Log in</a></li>
+			<li><a href="https://www.certdepot.net/feed/">Entries <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="https://www.certdepot.net/comments/feed/">Comments <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="https://wordpress.org/" title="Powered by WordPress, state-of-the-art semantic personal publishing platform.">WordPress.org</a></li>			</ul>
+			</div>
+			</div><!-- end of #widgets -->
+</div><!-- end of #wrapper -->
+</div><!-- end of #container -->
+
+<div id="footer" class="clearfix">
+	
+	<div id="footer-wrapper">
+
+		
+		<div class="grid col-940">
+
+			<div class="grid col-540">
+							</div><!-- end of col-540 -->
+
+			<div class="grid col-380 fit">
+				<ul class="social-icons"><li class="twitter-icon"><a href="https://twitter.com/CertDepot"><img src="KVM%20thin%20provisioning%20tip.%20-%20CertDepot_fichiers/twitter-icon.png" alt="Twitter" width="24" height="24"></a></li></ul><!-- .social-icons -->			</div><!-- end of col-380 fit -->
+
+		</div><!-- end of col-940 -->
+		
+                This website is not affiliated or endorsed by Red Hat or
+ VMware. The website content is only free for non-commercial use. 
+Website hosted by OVH, 2 rue Kellermann, 59100 Roubaix, France.
+		<div class="grid col-300 copyright">
+			© 2018<a href="https://www.certdepot.net/" title="CertDepot">
+				CertDepot			</a>
+		</div><!-- end of .copyright -->
+
+		<div class="grid col-300 scroll-top"><a href="#scroll-top" title="scroll to top">↑</a></div>
+
+		<div class="grid col-300 fit powered">
+			<a href="http://cyberchimps.com/responsive-theme/" title="Responsive Theme">
+				Responsive Theme</a>
+			powered by <a href="http://wordpress.org/" title="WordPress">
+				WordPress</a>
+		</div><!-- end .powered -->
+
+	</div><!-- end #footer-wrapper -->
+
+	</div><!-- end #footer -->
+
+<a id="wpdUserContentInfoAnchor" style="display:none;" rel="#wpdUserContentInfo" data-wpd-lity="">wpDiscuz</a><div id="wpdUserContentInfo" style="overflow:auto;background:#FDFDF6;padding:20px;width:600px;max-width:100%;border-radius:6px;" class="lity-hide"></div><script type="text/javascript" src="KVM%20thin%20provisioning%20tip.%20-%20CertDepot_fichiers/jquery.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var pollsL10n = {"ajax_url":"https:\/\/www.certdepot.net\/wp-admin\/admin-ajax.php","text_wait":"Your last request is still being processed. Please wait a while ...","text_valid":"Please choose a valid poll answer.","text_multiple":"Maximum number of choices allowed: ","show_loading":"1","show_fading":"1"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="KVM%20thin%20provisioning%20tip.%20-%20CertDepot_fichiers/polls-js.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var ratingsL10n = {"plugin_url":"https:\/\/www.certdepot.net\/wp-content\/plugins\/wp-postratings","ajax_url":"https:\/\/www.certdepot.net\/wp-admin\/admin-ajax.php","text_wait":"Please rate only 1 item at a time.","image":"stars","image_ext":"gif","max":"5","show_loading":"1","show_fading":"1","custom":"0"};
+var ratings_mouseover_image=new Image();ratings_mouseover_image.src="https://www.certdepot.net/wp-content/plugins/wp-postratings/images/stars/rating_over.gif";;
+/* ]]> */
+</script>
+<script type="text/javascript" src="KVM%20thin%20provisioning%20tip.%20-%20CertDepot_fichiers/postratings-js.js"></script>
+<script type="text/javascript" src="KVM%20thin%20provisioning%20tip.%20-%20CertDepot_fichiers/jquery_003.js"></script>
+<script type="text/javascript" src="KVM%20thin%20provisioning%20tip.%20-%20CertDepot_fichiers/responsive-scripts.js"></script>
+<script type="text/javascript" src="KVM%20thin%20provisioning%20tip.%20-%20CertDepot_fichiers/jquery_004.js"></script>
+<script type="text/javascript" src="KVM%20thin%20provisioning%20tip.%20-%20CertDepot_fichiers/comment-reply.js"></script>
+<script type="text/javascript" src="KVM%20thin%20provisioning%20tip.%20-%20CertDepot_fichiers/twitter-widgets.js"></script>
+<script type="text/javascript" src="KVM%20thin%20provisioning%20tip.%20-%20CertDepot_fichiers/wp-embed.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var fsb = {"ajax":"https:\/\/www.certdepot.net\/wp-admin\/admin-ajax.php","nonce":"986f9fbc20"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="KVM%20thin%20provisioning%20tip.%20-%20CertDepot_fichiers/fsb.js"></script>
+
+<!-- Amazon -->
+<div id="amzn-assoc-ad-7af1d81b-2d4f-4d1c-995c-7edb87843257"></div>
+<script async="" src="KVM%20thin%20provisioning%20tip.%20-%20CertDepot_fichiers/onejs.js"></script>
+<!-- End Amazon -->
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//www.certdepot.net/piwik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 1]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//www.certdepot.net/piwik/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+
+
+<iframe scrolling="no" allowtransparency="true" src="KVM%20thin%20provisioning%20tip.%20-%20CertDepot_fichiers/widget_iframe.html" title="Twitter settings iframe" style="display: none;" frameborder="0"></iframe><iframe id="rufous-sandbox" scrolling="no" allowtransparency="true" allowfullscreen="true" style="position: absolute; visibility: hidden; display: none; width: 0px; height: 0px; padding: 0px; border: medium none;" title="Twitter analytics iframe" frameborder="0"></iframe></body></html>

@@ -1,0 +1,40 @@
+---
+- include_tasks: init_lvm.yml
+  when: not init_lvm_ok
+
+- name: Unmount "{{oracle_install_dir}}" 
+  mount:
+    path: "{{oracle_install_dir}}"
+    state: absent
+
+- name: Add disks to {{lvm_ora_vg}} volume group
+  lvg:
+    vg: "{{lvm_ora_vg}}"
+    pvs: "{{disks_add_ora_vg}}"
+  when: add_disk_ora_vg
+
+- name: Create a logical volume {{ora_lvname}} of size {{installdir_size_gb}}
+  lvol:
+    vg: "{{lvm_ora_vg}}"
+    lv: "{{ora_lvname}}"
+    size: "{{installdir_size_gb}}"
+    
+
+- name: Create a new file system and check disk blocks
+  filesystem:
+    fstype: "{{ora_lv_fs}}"
+    dev: /dev/"{{lvm_ora_vg}}"/"{{ora_lvname}}"
+    opts: -cc
+    force: no
+    resizefs: yes
+
+- name: Creates "{{oracle_install_dir}}" directory
+  file: path="{{oracle_install_dir}}" state=directory 
+
+
+- name: Mount "{{oracle_install_dir}}" 
+  mount:
+    dev: /dev/"{{lvm_ora_vg}}"/"{{ora_lvname}}"
+    path: "{{oracle_install_dir}}"
+    fstype: "{{ora_lv_fs}}"
+    state: present

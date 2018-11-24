@@ -1,0 +1,13 @@
+---
+- hosts: all
+  tasks:
+  - name: create the file (if does not exist)
+    file:
+      state: touch
+      path: /home/vagrant/hostname.conf
+  - name: if line not there add it
+    lineinfile:
+            state: present
+            dest: /home/vagrant/hostname.conf
+            line: Hostname={{ ansible_hostname }}
+

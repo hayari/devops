@@ -1,0 +1,17 @@
+---
+
+- name: Run update-grub
+  shell: cd && grub2-mkconfig -o /boot/grub2/grub.cfg
+
+- name: Run oracle-kernel.conf
+  shell: sysctl -p /etc/sysctl.d/98-oracle-kernel.conf
+
+# - name: restart ntp
+#   become: true
+#   service:
+#     name: ntpd
+#     state: restarted
+
+
+  
+  

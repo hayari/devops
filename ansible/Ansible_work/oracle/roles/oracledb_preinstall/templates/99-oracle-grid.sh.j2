@@ -1,0 +1,22 @@
+#Setting the appropriate ulimits for {{ oracle_user }} and {{ grid_user }} users
+if [ "\$USER" = "{{ oracle_user }}" ]; then
+  if [ "\$SHELL" = "/bin/ksh" ]; then
+    ulimit -u 16384
+    ulimit -n 65536
+  else
+    ulimit -u 16384 -n 65536
+  fi
+  umask 022
+fi
+
+{% if role_separation==True %}
+if [ "\$USER" = "{{ grid_user }}" ]; then
+  if [ "\$SHELL" = "/bin/ksh" ]; then
+    ulimit -u 16384
+    ulimit -n 65536
+  else
+    ulimit -u 16384 -n 65536
+  fi
+  umask 022
+fi
+{% endif %}

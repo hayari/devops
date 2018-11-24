@@ -1,0 +1,9 @@
+---
+- hosts: all
+  tasks:
+  - name: multiple items 
+    file: state=touch path=/home/vagrant/{{item}}
+    with_items:
+    - file_no_1
+    - file_no_2
+    - file_no_3

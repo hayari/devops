@@ -1,0 +1,129 @@
+
+GIT:
+
+alternatives are: 
+	-	apache subversion (SVN)
+	-	Concurrent Version System (CVS)
+	- 	Mercurial
+
+
+Git 
+	- distributed version control
+	- Remote repository 
+	- local repository
+	- user can make changes on local repository
+	- Pull/edit/commit/push
+	- Branches/merge
+
+Install: http://git-scm.com
+
+$ sudo apt-get update
+
+$ sudo apt-get install git
+
+Configure git with usernames and emails:
+
+$ git --version
+$ git config --global user.name "Hichem Ayari"
+$ git config --global user.email "hayari@gmail.com"
+
+
+
+Github:
+	- Repository hosting sevice
+	- Web-based graphical interface
+	- Provides access control
+	- unlimited public repositories
+	- limited private repositories
+	- Collaborators on all plans
+	- Organizional accounts
+
+
+Git operations:
+
+1- inititing local GIT repository
+$ mkdir myproject
+$ cd myproject
+$ git init
+
+2- Linking with GitHub
+git remote add origin "https://github.com/DevOpsPackt/GITTraining.git"
+git pull origin master 
+git status
+
+3- Adding files
+touch contacts.html
+git add contacts.html
+git status
+
+git commit -m "added contact.html file"
+git status
+
+touch people.html
+touch services.html
+
+git add -A  # add multiple files
+
+git push
+
+4- Branching
+
+git branch branch1
+git checkout branch1
+touch support.html
+git add -A
+git status
+
+
+git push --set-upstream origin branch1  # push to repo an create the branch
+5- Merging
+git checkout master  # return to master branch
+git merge branch1
+
+6- Push
+# configure ssh keys
+ssh-keygen
+cat ~/.ssh/id_rsa.pub  # to github
+ ssh -T git@github.com  # test ssh key config
+
+git push origin master
+
+
+Tested with a self-hosted gitlab  repository:
+
+ Command line instructions
+Git global setup
+
+git config --global user.name "Hichem Ayari"
+git config --global user.email "hayari@gmail.com"
+
+Create a new repository
+
+git clone git@gitlab.example.com:hich/test.git
+cd test
+touch README.md
+git add README.md
+git commit -m "add README"
+git push -u origin master
+
+
+
+Existing folder
+
+cd existing_folder
+git init
+git remote add origin git@gitlab.example.com:hich/test.git
+git add .
+git commit -m "Initial commit"
+git push -u origin master
+
+Existing Git repository
+
+cd existing_repo
+git remote rename origin old-origin
+git remote add origin git@gitlab.example.com:hich/test.git
+git push -u origin --all
+git push -u origin --tags
+
+
+arrive @202

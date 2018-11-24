@@ -1,0 +1,7 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name: install httpd
+    yum: name=httpd state=absent
+    when: ansible_os_family == "RedHat"

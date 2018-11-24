@@ -1,0 +1,12 @@
+---
+- hosts: "{{myhosts}}"
+  remote_user: vagrant
+  become: yes
+  become_method: sudo
+  gather_facts: yes
+  tasks:
+  - name: Simple find on fstab file
+
+    find: paths="/etc" patterns="fstab" recurse=yes use_regex=true
+    register: fstab
+  - debug: var=fstab

@@ -1,0 +1,129 @@
+#-------------------------------------------------------------------------------
+# /etc/sysctl.d/98-oracle-sysctl.conf
+#-------------------------------------------------------------------------------
+
+# Oracle VM kernel parameters
+# Recommendations from https://access.redhat.com/documentation/en-us/reference_architectures/2017/pdf/deploying_oracle_rac_database_12c_release_2_on_red_hat_enterprise_linux_7/Reference_Architectures-2017-Deploying_Oracle_RAC_Database_12c_Release_2_on_Red_Hat_Enterprise_Linux_7-en-US.pdf
+#===============================================================================
+# Since Red Hat Enterprise Linux 6.4, setting swappiness to 0 will even more
+# aggressively avoid swapping out which increases the risk of out-of-memory (OOM)
+# killing under strong memory and I/O pressure. To achieve the same behavior of
+# swappiness as previous versions of Red Hat Enterprise Linux 6.4 in which the
+# recommendation was to set swappiness to 0, set swappiness to the value between
+# 1 and 20. The recommendation of swappiness for Red Hat Enterprise Linux 6.4 or
+# higher running Oracle databases is now a value between 1-20.
+vm.swappiness = 1
+
+# Dirty data is data that has been modified and held in the page cache for
+# performance benefits. Once the data is flushed to disk, the data is clean.
+
+# Contains, as a percentage of total system memory, the number of
+# pages at which the background write back daemon will start writing out dirty data. The Oracle
+# recommended value is 3.
+vm.dirty_background_ratio = 3
+
+# Contains, as a percentage of total system memory, the number of pages at
+# which a process which is generating disk writes will itself start writing out dirty data. The
+# default value is 20. The recommended value is 80.
+vm.dirty_ratio = 80
+
+# Defines when dirty in-memory data is old enough to be eligible for
+# writeout. The default value is 3000, expressed in hundredths of a second. The Oracle
+# recommended value is 500.
+vm.dirty_expire_centisecs = 500
+
+# Defines the interval of when writes of dirty in-memory data are
+# written out to disk. The default value is 500, expressed in hundredths of a second. The Oracle
+# recommended value is 100.
+vm.dirty_writeback_centisecs = 100
+#=======================================================================================
+
+# SHMMAX – is the maximum size in bytes of a single shared memory segment
+# Starting with Red Hat Enterprise Linux 7.1 and above, SHMMAX default value is set to
+# 18446744073692774399 bytes, equivalent to roughly 18 petabytes. Due to this, there is no need to
+# calculate SHMMAX because of the very large size already provided. It is recommended to use the value
+# set in Red Hat Enterprise Linux 7.1 and above because the value is purposely set higher than the
+# architectural memory limits to ensure that any Oracle SGA value set within an Oracle database
+# instance may fit in one single shared memory segment.
+# The following parameters have been removed as the default value is equal or higher
+# than the suggested recommendation by Oracle.
+#kernel.shmmax = 4398046511104
+
+# SHMALL – is the maximum total amount of shared memory pages
+# Starting with Red Hat Enterprise Linux 7.1 and above, SHMALL default value is
+# 18446744073692774399 pages, the same value set to SHMMAX
+# The following parameters have been removed as the default value is equal or higher
+# than the suggested recommendation by Oracle.
+#kernel.shmall = 1073741824
+
+# SHMMNI – is the maximum total amount of shared memory segments
+# SHMMNI is the maximum total amount of shared memory segments. A default installation of Red Hat
+# Enterprise Linux 7 x86_64 provides a SHMMNI default value of 4096. By Red Hat Enterprise Linux 7
+# optimizing the SHMMAX value with one shared memory segment per Oracle SGA, this parameter
+# reflects the maximum number of Oracle and ASM instances that can be started on a system. Oracle
+# recommends the value of SHMMNI to be left at the default value of 4096.
+# The following parameters have been removed as the default value is equal or higher
+# than the suggested recommendation by Oracle.
+#kernel.shmmni = 4096
+
+# SEMMSL – is defined as the maximum number of semaphores per semaphore set
+# SEMMNI – is defined as the maximum number of semaphore sets for the entire system
+# SEMMNS – is defined as the total number of semaphores for the entire system
+# SEMOPM – is defined as the total number of semaphore operations performed per semop system call.
+kernel.sem = 250 32000 100 128
+#=======================================================================================
+
+# Oracle recommends that the ephemeral default port range be set starting at 9000 to 65500. This
+# ensures that all well known ports used by Oracle and other applications are avoided.
+net.ipv4.ip_local_port_range = 9000 65500
+#=======================================================================================
+
+# Optimizing the network settings for the default and maximum buffers for the application sockets in
+# Oracle is done by setting static sizes to RMEM and WMEM. The RMEM parameter represents the receive
+# buffer size, while the WMEM represents the send buffer size.
+
+# Default setting in bytes of the socket receive buffer
+net.core.rmem_default=4194304
+# Default setting in bytes of the socket send buffer
+net.core.wmem_default=262144
+# Maximum socket receive buffer size which may be set by using the SO_RCVBUF socket option
+net.core.rmem_max=4194304
+# Maximum socket send buffer size which may be set by using the SO_SNDBUF socket option
+net.core.wmem_max=1048576
+#=======================================================================================
+
+# The kernel parameter FS.AIO-MAX-NRsets the maximum number of current asynchronous I/O
+#  requests. Oracle recommends setting the value to 1048576.
+fs.aio-max-nr = 1048576
+#=======================================================================================
+
+# The kernel parameter FS.FILE-MAX sets the maximum number of open file handles assigned to the Red
+# Hat Enterprise Linux 7 operating system. Oracle recommends that for each Oracle RAC database
+# instance found within a system, allocate 512*PROCESSSES in addition to the open file handles already
+# assigned to the Red Hat Enterprise Linux 7 operating system.
+# While the value of the FS.FILE-MAX parameter varies upon every environment, this reference
+# environment uses the default value within Red Hat Enterprise Linux 7.4 (9784283).
+# The following parameters have been removed as the default value is equal or higher
+# than the suggested recommendation by Oracle.
+fs.file-max = 9784283
+#=======================================================================================
+
+# The following parameters have been removed as the default value is equal or higher
+# than the suggested recommendation by Oracle.
+#kernel.panic_on_oops = 1
+#=======================================================================================
+
+# Controls the System Request debugging functionality of the kernel
+kernel.sysrq = 0
+# decrease time default value for tcp_fin_timeout connection
+net.ipv4.tcp_fin_timeout = 30
+# decrease time default value for tcp_keepalive_time connection
+net.ipv4.tcp_keepalive_time = 1800
+# turn off tcp_sack
+net.ipv4.tcp_sack = 0
+# turn off tcp_timestamps
+net.ipv4.tcp_timestamps = 0
+# turn off tcp_window_scaling
+net.ipv4.tcp_window_scaling = 0
+
+vm.nr_hugepages={{ nr_hugepages }}

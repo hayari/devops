@@ -1,0 +1,164 @@
+https://git.ir/linuxacademy-red-hat-certificate-of-expertise-in-ansible-automation-prep-course/
+
+Yaml for ansible syntax : https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html
+
+Install Ansible (redhat 7):
+yum -y install epel-release 
+yum -y install git python python-devel python-pip ansible
+
+/etc/ansible:(Ansible config files)
+	ansible.cfg
+	hosts
+	roles 
+
+/etc/ansible/hosts: (INF format)
+[local]
+localhost
+
+[centos]
+centrale.example.com
+server1.example.com
+server2.example.com
+
+[database]
+server2.example.com
+
+on each managed server:
+useradd ansible
+passwd ansible # echo "ansible" | passwd --stdin ansible 
+
+visudo:
+echo "ansible ALL=(ALL)  NOPASSWD:ALL" >/etc/sudoers.d/ansible
+
+on centrale:
+generate and exchange ssh keys:
+ssh-keygen
+ssh-copy-id ansible@server1.example.com
+ssh-copy-id ansible@server2.example.com
+
+(for vagrant machine set PasswordAuthentication yes in /etc/ssh/sshd_config inorder to exchange ids)
+
+
+Configuration is read at every run of ansible command with the order:
+	1-Env variable ANSIBLE_CONFIG
+	2-ansible.cfg in the current directory
+	3-.ansible.cfg in the home directory
+	4-/etc/ansible/ansible.cfg
+
+Adhoc command:
+ansible all -a "ls"
+ansible databases --list-hosts
+ansible servers -b -a "/usr/sbin/reboot"  # -b : run with sudo (root)
+ansible servers -b -a "touch testfile" --become-user tempuser # --become-user: load profile of the user (su - tempuser) before execute the command 
+ansible hosts -i myhosts.txt -m ping
+ansible servers -b -m yum -a "name=vim state=latest"
+
+test.yml:
+--- # Test ansible playbook File
+- hosts: servers
+  user: ansible
+  sudo: yes
+  connection: ssh
+  gather_facts: no
+  tasks: 
+    - name: Install vim
+      action: yum  name=vim state=absent
+...
+ansible servers -m setup : collect facts from servers
+ansible servers -m setup -a 'filter=ansible_default_ipv4': filter facts information
+ansible all -a "ls -l" -f 100: forks:how many hosts are configured by ansible in parallel. by default equal to 5 => any 5 hosts are configured in parallel. if number of hosts increase it may be usefull to increase forks in order to return in less time.
+
+
+Inventories:
+
+static inventories:
+examples:
+testserver.example.com:24 # communication is made on port 24
+jumpserver ansible_port=5555 ansible_host=192.168.2.8 # create a shortcut "jumpserver"=192.168.2.8:5555
+[webserver-group1]
+www[01:50].example.com # all 50 server are selected
+[targets]
+localhost ansible_connection=local # give information on connection to hosts
+other1.example.com ansible_connection=ssh ansible_user=user2
+
+[atlanta]
+host1
+host2
+[atlanta:vars] # provide variable relative to atlanta group but this way is not prefered (to provied variable inside the inventory file)
+ntp_server=ntp.atlanta.example.com
+proxy=proxy.atlanta.example.com
+
+
+groups:
+
+all: contains every host
+ungrouped: contains all hosts that don't have another group aside from all.
+
+host and group variables can be stored in individual files relative to the inventory file.
+
+if the inventory is /etc/ansible/hosts:
+[melbourne] # => /etc/ansible/group_vars/melbourne[.yml|.yaml]=can contain group vars or /etc/ansible/group_vars/melbourne/ the directory may contain multiple files defining variables. ansible will read all files in the directory
+mainhost # => /etc/ansible/host_vars/mainhost[.yml|.yaml]=can contain host vars
+
+[webserver] # => /etc/ansible/group_vars/webserver[.yml|.yaml]=can contain group vars
+mainhost 
+
+same if the inventory is /home/ansible/myhosts:directories "/home/ansible/host_vars" and "/home/ansible/group_vars" will contains variables relative to hosts and groups 
+
+
+
+Dynamic inventories:
+CMDB like LDAP, cobbler...
+cloud provider like EC2, Rackspace and openstack
+Ansible tour
+executable file: python file or other binary or script that return a json output and can be called with "--list" and "--host [hostname]"
+NB: executable file must have executable write (chmod +x) otherwise ansible will faill
+
+
+Playbooks:
+- use yml syntax
+Structure:
+
+---
+- hosts: myhosts
+  remote_user: ansible
+  gather_stats: no
+  become: yes
+  other_run_params:
+  vars: # define variables
+    my_var: avalue
+  tasks: # define a list of tasks to execute sequentially
+  - name: name of the task step      
+    yourmodule: # name of the module to execute
+        param1: myparam1 # parmas of the module
+        param2: myparam2
+        
+  - name: name of the task
+    yourmodule2: param1=myparam1  param2=myparam2  # another representation of th module params
+    notify:
+    - some_action_to_do_after_playbook_completion
+      
+  - name: another task
+    yourmodule2:
+        
+  handlers:  # list of notify handlers
+    - name: some_action_to_do_after_playbook_completion
+      yourmodule3: parm1=myparam param2=myparm
+      
+
+
+if a playbook.yml fail ansible will create auto playbook.retry wich is usefull to retry the playbook from where it fails with option 
+ansible-playbook playbook.yml --limit @playbook.retry
+and so it usefull if the are many hosts to try. so that ansible will not replay the playbook from the beginning for all hosts. it try justs from where it fails.
+
+
+
+arrived to modules
+
+
+
+
+
+
+
+

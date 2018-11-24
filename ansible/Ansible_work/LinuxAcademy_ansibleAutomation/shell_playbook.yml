@@ -1,0 +1,7 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name: data into file
+    shell: echo "testing" > testfile
+  

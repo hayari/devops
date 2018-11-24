@@ -1,0 +1,53 @@
+==> gitea: VM is not currently running. Please, first bring it up with `vagrant up` then run this command.
+==> gitlab: [vagrant-hostsupdater] Checking for host entries
+==> gitlab: [vagrant-hostsupdater]   found entry for: 192.168.56.6 gitlab.example.com
+==> gitlab: [vagrant-hostsupdater]   found entry for: 192.168.56.6 gitlab
+==> gitlab: [vagrant-hostsupdater]   found entry for: 192.168.56.6 gitlab.example.com
+==> gitlab: Running provisioner: file...
+==> gitlab: Running provisioner: shell...
+    gitlab: Running: inline script
+    gitlab: Copying ansible-vm public SSH Keys to the VM
+==> gitlab: Running provisioner: ansible...
+Vagrant has automatically selected the compatibility mode '2.0'
+according to the Ansible version installed (2.7.2).
+
+Alternatively, the compatibility mode can be specified in your Vagrantfile:
+https://www.vagrantup.com/docs/provisioning/ansible_common.html#compatibility_mode
+    gitlab: Running ansible-playbook...
+
+PLAY [install gitlab-ce] *******************************************************
+
+TASK [update repo] *************************************************************
+changed: [gitlab]
+
+TASK [install python] **********************************************************
+changed: [gitlab]
+
+TASK [install packages] ********************************************************
+ok: [gitlab]
+
+TASK [set full HOSTNAME] *******************************************************
+ok: [gitlab]
+
+TASK [Download the download script] ********************************************
+ok: [gitlab]
+
+TASK [exec the download script] ************************************************
+changed: [gitlab]
+
+TASK [install gitlab-ce] *******************************************************
+ok: [gitlab]
+
+TASK [open ufw ports] **********************************************************
+ok: [gitlab] => (item=80)
+ok: [gitlab] => (item=443)
+
+TASK [modify configuration file of gitlab] *************************************
+changed: [gitlab]
+
+TASK [reconfigure gitlab] ******************************************************
+changed: [gitlab]
+
+PLAY RECAP *********************************************************************
+gitlab                     : ok=10   changed=5    unreachable=0    failed=0   
+

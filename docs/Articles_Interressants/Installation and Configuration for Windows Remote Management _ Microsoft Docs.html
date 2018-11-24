@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html class="js hasSidebar hasPageActions hasBreadcrumb conceptual noTouch" dir="ltr" data-authenticated="false" data-target="docs" lang="en-us"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" href="Installation%20and%20Configuration%20for%20Windows%20Remote%20Management%20|%20Microsoft%20Docs_fichiers/a6-1fffa6.css"><link rel="stylesheet" href="Installation%20and%20Configuration%20for%20Windows%20Remote%20Management%20|%20Microsoft%20Docs_fichiers/override.css"><meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta property="og:title" content="Installation and Configuration for Windows Remote Management">
+	<meta property="og:image" content="https://docs.microsoft.com/_themes/docs.theme/master/en-us/_themes/images/microsoft-header.png">
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:site" content="@docsmsft">
+	<meta name="twitter:title" content="Installation and Configuration for Windows Remote Management">
+	<meta name="twitter:description" content="If Windows Remote Management (WinRM) is not installed and configured, WinRM scripts do not run and the Winrm command-line tool cannot perform data operations.">
+	<meta name="twitter:image" content="https://docs.microsoft.com/_themes/docs.theme/master/en-us/_themes/images/microsoft-header.png">
+	<meta name="twitter:image:alt" content="Microsoft Logo">
+
+		<meta name="author" content="windows-sdk-content">
+<meta name="ms.author" content="windowssdkdev">
+<meta name="breadcrumb_path" content="/windows/desktop/breadcrumb/toc.json">
+<meta name="ms.prod" content="desktop">
+<meta name="uhfHeaderId" content="MSDocsHeader-WinDesktop">
+<meta name="ms.assetid" content="81c40456-0003-46d0-8695-83bf77432056">
+<meta name="description" content="If Windows Remote Management (WinRM) is not installed and configured, WinRM scripts do not run and the Winrm command-line tool cannot perform data operations.">
+<meta name="TopicType" content="kbArticle">
+<meta name="ms.topic" content="article">
+<meta name="ms.date" content="05/31/2018">
+<meta name="ms.tgt_platform" content="multiple">
+<meta name="search.ms_sitename" content="Docs">
+<meta name="search.ms_docsetname" content="desktop">
+<meta name="locale" content="en-us">
+<meta name="site_name" content="Docs">
+<meta name="search.ms_product" content="MSDN">
+<meta name="depot_name" content="MSDN.desktop">
+<meta name="updated_at" content="2018-11-06 05:21 PM">
+<meta name="gitcommit" content="https://cpubwin.visualstudio.com/DefaultCollection/win32/_git/win32/commit/0180b6dbcaa133e58745702bf0ebefa871ee151b?path=%2fdesktop-src%2fWinRM%2finstallation-and-configuration-for-windows-remote-management.md&amp;_a=contents">
+<meta name="original_content_git_url" content="https://cpubwin.visualstudio.com/DefaultCollection/win32/_git/win32?path=%2fdesktop-src%2fWinRM%2finstallation-and-configuration-for-windows-remote-management.md&amp;version=GBlive&amp;_a=contents">
+<meta name="document_id" content="b2a06107-5395-5bd0-002d-d22fc4307fa8">
+<meta name="document_version_independent_id" content="febb6da2-2963-ae37-131d-b517e4112e3e">
+<meta name="page_type" content="conceptual">
+<meta name="toc_rel" content="TOC.json">
+<meta name="word_count" content="2870">
+
+	<meta name="scope" content="Windows, Desktop">
+<link href="https://docs.microsoft.com/en-us/windows/desktop/winrm/installation-and-configuration-for-windows-remote-management" rel="canonical">
+	<title>Installation and Configuration for Windows Remote Management | Microsoft Docs</title>
+
+		<link rel="stylesheet" href="Installation%20and%20Configuration%20for%20Windows%20Remote%20Management%20|%20Microsoft%20Docs_fichiers/f81e8b30.css">
+
+	<link rel="stylesheet" href="Installation%20and%20Configuration%20for%20Windows%20Remote%20Management%20|%20Microsoft%20Docs_fichiers/fbd113ac.css">
+
+
+	<script async="" src="Installation%20and%20Configuration%20for%20Windows%20Remote%20Management%20|%20Microsoft%20Docs_fichiers/analytics.js"></script><script>
+	var msDocs = {
+		data:{
+			azureHeaderLocale: 'en-us',
+			contentLocale: 'en-us',
+			contentDir: 'ltr',
+			userLocale: 'en-us',
+			userDir: 'ltr',
+			pageTemplate: 'Conceptual',
+			brand: '',
+			context: {
+
+			},
+			hasComments: false,
+			feedbackSystem: 'None',
+			feedbackGitHubRepo: '',
+			feedbackProductUrl: '',
+			contentGitUrl: 'https://cpubwin.visualstudio.com/DefaultCollection/win32/_git/win32?path=%2fdesktop-src%2fWinRM%2finstallation-and-configuration-for-windows-remote-management.md&version=GBlive&_a=contents',
+			forceVersionPicker:false		},
+		functions:{},
+		settings:{
+			extendBreadcrumb: true,
+			enableUHFPPE: false
+		}
+	};
+	if (!('Promise' in window && 'resolve' in window.Promise && 'reject' in window.Promise && 'all' in window.Promise && 'race' in window.Promise)) {
+		document.write('<script src="/_themes/docs.theme/master/en-us/_themes/global/js/6ee34c01.bluebird.min.js"><\/script>');
+	}
+	if (typeof fetch !== 'function') {
+		document.write('<script src="/_themes/docs.theme/master/en-us/_themes/global/js/d9fc435c.fetch.min.js"><\/script>');
+	}
+	</script>
+
+	<script src="Installation%20and%20Configuration%20for%20Windows%20Remote%20Management%20|%20Microsoft%20Docs_fichiers/jquery-3.js" integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT" crossorigin="anonymous"></script>
+	<script src="Installation%20and%20Configuration%20for%20Windows%20Remote%20Management%20|%20Microsoft%20Docs_fichiers/623efd7b.js"></script><style></style><script src="Installation%20and%20Configuration%20for%20Windows%20Remote%20Management%20|%20Microsoft%20Docs_fichiers/jsll-4.js" async="" defer="defer"></script>
+
+<script src="Installation%20and%20Configuration%20for%20Windows%20Remote%20Management%20|%20Microsoft%20Docs_fichiers/bf-d3d307" defer="defer"></script><style>
+			.c-uhfh input[type="search"],
+			.c-uhfh.c-sgl-stck .c-uhfh-actions .c-search input[type="search"] {
+				padding-left: 93px !important;
+			}</style><script async="" src="Installation%20and%20Configuration%20for%20Windows%20Remote%20Management%20|%20Microsoft%20Docs_fichiers/t_010.js"></script><script async="" src="Installation%20and%20Configuration%20for%20Windows%20Remote%20Management%20|%20Microsoft%20Docs_fichiers/t_002.js"></script><script async="" src="Installation%20and%20Configuration%20for%20Windows%20Remote%20Management%20|%20Microsoft%20Docs_fichiers/t_009.js"></script><script async="" src="Installation%20and%20Configuration%20for%20Windows%20Remote%20Management%20|%20Microsoft%20Docs_fichiers/t_017.js"></script><script async="" src="Installation%20and%20Configuration%20for%20Windows%20Remote%20Management%20|%20Microsoft%20Docs_fichiers/t_003.js"></script><script async="" src="Installation%20and%20Configuration%20for%20Windows%20Remote%20Management%20|%20Microsoft%20Docs_fichiers/t_013.js"></script><script async="" src="Installation%20and%20Configuration%20for%20Windows%20Remote%20Management%20|%20Microsoft%20Docs_fichiers/t_006.js"></script><script async="" src="Installation%20and%20Configuration%20for%20Windows%20Remote%20Management%20|%20Microsoft%20Docs_fichiers/t.js"></script><script async="" src="Installation%20and%20Configuration%20for%20Windows%20Remote%20Management%20|%20Microsoft%20Docs_fichiers/t_015.js"></script><script async="" src="Installation%20and%20Configuration%20for%20Windows%20Remote%20Management%20|%20Microsoft%20Docs_fichiers/t_008.js"></script><script async="" src="Installation%20and%20Configuration%20for%20Windows%20Remote%20Management%20|%20Microsoft%20Docs_fichiers/t_014.js"></script><script async="" src="Installation%20and%20Configuration%20for%20Windows%20Remote%20Management%20|%20Microsoft%20Docs_fichiers/t_004.js"></script><script async="" src="Installation%20and%20Configuration%20for%20Windows%20Remote%20Management%20|%20Microsoft%20Docs_fichiers/t_012.js"></script><script async="" src="Installation%20and%20Configuration%20for%20Windows%20Remote%20Management%20|%20Microsoft%20Docs_fichiers/t_007.js"></script><script async="" src="Installation%20and%20Configuration%20for%20Windows%20Remote%20Management%20|%20Microsoft%20Docs_fichiers/t_011.js"></script><script async="" src="Installation%20and%20Configuration%20for%20Windows%20Remote%20Management%20|%20Microsoft%20Docs_fichiers/t_016.js"></script><script async="" src="Installation%20and%20Configuration%20for%20Windows%20Remote%20Management%20|%20Microsoft%20Docs_fichiers/t_005.js"></script><script async="" src="Installation%20and%20Configuration%20for%20Windows%20Remote%20Management%20|%20Microsoft%20Docs_fichiers/t_018.js"></script><script async="" src="Installation%20and%20Configuration%20for%20Windows%20Remote%20Management%20|%20Microsoft%20Docs_fichiers/t_019.js"></script><script async="" src="https://web.vortex.data.microsoft.com/collect/v1/t.js?ver='2.1'&amp;name='Ms.Webi.PageAction'&amp;time='2018-11-17T21%3A44%3A41.265Z'&amp;os='Unix'&amp;appId='JS%3ADocs'&amp;-ver='1.0'&amp;-impressionGuid='37c14c3c-7859-4983-aa4d-755350a0a437'&amp;-pageName='b2a06107-5395-5bd0-002d-d22fc4307fa8'&amp;-uri='https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Fwindows%2Fdesktop%2Fwinrm%2Finstallation-and-configuration-for-windows-remote-management'&amp;-pageTags='%7B%22author%22%3A%22windows-sdk-content%22%2C%22pgauth%22%3A%22windowssdkdev%22%2C%22product%22%3A%22desktop%22%2C%22asst%22%3A%2281c40456-0003-46d0-8695-83bf77432056%22%2C%22pgtop%22%3A%22article%22%2C%22date%22%3A%2205%2F31%2F2018%22%2C%22depotname%22%3A%22MSDN.desktop%22%2C%22publishtime%22%3A%222018-11-06%2005%3A21%20PM%22%2C%22gitcommit%22%3A%22https%3A%2F%2Fcpubwin.visualstudio.com%2FDefaultCollection%2Fwin32%2F_git%2Fwin32%2Fcommit%2F0180b6dbcaa133e58745702bf0ebefa871ee151b%3Fpath%3D%252fdesktop-src%252fWinRM%252finstallation-and-configuration-for-windows-remote-management.md%26_a%3Dcontents%22%2C%22giturl%22%3A%22https%3A%2F%2Fcpubwin.visualstudio.com%2FDefaultCollection%2Fwin32%2F_git%2Fwin32%3Fpath%3D%252fdesktop-src%252fWinRM%252finstallation-and-configuration-for-windows-remote-management.md%26version%3DGBlive%26_a%3Dcontents%22%2C%22document_version_independent_id%22%3A%22febb6da2-2963-ae37-131d-b517e4112e3e%22%2C%22contentlocale%22%3A%22en-us%22%2C%22highContrast%22%3A%22false%22%2C%22metaTags%22%3A%7B%7D%7D'&amp;-contentVer='2.0'&amp;-market='en-us'&amp;-pageType='conceptual'&amp;-actionType='O'&amp;-behavior=300&amp;-content='%5B%7B%22event%22%3A%22page-visibility-changed%22%2C%22value%22%3A%22hidden%22%7D%5D'&amp;*baseType='Ms.Content.PageAction'&amp;*timeToAction=20083137&amp;*cookieEnabled=true&amp;*isJs=true&amp;*title='Installation%20and%20Configuration%20for%20Windows%20Remote%20Management%20%7C%20Microsoft%20Docs'&amp;*isLoggedIn=false&amp;*isManual=true&amp;ext-javascript-ver='1.1'&amp;ext-javascript-libVer='4.2.11'&amp;ext-javascript-domain='docs.microsoft.com'&amp;ext-javascript-msfpc='GUID%3Dd6d5a193f76442bc895bbf58a8720272%26HASH%3Dd6d5%26LV%3D201810%26V%3D4%26LU%3D1538379426738'&amp;ext-javascript-userConsent=true&amp;ext-user-localId='t%3A37CA6553B46968A328AF6928B0696B50'&amp;$mscomCookies=false"></script><script async="" src="https://web.vortex.data.microsoft.com/collect/v1/t.js?ver='2.1'&amp;name='Ms.Webi.ContentUpdate'&amp;time='2018-11-17T21%3A44%3A42.587Z'&amp;os='Unix'&amp;appId='JS%3ADocs'&amp;-ver='1.0'&amp;-impressionGuid='37c14c3c-7859-4983-aa4d-755350a0a437'&amp;-pageName='b2a06107-5395-5bd0-002d-d22fc4307fa8'&amp;-uri='https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Fwindows%2Fdesktop%2Fwinrm%2Finstallation-and-configuration-for-windows-remote-management'&amp;-market='en-us'&amp;-pageTags='%7B%22author%22%3A%22windows-sdk-content%22%2C%22pgauth%22%3A%22windowssdkdev%22%2C%22product%22%3A%22desktop%22%2C%22asst%22%3A%2281c40456-0003-46d0-8695-83bf77432056%22%2C%22pgtop%22%3A%22article%22%2C%22date%22%3A%2205%2F31%2F2018%22%2C%22depotname%22%3A%22MSDN.desktop%22%2C%22publishtime%22%3A%222018-11-06%2005%3A21%20PM%22%2C%22gitcommit%22%3A%22https%3A%2F%2Fcpubwin.visualstudio.com%2FDefaultCollection%2Fwin32%2F_git%2Fwin32%2Fcommit%2F0180b6dbcaa133e58745702bf0ebefa871ee151b%3Fpath%3D%252fdesktop-src%252fWinRM%252finstallation-and-configuration-for-windows-remote-management.md%26_a%3Dcontents%22%2C%22giturl%22%3A%22https%3A%2F%2Fcpubwin.visualstudio.com%2FDefaultCollection%2Fwin32%2F_git%2Fwin32%3Fpath%3D%252fdesktop-src%252fWinRM%252finstallation-and-configuration-for-windows-remote-management.md%26version%3DGBlive%26_a%3Dcontents%22%2C%22document_version_independent_id%22%3A%22febb6da2-2963-ae37-131d-b517e4112e3e%22%2C%22contentlocale%22%3A%22en-us%22%2C%22highContrast%22%3A%22false%22%2C%22metaTags%22%3A%7B%7D%7D'&amp;-pageHeight=11890&amp;-vpHeight=502&amp;-vpWidth=1305&amp;-actionType='S'&amp;-behavior=0&amp;-vScrollOffset=5586&amp;-hScrollOffset=0&amp;-contentVer='2.0'&amp;-content='%5B%5D'&amp;*baseType='Ms.Content.ContentUpdate'&amp;*title='Installation%20and%20Configuration%20for%20Windows%20Remote%20Management%20%7C%20Microsoft%20Docs'&amp;*cookieEnabled=true&amp;*isJs=true&amp;*isDomComplete=false&amp;*isLoggedIn=false&amp;ext-javascript-ver='1.1'&amp;ext-javascript-libVer='4.2.11'&amp;ext-javascript-domain='docs.microsoft.com'&amp;ext-javascript-msfpc='GUID%3Dd6d5a193f76442bc895bbf58a8720272%26HASH%3Dd6d5%26LV%3D201810%26V%3D4%26LU%3D1538379426738'&amp;ext-javascript-userConsent=true&amp;ext-user-localId='t%3A37CA6553B46968A328AF6928B0696B50'&amp;$mscomCookies=false"></script></head>
+
+<body dir="ltr" lang="en-us">
+<div class="header-holder">
+		<div id="headerAreaHolder" data-bi-name="header">    <div id="headerArea" class="uhf" data-m="{&quot;cN&quot;:&quot;headerArea&quot;,&quot;cT&quot;:&quot;Area_coreuiArea&quot;,&quot;id&quot;:&quot;a1Body&quot;,&quot;sN&quot;:1,&quot;aN&quot;:&quot;Body&quot;}">
+                <div id="headerRegion" data-region-key="headerregion" data-m="{&quot;cN&quot;:&quot;headerRegion&quot;,&quot;cT&quot;:&quot;Region_coreui-region&quot;,&quot;id&quot;:&quot;r1a1&quot;,&quot;sN&quot;:1,&quot;aN&quot;:&quot;a1&quot;}">
+
+    <div id="headerUniversalHeader" data-m="{&quot;cN&quot;:&quot;headerUniversalHeader&quot;,&quot;cT&quot;:&quot;Module_coreui-universalheader&quot;,&quot;id&quot;:&quot;m1r1a1&quot;,&quot;sN&quot;:1,&quot;aN&quot;:&quot;r1a1&quot;}" data-module-id="Category|headerRegion|coreui-region|headerUniversalHeader|coreui-universalheader">
+        
+
+
+
+
+
+		<a id="uhfSkipToMain" class="m-skip-to-main" href="#main" tabindex="0" style="z-index:3000002" data-m="{&quot;cN&quot;:&quot;Skip to content_nonnav&quot;,&quot;id&quot;:&quot;nn1m1r1a1&quot;,&quot;sN&quot;:1,&quot;aN&quot;:&quot;m1r1a1&quot;}">Skip to main content</a>
+
+
+<header role="banner" class="c-uhfh context-uhf c-sgl-stck c-category-header" itemscope="itemscope" data-header-footprint="/MSDocs/MSDocsHeader-WinDesktop, fromService: True" data-ckrate="1" data-magict="true" itemtype="http://schema.org/Organization">
+	<div class="theme-light js-global-head f-closed  global-head-cont" data-m="{&quot;cN&quot;:&quot;Universal Header_cont&quot;,&quot;cT&quot;:&quot;Container&quot;,&quot;id&quot;:&quot;c2m1r1a1&quot;,&quot;sN&quot;:2,&quot;aN&quot;:&quot;m1r1a1&quot;}">
+		<div class="c-uhfh-gcontainer-st">
+			<button type="button" class="c-action-trigger c-glyph glyph-global-nav-button" aria-label="Header navigation menu" aria-expanded="false" data-m="{&quot;cN&quot;:&quot;Mobile menu button_nonnav&quot;,&quot;id&quot;:&quot;nn1c2m1r1a1&quot;,&quot;sN&quot;:1,&quot;aN&quot;:&quot;c2m1r1a1&quot;}"></button>
+			<button type="button" class="c-action-trigger c-glyph glyph-arrow-htmllegacy" aria-label="Close search" aria-expanded="false" data-m="{&quot;cN&quot;:&quot;Close Search_nonnav&quot;,&quot;id&quot;:&quot;nn2c2m1r1a1&quot;,&quot;sN&quot;:2,&quot;aN&quot;:&quot;c2m1r1a1&quot;}"></button>
+					<a id="uhfLogo" class="c-logo c-sgl-stk-uhfLogo" itemprop="url" href="https://www.microsoft.com/" aria-label="Microsoft" data-m="{&quot;cN&quot;:&quot;GlobalNav_Logo_cont&quot;,&quot;cT&quot;:&quot;Container&quot;,&quot;id&quot;:&quot;c3c2m1r1a1&quot;,&quot;sN&quot;:3,&quot;aN&quot;:&quot;c2m1r1a1&quot;}">
+						<img alt="" itemprop="logo" itemscope="itemscope" class="c-image" src="Installation%20and%20Configuration%20for%20Windows%20Remote%20Management%20|%20Microsoft%20Docs_fichiers/RE1Mu3b.png" role="presentation" aria-hidden="true">
+						<span role="presentation" aria-hidden="true">Microsoft</span>
+					</a>
+			<div class="f-mobile-title">
+				<button type="button" class="c-action-trigger c-glyph glyph-chevron-left" aria-label="See more menu options" data-m="{&quot;cN&quot;:&quot;Mobile back button_nonnav&quot;,&quot;id&quot;:&quot;nn4c2m1r1a1&quot;,&quot;sN&quot;:4,&quot;aN&quot;:&quot;c2m1r1a1&quot;}"></button>
+				<span data-global-title="Microsoft home" class="js-mobile-title">Windows Dev Center</span>
+				<button type="button" class="c-action-trigger c-glyph glyph-chevron-right" aria-label="See more menu options" data-m="{&quot;cN&quot;:&quot;Mobile forward button_nonnav&quot;,&quot;id&quot;:&quot;nn5c2m1r1a1&quot;,&quot;sN&quot;:5,&quot;aN&quot;:&quot;c2m1r1a1&quot;}"></button>
+			</div>
+					<div class="c-show-pipe x-hidden-vp-mobile-st">
+						<a id="uhfCatLogo" class="c-logo c-cat-logo" href="https://developer.microsoft.com/en-us/windows" aria-label="Windows Dev Center" itemprop="url" data-m="{&quot;cN&quot;:&quot;CatNav_Windows Dev Center_nav&quot;,&quot;id&quot;:&quot;n6c2m1r1a1&quot;,&quot;sN&quot;:6,&quot;aN&quot;:&quot;c2m1r1a1&quot;}">
+								<span>Windows Dev Center</span>
+						</a>
+					</div>
+				<div class="cat-logo-button-cont x-hidden">
+						<button type="button" id="uhfCatLogoButton" class="c-cat-logo-button x-hidden" aria-expanded="false" aria-label="Windows Dev Center" data-m="{&quot;cN&quot;:&quot;Windows Dev Center_nonnav&quot;,&quot;id&quot;:&quot;nn7c2m1r1a1&quot;,&quot;sN&quot;:7,&quot;aN&quot;:&quot;c2m1r1a1&quot;}">
+							Windows Dev Center
+						</button>
+				</div>
+
+
+
+			        <nav id="uhf-g-nav" aria-label="Contextual menu" class="c-uhfh-gnav" data-m="{&quot;cN&quot;:&quot;Category nav_cont&quot;,&quot;cT&quot;:&quot;Container&quot;,&quot;id&quot;:&quot;c8c2m1r1a1&quot;,&quot;sN&quot;:8,&quot;aN&quot;:&quot;c2m1r1a1&quot;}">
+            <ul class="js-paddle-items">
+                    <li class="single-link js-nav-menu x-hidden-none-mobile-vp">
+                        <a class="c-uhf-nav-link" href="https://developer.microsoft.com/en-us/windows" data-m="{&quot;cN&quot;:&quot;CatNav_Home_nav&quot;,&quot;id&quot;:&quot;n1c8c2m1r1a1&quot;,&quot;sN&quot;:1,&quot;aN&quot;:&quot;c8c2m1r1a1&quot;}"> Home </a>
+                    </li>
+                                        <li class="single-link js-nav-menu">
+                            <a id="windesktop_windowsdesktop" class="c-uhf-nav-link" href="https://developer.microsoft.com/en-us/windows/desktop" data-m="{&quot;cN&quot;:&quot;CatNav_WinDesktop_WindowsDesktop_nav&quot;,&quot;id&quot;:&quot;n2c8c2m1r1a1&quot;,&quot;sN&quot;:2,&quot;aN&quot;:&quot;c8c2m1r1a1&quot;}">Windows PCs</a>
+                        </li>
+                        <li class="single-link js-nav-menu">
+                            <a id="windows_docs" class="c-uhf-nav-link" href="https://docs.microsoft.com/windows/desktop/" data-m="{&quot;cN&quot;:&quot;CatNav_windows_docs_nav&quot;,&quot;id&quot;:&quot;n3c8c2m1r1a1&quot;,&quot;sN&quot;:3,&quot;aN&quot;:&quot;c8c2m1r1a1&quot;}">Docs</a>
+                        </li>
+                        <li class="single-link js-nav-menu">
+                            <a id="downloads" class="c-uhf-nav-link" href="https://developer.microsoft.com/en-us/windows/downloads" data-m="{&quot;cN&quot;:&quot;CatNav_Downloads_nav&quot;,&quot;id&quot;:&quot;n4c8c2m1r1a1&quot;,&quot;sN&quot;:4,&quot;aN&quot;:&quot;c8c2m1r1a1&quot;}">Downloads</a>
+                        </li>
+                        <li class="single-link js-nav-menu">
+                            <a id="samples" class="c-uhf-nav-link" href="https://developer.microsoft.com/en-us/windows/samples" data-m="{&quot;cN&quot;:&quot;CatNav_Samples_nav&quot;,&quot;id&quot;:&quot;n5c8c2m1r1a1&quot;,&quot;sN&quot;:5,&quot;aN&quot;:&quot;c8c2m1r1a1&quot;}">Samples</a>
+                        </li>
+                        <li class="single-link js-nav-menu">
+                            <a id="support" class="c-uhf-nav-link" href="https://developer.microsoft.com/en-us/windows/support" data-m="{&quot;cN&quot;:&quot;CatNav_Support_nav&quot;,&quot;id&quot;:&quot;n6c8c2m1r1a1&quot;,&quot;sN&quot;:6,&quot;aN&quot;:&quot;c8c2m1r1a1&quot;}">Support</a>
+                        </li>
+
+
+                <li id="overflow-menu" class="overflow-menu x-hidden">
+                        <div class="c-uhf-menu js-nav-menu">
+        <button data-m="{&quot;pid&quot;:&quot;More&quot;,&quot;id&quot;:&quot;nn7c8c2m1r1a1&quot;,&quot;sN&quot;:7,&quot;aN&quot;:&quot;c8c2m1r1a1&quot;}" type="button" aria-label="More" aria-expanded="false" style="white-space:nowrap">More</button>
+        <ul id="overflow-menu-list" aria-hidden="true" class="overflow-menu-list">
+        </ul>
+    </div>
+
+                </li>
+                    <li class="single-link js-nav-menu">
+                        <a id="dashboard" class="c-uhf-nav-link x-visible-vp1-block x-visible-vp2-block right-aligned-link" href="https://partner.microsoft.com/dashboard" data-m="{&quot;cN&quot;:&quot;CatNav_Dashboard_nav&quot;,&quot;id&quot;:&quot;n8c8c2m1r1a1&quot;,&quot;sN&quot;:8,&quot;aN&quot;:&quot;c8c2m1r1a1&quot;}">Dashboard</a>
+                    </li>
+                            </ul>
+            
+        </nav>
+
+
+			<div class="c-uhfh-actions" data-m="{&quot;cN&quot;:&quot;Header actions_cont&quot;,&quot;cT&quot;:&quot;Container&quot;,&quot;id&quot;:&quot;c9c2m1r1a1&quot;,&quot;sN&quot;:9,&quot;aN&quot;:&quot;c2m1r1a1&quot;}">
+				<div class="wf-menu"></div>
+		<form class="c-search" autocomplete="off" id="searchForm" name="searchForm" role="search" action="https://docs.microsoft.com/en-us/search/index" method="GET" title="Search" data-seautosuggest="{&quot;queryParams&quot;:{&quot;market&quot;:&quot;en-us&quot;,&quot;clientId&quot;:&quot;7F27B536-CF6B-4C65-8638-A0F8CBDFCA65&quot;,&quot;sources&quot;:&quot;Microsoft-Terms,Iris-Products,DCatAll-Products&quot;,&quot;filter&quot;:&quot;+ClientType:StoreWeb&quot;,&quot;counts&quot;:&quot;5,1,5&quot;},&quot;familyNames&quot;:{&quot;Apps&quot;:&quot;App&quot;,&quot;Books&quot;:&quot;Book&quot;,&quot;Bundles&quot;:&quot;Bundle&quot;,&quot;Devices&quot;:&quot;Device&quot;,&quot;Fees&quot;:&quot;Fee&quot;,&quot;Games&quot;:&quot;Game&quot;,&quot;MusicAlbums&quot;:&quot;Album&quot;,&quot;MusicTracks&quot;:&quot;Song&quot;,&quot;MusicVideos&quot;:&quot;Video&quot;,&quot;MusicArtists&quot;:&quot;Artist&quot;,&quot;OperatingSystem&quot;:&quot;Operating System&quot;,&quot;Software&quot;:&quot;Software&quot;,&quot;Movies&quot;:&quot;Movie&quot;,&quot;TV&quot;:&quot;TV&quot;,&quot;CSV&quot;:&quot;Gift Card&quot;,&quot;VideoActor&quot;:&quot;Actor&quot;}}" data-seautosuggestapi="https://www.microsoft.com/services/api/v3/suggest" data-m="{&quot;cN&quot;:&quot;GlobalNav_Search_cont&quot;,&quot;cT&quot;:&quot;Container&quot;,&quot;id&quot;:&quot;c1c9c2m1r1a1&quot;,&quot;sN&quot;:1,&quot;aN&quot;:&quot;c9c2m1r1a1&quot;}" aria-expanded="false">
+			<input id="cli_shellHeaderSearchInput" aria-label="Search" aria-autocomplete="list" aria-controls="universal-header-search-auto-suggest-transparent" aria-owns="universal-header-search-auto-suggest-ul" type="search" name="search" placeholder="Search" data-m="{&quot;cN&quot;:&quot;SearchBox_nav&quot;,&quot;id&quot;:&quot;n1c1c9c2m1r1a1&quot;,&quot;sN&quot;:1,&quot;aN&quot;:&quot;c1c9c2m1r1a1&quot;}"><div class="x-screen-reader" aria-live="assertive"></div>
+			<button id="search" aria-label="Search" class="c-glyph" data-m="{&quot;cN&quot;:&quot;Search_nav&quot;,&quot;id&quot;:&quot;n2c1c9c2m1r1a1&quot;,&quot;sN&quot;:2,&quot;aN&quot;:&quot;c1c9c2m1r1a1&quot;}" data-bi-dnt="true" data-bi-mto="true" aria-expanded="false">
+				<span role="presentation">Search</span>
+			</button>
+			<div class="m-auto-suggest" id="universal-header-search-auto-suggest-transparent" role="group">
+				<ul class="c-menu" id="universal-header-search-auto-suggest-ul" aria-hidden="true" data-bi-dnt="true" data-bi-mto="true" data-js-auto-suggest-position="default" role="listbox" data-tel="jsll" data-m="{&quot;cN&quot;:&quot;search suggestions_cont&quot;,&quot;cT&quot;:&quot;Container&quot;,&quot;id&quot;:&quot;c3c1c9c2m1r1a1&quot;,&quot;sN&quot;:3,&quot;aN&quot;:&quot;c1c9c2m1r1a1&quot;}"></ul>
+			</div>
+			
+		<input name="scope" value="Desktop" hidden=""><a class="search-scope" href="#" role="button" title="Search filter is &quot;Desktop&quot;. Tap to remove." style=""><span class="search-scope-text">Desktop</span> <span class="docon docon-navigate-close"></span></a></form>
+		<button data-m="{&quot;cN&quot;:&quot;cancel-search&quot;,&quot;pid&quot;:&quot;Cancel Search&quot;,&quot;id&quot;:&quot;nn2c9c2m1r1a1&quot;,&quot;sN&quot;:2,&quot;aN&quot;:&quot;c9c2m1r1a1&quot;}" id="cancel-search" class="cancel-search" aria-label="Cancel Search">
+			<span>Cancel</span>
+		</button>
+				
+			<div class="auth-control" aria-busy="true" aria-label="Loading..."></div></div>
+		</div>
+		
+		
+	</div>
+	
+</header>
+
+
+
+
+    </div>
+        </div>
+
+    </div>
+</div>
+	<div class="content-header uhf-container has-padding has-default-focus" data-bi-name="content-header">
+		<nav class="has-padding-none-mobile" data-bi-name="breadcrumb" itemscope="" itemtype="http://schema.org/BreadcrumbList" role="navigation" aria-label="Breadcrumb">
+		<ul class="breadcrumbs"><li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"><a itemprop="item" href="https://docs.microsoft.com/en-us/">Docs</a></li><li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"><a itemprop="item" href="https://docs.microsoft.com/en-us/windows/">Windows</a></li><li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"><a itemprop="item" href="https://docs.microsoft.com/en-us/windows/desktop/index">Desktop</a></li><li><a href="https://docs.microsoft.com/en-us/windows/desktop/winrm/portal">Windows Remote Management</a></li><li class="mobile-breadcrumb"><a href="https://docs.microsoft.com/en-us/windows/desktop/winrm/about-windows-remote-management">About Windows Remote Management</a></li><li>Installation and Configuration for Windows Remote Management</li></ul>
+		</nav>
+		<div class="content-header-controls exit-focus">
+			<button type="button" class="ap-collapse-behavior ap-expanded button" data-bi-name="ap-collapse">
+				<span class="icon"><span class="docon docon-exit-mode"></span></span>
+				<span>Exit focus mode</span>
+			</button>
+			
+		</div>
+		<div class="content-header-controls">
+			<button type="button" class="contents-button button" data-bi-name="contents-expand">
+				<span class="icon"><span class="docon docon-menu"></span></span>
+				<span>Contents</span>
+			</button>
+		</div>
+		<div class="action-bar">
+			<ul class="action-list">
+							<li id="contenteditbtn" hidden="">
+									<a href="https://cpubwin.visualstudio.com/DefaultCollection/win32/_git/win32?path=%2fdesktop-src%2fWinRM%2finstallation-and-configuration-for-windows-remote-management.md&amp;version=GBlive&amp;_a=contents" class="button is-text is-icon-only-touch is-size-7" title="Edit This Document" data-bi-name="edit">
+									<span class="icon"> 
+										<span class="docon docon-edit-outline" aria-hidden="true"></span>
+									</span>
+									<span class="action-item-text">Edit</span>
+								</a>
+							</li>
+				<li>
+					<div class="sharing dropdown has-caret" auto-align="">
+						<a href="#" class="dropdown-trigger button is-text is-size-7 is-icon-only-touch" aria-haspopup="true" aria-controls="sharing-menu" aria-expanded="false" title="Share This Document" data-bi-name="share">
+							<span class="icon">
+								<span class="docon docon-sharing" aria-hidden="true"></span>
+							</span>
+							<span class="action-item-text">Share</span>
+						</a>
+						<div class="dropdown-menu" id="sharing-menu" role="menu">
+							<ul data-bi-name="share-links">
+								<li><a class="share-twitter" data-bi-name="twitter" href="https://twitter.com/intent/tweet?original_referer=https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Fwindows%2Fdesktop%2Fwinrm%2Finstallation-and-configuration-for-windows-remote-management%3FWT.mc_id%3Dtwitter&amp;text=Installation%20and%20Configuration%20for%20Windows%20Remote%20Management%20%7C%20Microsoft%20Docs&amp;tw_p=tweetbutton&amp;url=https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Fwindows%2Fdesktop%2Fwinrm%2Finstallation-and-configuration-for-windows-remote-management%3FWT.mc_id%3Dtwitter">
+									<span class="icon">
+										<span class="docon docon-brand-twitter" aria-hidden="true"></span>
+									</span>
+									<span>Twitter</span></a></li>
+								<li><a class="share-linkedin" data-bi-name="linkedin" href="https://www.linkedin.com/cws/share?url=https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Fwindows%2Fdesktop%2Fwinrm%2Finstallation-and-configuration-for-windows-remote-management%3FWT.mc_id%3Dlinkedin">
+									<span class="icon">
+										<span class="docon docon-brand-linkedin" aria-hidden="true"></span>
+									</span>
+									<span>LinkedIn</span></a></li>
+								<li><a class="share-facebook" data-bi-name="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Fwindows%2Fdesktop%2Fwinrm%2Finstallation-and-configuration-for-windows-remote-management%3FWT.mc_id%3Dfacebook">
+									<span class="icon">
+										<span class="docon docon-brand-facebook" aria-hidden="true"></span>
+									</span>
+									<span>Facebook</span></a></li>
+								<li><a class="share-email" data-bi-name="email" href="mailto:?subject=%5BShared%20Article%5D%20Installation%20and%20Configuration%20for%20Windows%20Remote%20Management%20%7C%20Microsoft%20Docs&amp;body=Installation%20and%20Configuration%20for%20Windows%20Remote%20Management%20%7C%20Microsoft%20Docs%0A%0Ahttps%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Fwindows%2Fdesktop%2Fwinrm%2Finstallation-and-configuration-for-windows-remote-management%3FWT.mc_id%3Demail">
+									<span class="icon">
+										<span class="docon docon-mail-message-fill" aria-hidden="true"></span>
+									</span>
+									<span>Email</span></a></li>
+							</ul>
+						</div>
+					</div>
+				</li>
+				<li>
+					<button class="toggle-theme button is-text is-size-7 is-icon-only-touch" aria-label="toggle-theme" data-bi-name="select-theme">
+						<span class="icon">
+							<span class="docon docon-clear-night"></span>
+						</span>
+						<span class="action-item-text">Dark</span>
+					</button>
+				</li>
+				<li class="is-unstyled-action-list-item">
+					<a class="docs-sign-in not-authenticated button is-text has-text-primary is-size-7" href="#">Sign in</a>
+					<div class="dropdown has-caret authenticated" auto-align="">
+						<button class="dropdown-trigger button is-text is-size-7 is-icon-only-touch has-inner-focus" aria-label="Your Account" aria-haspopup="true" aria-controls="user-menu" aria-expanded="false">
+							<span class="image icon" aria-hidden="true">
+								<img class="has-body-background-medium is-rounded" data-profile-property="avatarUrl">
+							</span>
+							<span class="is-truncated" data-profile-property="userName"></span>
+						</button>
+						<div class="dropdown-menu box" id="user-menu" role="menu">
+							<div class="media is-user-dir">
+								<div class="media-left">
+									<span class="image is-64x64" aria-hidden="true">
+										<img class="has-body-background-medium is-rounded" data-profile-property="avatarUrl">
+									</span>
+								</div>
+								<div class="media-content">
+									<p class="title has-margin-top-small">
+										<span class="is-truncated" style="max-width: 200px" data-profile-property="userName"></span>
+									</p>
+									<p class="subtitle">
+										<span class="is-truncated" style="max-width: 200px" data-profile-property="upn"></span>
+									</p>
+								</div>
+							</div>
+							<ul class="is-unstyled has-margin-none">
+								<li><a href="https://docs.microsoft.com/profile" data-profile-property="profileUrl">Profile</a></li>
+								<li><a class="docs-sign-out" href="#">Sign out</a></li>
+							</ul>
+						</div>
+					</div>
+				</li>
+			</ul>
+			<button type="button" class="contents-button" aria-label="Contents" data-bi-name="contents-expand-">
+				<span class="docon docon-editor-list-bullet"></span><span>Contents</span>
+			</button>
+		</div>
+	</div>
+	<div id="disclaimer-holder" class="disclaimer-holder"></div>
+	</div>
+
+	<div class="mainContainer uhf-container  has-top-padding  has-default-focus" data-bi-name="body">
+		
+		<div class="columns ">
+
+			<section class="primary-holder column is-two-thirds-tablet is-three-quarters-desktop">
+				<div class="columns ">
+
+					<div id="page-actions" class="right-container column is-one-quarter is-one-fifth-desktop is-hidden-mobile is-hidden-tablet-only" data-bi-name="pageactions" role="complementary" aria-label="Page Actions">
+							<nav id="side-doc-outline" class="doc-outline" data-bi-name="intopic toc" role="navigation" aria-label="On page navigation" style="width: 133.567px; top: 24px; bottom: 24px;">
+								<h3>In this article</h3>
+							<ol><li class=""><a href="#installing-winrm">Installing WinRM</a></li><li class=""><a href="#configuration-of-winrm-and-ipmi">Configuration of WinRM and IPMI</a></li><li class=""><a href="#quick-default-configuration">Quick Default Configuration</a></li><li class=""><a href="#listener-and-ws-management-protocol-default-settings">Listener and WS-Management protocol Default Settings</a></li><li class=""><a href="#protocol-default-settings">Protocol Default Settings</a></li><li class="selected"><a href="#winrm-client-default-configuration-settings">WinRM Client Default Configuration Settings</a></li><li class=""><a href="#winrm-service-default-configuration-settings">WinRM Service Default Configuration Settings</a></li><li><a href="#winrs-default-configuration-settings">Winrs Default Configuration Settings</a></li><li><a href="#configuring-winrm-with-group-policy">Configuring WinRM with Group Policy</a></li><li><a href="#windows-firewall-and-winrm-20-ports">Windows Firewall and WinRM 2.0 Ports</a></li><li><a href="#winrm-installation-and-configuration-notes">WinRM Installation and Configuration Notes</a></li><li><a href="#ipmi-driver-and-provider-installation-notes">IPMI Driver and Provider Installation Notes</a></li><li><a href="#wmi-plug-in-configuration-notes">WMI Plug-in Configuration Notes</a></li></ol></nav>
+					</div>
+
+
+				<div id="main-column" class="column  is-full is-four-fifths-desktop ">
+					
+					<main id="main" role="main" class="content" data-bi-name="content" dir="ltr" lang="en-us">
+
+
+
+						<h1 id="installation-and-configuration-for-windows-remote-management" sourcefile="WinRM/installation-and-configuration-for-windows-remote-management.md" sourcestartlinenumber="15">Installation and Configuration for Windows Remote Management</h1>
+
+						<ul class="metadata page-metadata" data-bi-name="page info" dir="ltr" lang="en-us">
+							<li class="displayDate">
+								<span aria-hidden="true" class="docon docon-calendar"></span>
+								<time role="presentation" datetime="2018-05-31T00:00:00.000Z" data-article-date-source="ms.date">05/31/2018</time>
+							</li>
+								<li class="readingTime">
+									<span aria-hidden="true" class="docon docon-clock"></span>
+									14 minutes to read
+								</li>
+
+						</ul>
+
+						<nav id="center-doc-outline" class="doc-outline is-hidden-desktop" data-bi-name="intopic toc" role="navigation" aria-label="On page navigation">
+							<h3>In this article</h3>
+						<ol><li><a href="#installing-winrm">Installing WinRM</a></li><li><a href="#configuration-of-winrm-and-ipmi">Configuration of WinRM and IPMI</a></li><li><a href="#quick-default-configuration">Quick Default Configuration</a></li><li><a href="#listener-and-ws-management-protocol-default-settings">Listener and WS-Management protocol Default Settings</a></li><li><a href="#protocol-default-settings">Protocol Default Settings</a></li><li><a href="#winrm-client-default-configuration-settings">WinRM Client Default Configuration Settings</a></li><li><a href="#winrm-service-default-configuration-settings">WinRM Service Default Configuration Settings</a></li><li><a href="#winrs-default-configuration-settings">Winrs Default Configuration Settings</a></li><li><a href="#configuring-winrm-with-group-policy">Configuring WinRM with Group Policy</a></li><li><a href="#windows-firewall-and-winrm-20-ports">Windows Firewall and WinRM 2.0 Ports</a></li><li><a href="#winrm-installation-and-configuration-notes">WinRM Installation and Configuration Notes</a></li><li><a href="#ipmi-driver-and-provider-installation-notes">IPMI Driver and Provider Installation Notes</a></li><li><a href="#wmi-plug-in-configuration-notes">WMI Plug-in Configuration Notes</a></li></ol></nav>
+
+
+
+						<!-- <content> -->
+							
+<p>If Windows Remote Management (WinRM) is not installed and configured, WinRM scripts do not run and the <strong>Winrm</strong> command-line tool cannot perform data operations. The <a href="https://docs.microsoft.com/en-us/windows/desktop/winrm/windows-remote-management-glossary" data-linktype="relative-path"><em>Windows Remote Shell</em></a> command-line tool, Winrs, <a href="https://docs.microsoft.com/en-us/windows/desktop/winrm/windows-remote-management-glossary" data-linktype="relative-path"><em>event forwarding</em></a>, and Windows PowerShell 2.0 remoting also depend on WinRM configuration.</p>
+<h2 id="installing-winrm" class="heading-with-anchor x-hidden-focus">Installing WinRM<a class="docon docon-link heading-anchor" tabindex="-1" aria-hidden="true" href="#installing-winrm"></a></h2>
+<p>WinRM is automatically installed with all currently-supported versions of the Windows operating system.</p>
+<h2 id="configuration-of-winrm-and-ipmi" class="heading-with-anchor">Configuration of WinRM and IPMI<a class="docon docon-link heading-anchor" tabindex="-1" aria-hidden="true" href="#configuration-of-winrm-and-ipmi"></a></h2>
+<p>The following WinRM and <a href="https://docs.microsoft.com/en-us/windows/desktop/winrm/windows-remote-management-glossary" data-linktype="relative-path"><em>Intelligent Platform Management Interface (IPMI)</em></a> <a href="https://msdn.microsoft.com/library/aa391402" data-linktype="external">WMI provider</a> components are installed with the operating system:</p>
+<ul>
+<li>The WinRM service starts automatically on Windows Server&nbsp;2008. On Windows&nbsp;Vista, the service must be started manually.</li>
+<li>By default, no WinRM <a href="https://docs.microsoft.com/en-us/windows/desktop/winrm/windows-remote-management-glossary" data-linktype="relative-path"><em>listener</em></a> is configured. Even if the WinRM service is running, WS-Management protocol <a href="https://docs.microsoft.com/en-us/windows/desktop/winrm/windows-remote-management-glossary" data-linktype="relative-path"><em>messages</em></a> that request data cannot be received or sent.</li>
+<li>Internet Connection Firewall (ICF) blocks access to ports.</li>
+</ul>
+<p>Use the <strong>Winrm</strong> command to locate listeners and the addresses by typing the following command at a command prompt: <strong>winrm e winrm/config/listener</strong>. To check the state of configuration settings, type <strong>winrm get winrm/config</strong>.</p>
+<h2 id="quick-default-configuration" class="heading-with-anchor">Quick Default Configuration<a class="docon docon-link heading-anchor" tabindex="-1" aria-hidden="true" href="#quick-default-configuration"></a></h2>
+<p>You can enable the WS-Management protocol on the local computer and 
+set up the default configuration for remote management with the 
+following command: <strong>Winrm quickconfig</strong>.</p>
+<p>The <strong>winrm quickconfig</strong> command (or the abbreviated version <strong>winrm qc</strong>) performs the following operations:</p>
+<ul>
+<li>Starts the WinRM service, and sets the service startup type to auto-start.</li>
+<li>Configures a listener for the ports that send and receive WS-Management protocol <a href="https://docs.microsoft.com/en-us/windows/desktop/winrm/windows-remote-management-glossary" data-linktype="relative-path"><em>messages</em></a> using either HTTP or HTTPS on any IP address.</li>
+<li>Defines ICF exceptions for the WinRM service, and opens the ports for HTTP and HTTPS.</li>
+</ul>
+<p><strong>Note</strong>&nbsp;&nbsp;The <strong>winrm quickconfig</strong> command creates a firewall exception only for the current user profile. If the firewall profile is changed for any reason, <strong>winrm quickconfig</strong> should be run to enable the firewall exception for the new profile; otherwise, the exception might not be enabled.</p>
+<p>To retrieve information about customizing a configuration, type <strong>winrm help config</strong> at a command prompt.</p>
+<p><strong>To configure WinRM with default settings</strong></p>
+<ol>
+<li><p>Type the following command at a command prompt: <strong>Winrm quickconfig</strong>.</p>
+<p>If you are not running under the local computer Administrator account, you must either select <strong>Run as Administrator</strong> from the <strong>Start</strong> menu or use the <strong>Runas</strong> command at a command prompt.</p>
+</li>
+<li><p>When the tool displays <strong>Make these changes [y/n]?</strong>, type <strong>y</strong>.</p>
+<p>If configuration is successful, the following output is displayed:</p>
+<div class="codeHeader" data-bi-name="code-header"><span class="language">syntax</span>
+			<button class="action" data-bi-name="copy">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre><code class="lang-syntax">WinRM has been updated for remote management.
+
+WinRM service type changed to delayed auto start.
+WinRM service started.
+Created a WinRM listener on HTTP://* to accept WS-Man requests to any IP on this
+ machine.
+</code></pre>
+</li>
+<li><p>Keep the default settings for client and server components of 
+WinRM, or customize them. For example, you might need to add certain 
+remote computers to the client configuration TrustedHosts list.</p>
+<p>A trusted hosts list should be set up when mutual authentication 
+cannot be established. Kerberos allows mutual authentication, but it 
+cannot be used in workgroups, only domains. A best practice when setting
+ up trusted hosts for a workgroup is to make the list should be as 
+restricted as possible.</p>
+</li>
+<li><p>Create an HTTPS listener by typing the following command: <strong>winrm quickconfig -transport:https</strong>. Be aware that you must open port 5986 for HTTPS transport to work.</p>
+</li>
+</ol>
+<h2 id="listener-and-ws-management-protocol-default-settings" class="heading-with-anchor">Listener and WS-Management protocol Default Settings<a class="docon docon-link heading-anchor" tabindex="-1" aria-hidden="true" href="#listener-and-ws-management-protocol-default-settings"></a></h2>
+<p>To get the listener configuration, type <strong>winrm enumerate winrm/config/listener</strong> at a command prompt. Listeners are defined by a transport (HTTP or HTTPS) and an IPv4 or IPv6 address.</p>
+<p><strong>Winrm quickconfig</strong> creates the following default settings for a listener. You can create more than one listener. For more information, type <strong>winrm help config</strong> at a command prompt.</p>
+<dl> <dt>
+<p><span id="Address"></span><span id="address"></span><span id="ADDRESS"></span>Address</p>
+</dt> <dd>
+<p>Specifies the address for which this listener was created.</p>
+</dd> <dt>
+<p><span id="Transport"></span><span id="transport"></span><span id="TRANSPORT"></span>Transport</p>
+</dt> <dd>
+<p>Specifies the transport to use to send and receive WS-Management 
+protocol requests and responses. The value must be either HTTP or HTTPS.
+ The default is HTTP.</p>
+</dd> <dt>
+<p><span id="Port"></span><span id="port"></span><span id="PORT"></span>Port</p>
+</dt> <dd>
+<p>Specifies the TCP port for which this listener is created.</p>
+<p><strong>WinRM 2.0:</strong> The default HTTP port is 5985.</p>
+</dd> <dt>
+<p><span id="Hostname"></span><span id="hostname"></span><span id="HOSTNAME"></span>Hostname</p>
+</dt> <dd>
+<p>Specifies the host name of the computer on which the WinRM service is
+ running. The value must be a fully qualified domain name, an IPv4 or 
+IPv6 literal string, or a wildcard character.</p>
+</dd> <dt>
+<p><span id="Enabled"></span><span id="enabled"></span><span id="ENABLED"></span>Enabled</p>
+</dt> <dd>
+<p>Specifies whether the listener is enabled or disabled. The default is <strong>True</strong>.</p>
+</dd> <dt>
+<p><span id="URLPrefix"></span><span id="urlprefix"></span><span id="URLPREFIX"></span>URLPrefix</p>
+</dt> <dd>
+<p>Specifies a URL prefix on which to accept HTTP or HTTPS requests. 
+This is a string containing only the characters a-z, A-Z, 9-0, 
+underscore (_), and slash (/). The string must not start with or end 
+with a slash (/). For example, if the computer name is SampleMachine, 
+the WinRM client would specify http://SampleMachine/&lt;<em>URLPrefix</em>&gt; in the destination address. The default URL prefix is "wsman".</p>
+</dd> <dt>
+<p><span id="CertificateThumbprint"></span><span id="certificatethumbprint"></span><span id="CERTIFICATETHUMBPRINT"></span>CertificateThumbprint</p>
+</dt> <dd>
+<p>Specifies the thumbprint of the service certificate. This value 
+represents a string of two-digit hexadecimal values found in the 
+Thumbprint field of the certificate. This string contains the SHA-1 hash
+ of the certificate. Certificates are used in client certificate-based 
+authentication. Certificates can be mapped only to local user accounts, 
+and they do not work with domain accounts.</p>
+</dd> <dt>
+<p><span id="ListeningOn"></span><span id="listeningon"></span><span id="LISTENINGON"></span>ListeningOn</p>
+</dt> <dd>
+<p>Specifies the IPv4 and IPv6 addresses that the listener uses. For 
+example: "111.0.0.1, 111.222.333.444, ::1, 
+1000:2000:2c:3:c19:9ec8:a715:5e24, 
+3ffe:8311:ffff:f70f:0:5efe:111.222.333.444, 
+fe80::5efe:111.222.333.444%8, fe80::c19:9ec8:a715:5e24%6".</p>
+</dd> </dl>
+<h2 id="protocol-default-settings" class="heading-with-anchor">Protocol Default Settings<a class="docon docon-link heading-anchor" tabindex="-1" aria-hidden="true" href="#protocol-default-settings"></a></h2>
+<p>Many of the configuration settings, such as MaxEnvelopeSizekb or 
+SoapTraceEnabled, determine how the WinRM client and server components 
+interact with the WS-Management protocol. The following list describes 
+the available configuration settings.</p>
+<dl> <dt>
+<p><span id="MaxEnvelopeSizekb"></span><span id="maxenvelopesizekb"></span><span id="MAXENVELOPESIZEKB"></span>MaxEnvelopeSizekb</p>
+</dt> <dd>
+<p>Specifies the maximum Simple Object Access Protocol (SOAP) data in kilobytes. The default is 150 kilobytes.</p>
+<div class="alert is-info">
+<p class="alert-title"><span class="docon docon-status-error-outline"></span> Note</p>
+<p>The behavior is unsupported if MaxEnvelopeSizekb is set to a value greater than 1039440.</p>
+</div>
+<p>&nbsp;</p>
+</dd> <dt>
+<p><span id="MaxTimeoutms"></span><span id="maxtimeoutms"></span><span id="MAXTIMEOUTMS"></span>MaxTimeoutms</p>
+</dt> <dd>
+<p>Specifies the maximum time-out, in milliseconds, that can be used for
+ any request other than Pull requests. The default is 60000.</p>
+</dd> <dt>
+<p><span id="MaxBatchItems"></span><span id="maxbatchitems"></span><span id="MAXBATCHITEMS"></span>MaxBatchItems</p>
+</dt> <dd>
+<p>Specifies the maximum number of elements that can be used in a Pull response. The default is 32000.</p>
+</dd> <dt>
+<p><span id="MaxProviderRequests"></span><span id="maxproviderrequests"></span><span id="MAXPROVIDERREQUESTS"></span>MaxProviderRequests</p>
+</dt> <dd>
+<p>Specifies the maximum number of concurrent requests that are allowed by the service. The default is 25.</p>
+<p><strong>WinRM 2.0:</strong> This setting is deprecated and set to read-only.</p>
+</dd> </dl>
+<h2 id="winrm-client-default-configuration-settings" class="heading-with-anchor">WinRM Client Default Configuration Settings<a class="docon docon-link heading-anchor" tabindex="-1" aria-hidden="true" href="#winrm-client-default-configuration-settings"></a></h2>
+<p>The client version of WinRM has the following default configuration settings.</p>
+<dl> <dt>
+<p><span id="NetworkDelayms"></span><span id="networkdelayms"></span><span id="NETWORKDELAYMS"></span>NetworkDelayms</p>
+</dt> <dd>
+<p>Specifies the extra time in milliseconds that the client computer 
+waits to accommodate for network delay time. The default is 5000 
+milliseconds.</p>
+</dd> <dt>
+<p><span id="URLPrefix"></span><span id="urlprefix"></span><span id="URLPREFIX"></span>URLPrefix</p>
+</dt> <dd>
+<p>Specifies a URL prefix on which to accept HTTP or HTTPS requests. The default URL prefix is wsman.</p>
+</dd> <dt>
+<p><span id="AllowUnencrypted"></span><span id="allowunencrypted"></span><span id="ALLOWUNENCRYPTED"></span>AllowUnencrypted</p>
+</dt> <dd>
+<p>Allows the client computer to request unencrypted traffic. By 
+default, the client computer requires encrypted network traffic and this
+ setting is <strong>False</strong>.</p>
+</dd> <dt>
+<p><span id="Basic"></span><span id="basic"></span><span id="BASIC"></span>Basic</p>
+</dt> <dd>
+<p>Allows the client computer to use Basic authentication. Basic 
+authentication is a scheme in which the user name and password are sent 
+in clear text to the server or proxy. This method is the least secure 
+method of authentication. The default is <strong>True</strong>.</p>
+</dd> <dt>
+<p><span id="Digest"></span><span id="digest"></span><span id="DIGEST"></span>Digest</p>
+</dt> <dd>
+<p>Allows the client to use Digest authentication. Digest authentication
+ is a challenge-response scheme that uses a server-specified data string
+ for the challenge. Only the client computer can initiate a Digest 
+authentication request. The client computer sends a request to the 
+server to authenticate and receives a token string from the server. Then
+ the client computer sends the resource request, including the user name
+ and a cryptographic hash of the password combined with the token 
+string. Digest authentication is supported for HTTP and for HTTPS. WinRM
+ Shell client scripts and applications can specify Digest 
+authentication, but the WinRM service does not accept Digest 
+authentication. The default is <strong>True</strong>.</p>
+<div class="alert is-info">
+<p class="alert-title"><span class="docon docon-status-error-outline"></span> Note</p>
+<p>Digest authentication over HTTP is not considered secure.</p>
+</div>
+<p>&nbsp;</p>
+</dd> <dt>
+<p><span id="Certificate"></span><span id="certificate"></span><span id="CERTIFICATE"></span>Certificate</p>
+</dt> <dd>
+<p>Allows the client to use client certificate-based authentication. 
+Certificate-based authentication is a scheme in which the server 
+authenticates a client identified by an X509 certificate. The default is
+ <strong>True</strong>.</p>
+</dd> <dt>
+<p><span id="Kerberos"></span><span id="kerberos"></span><span id="KERBEROS"></span>Kerberos</p>
+</dt> <dd>
+<p>Allows the client to use Kerberos authentication. Kerberos 
+authentication is a scheme in which the client and server mutually 
+authenticate by using Kerberos certificates. The default is <strong>True</strong>.</p>
+</dd> <dt>
+<p><span id="Negotiate"></span><span id="negotiate"></span><span id="NEGOTIATE"></span>Negotiate</p>
+</dt> <dd>
+<p>Allows the client to use Negotiate authentication. Negotiate 
+authentication is a scheme in which the client sends a request to the 
+server to authenticate. The server determines whether to use the 
+Kerberos protocol or NTLM. The Kerberos protocol is selected to 
+authenticate a domain account, and NTLM is selected for local computer 
+accounts. The user name must be specified in domain\user_name format for
+ a domain user. The user name must be specified in 
+"server_name\user_name" format for a local user on a server computer. 
+The default is <strong>True</strong>.</p>
+</dd> <dt>
+<p><span id="CredSSP"></span><span id="credssp"></span><span id="CREDSSP"></span>CredSSP</p>
+</dt> <dd>
+<p>Allows the client to use Credential Security Support Provider 
+(CredSSP) authentication. CredSSP enables an application to delegate the
+ user's credentials from the client computer to the target server. The 
+default is <strong>False</strong>.</p>
+</dd> <dt>
+<p><span id="DefaultPorts"></span><span id="defaultports"></span><span id="DEFAULTPORTS"></span>DefaultPorts</p>
+</dt> <dd>
+<p>Specifies the ports that the client will use for either HTTP or HTTPS.</p>
+<p><strong>WinRM 2.0:</strong> The default HTTP port is 5985, and the default HTTPS port is 5986.</p>
+</dd> <dt>
+<p><span id="TrustedHosts"></span><span id="trustedhosts"></span><span id="TRUSTEDHOSTS"></span>TrustedHosts</p>
+</dt> <dd>
+<p>Specifies the list of remote computers that are trusted. Other 
+computers in a workgroup or computers in a different domain should be 
+added to this list.</p>
+<div class="alert is-info">
+<p class="alert-title"><span class="docon docon-status-error-outline"></span> Note</p>
+<p>The computers in the TrustedHosts list are not authenticated. The client may send credential information to these computers.</p>
+</div>
+<p>&nbsp;</p>
+<p>If an IPv6 address is specified for a TrustedHost, the address must 
+be enclosed in square brackets as demonstrated by the following winrm 
+utility command: <strong>winrm set winrm/config/client '@{TrustedHosts ="[0:0:0:0:0:0:0:0]"}'</strong>.</p>
+<p>For more information about how to add computers to the TrustedHosts list, type <strong>winrm help config</strong>.</p>
+</dd> </dl>
+<h2 id="winrm-service-default-configuration-settings" class="heading-with-anchor">WinRM Service Default Configuration Settings<a class="docon docon-link heading-anchor" tabindex="-1" aria-hidden="true" href="#winrm-service-default-configuration-settings"></a></h2>
+<p>The service version of WinRM has the following default configuration settings.</p>
+<dl> <dt>
+<p><span id="RootSDDL"></span><span id="rootsddl"></span><span id="ROOTSDDL"></span>RootSDDL</p>
+</dt> <dd>
+<p>Specifies the security descriptor that controls remote access to the 
+listener. The default is 
+"O:NSG:BAD:P(A;;GA;;;BA)(A;;GR;;;ER)S:P(AU;FA;GA;;;WD)(AU;SA;GWGX;;;WD)".</p>
+</dd> <dt>
+<p><span id="MaxConcurrentOperations"></span><span id="maxconcurrentoperations"></span><span id="MAXCONCURRENTOPERATIONS"></span>MaxConcurrentOperations</p>
+</dt> <dd>
+<p>The maximum number of concurrent operations. The default is 100.</p>
+<p><strong>WinRM 2.0:</strong> The MaxConcurrentOperations setting is 
+deprecated and set to read-only. This setting has been replaced by 
+MaxConcurrentOperationsPerUser.</p>
+</dd> <dt>
+<p><span id="MaxConcurrentOperationsPerUser"></span><span id="maxconcurrentoperationsperuser"></span><span id="MAXCONCURRENTOPERATIONSPERUSER"></span>MaxConcurrentOperationsPerUser</p>
+</dt> <dd>
+<p>Specifies the maximum number of concurrent operations that any user can remotely open on the same system. The default is 1500.</p>
+</dd> <dt>
+<p><span id="EnumerationTimeoutms"></span><span id="enumerationtimeoutms"></span><span id="ENUMERATIONTIMEOUTMS"></span>EnumerationTimeoutms</p>
+</dt> <dd>
+<p>Specifies the idle time-out in milliseconds between Pull messages. The default is 60000.</p>
+</dd> <dt>
+<p><span id="MaxConnections"></span><span id="maxconnections"></span><span id="MAXCONNECTIONS"></span>MaxConnections</p>
+</dt> <dd>
+<p>Specifies the maximum number of active requests that the service can process simultaneously. The default is 300.</p>
+<p><strong>WinRM 2.0:</strong> The default is 25.</p>
+</dd> <dt>
+<p><span id="MaxPacketRetrievalTimeSeconds"></span><span id="maxpacketretrievaltimeseconds"></span><span id="MAXPACKETRETRIEVALTIMESECONDS"></span>MaxPacketRetrievalTimeSeconds</p>
+</dt> <dd>
+<p>Specifies the maximum length of time, in seconds, the WinRM service takes to retrieve a packet. The default is 120 seconds.</p>
+</dd> <dt>
+<p><span id="AllowUnencrypted"></span><span id="allowunencrypted"></span><span id="ALLOWUNENCRYPTED"></span>AllowUnencrypted</p>
+</dt> <dd>
+<p>Allows the client computer to request unencrypted traffic. The default is <strong>False</strong>.</p>
+</dd> <dt>
+<p><span id="Basic"></span><span id="basic"></span><span id="BASIC"></span>Basic</p>
+</dt> <dd>
+<p>Allows the WinRM service to use Basic authentication. The default is <strong>False</strong>.</p>
+</dd> <dt>
+<p><span id="Certificate"></span><span id="certificate"></span><span id="CERTIFICATE"></span>Certificate</p>
+</dt> <dd>
+<p>Allows the WinRM service to use client certificate-based authentication. The default is <strong>False</strong>.</p>
+</dd> <dt>
+<p><span id="Kerberos"></span><span id="kerberos"></span><span id="KERBEROS"></span>Kerberos</p>
+</dt> <dd>
+<p>Allows the WinRM service to use Kerberos authentication. The default is <strong>True</strong>.</p>
+</dd> <dt>
+<p><span id="Negotiate"></span><span id="negotiate"></span><span id="NEGOTIATE"></span>Negotiate</p>
+</dt> <dd>
+<p>Allows the WinRM service to use Negotiate authentication. The default is <strong>True</strong>.</p>
+</dd> <dt>
+<p><span id="CredSSP"></span><span id="credssp"></span><span id="CREDSSP"></span>CredSSP</p>
+</dt> <dd>
+<p>Allows the WinRM service to use Credential Security Support Provider (CredSSP) authentication. The default is <strong>False</strong>.</p>
+</dd> <dt>
+<p><span id="CbtHardeningLevel"></span><span id="cbthardeninglevel"></span><span id="CBTHARDENINGLEVEL"></span>CbtHardeningLevel</p>
+</dt> <dd>
+<p>Sets the policy for channel-binding token requirements in authentication requests. The default is <strong>Relaxed</strong>.</p>
+</dd> <dt>
+<p><span id="DefaultPorts"></span><span id="defaultports"></span><span id="DEFAULTPORTS"></span>DefaultPorts</p>
+</dt> <dd>
+<p>Specifies the ports that the WinRM service will use for either HTTP or HTTPS.</p>
+<p><strong>WinRM 2.0:</strong> The default HTTP port is 5985, and the default HTTPS port is 5986.</p>
+</dd> <dt>
+<p><span id="IPv4Filter_and_________IPv6Filter"></span><span id="ipv4filter_and_________ipv6filter"></span><span id="IPV4FILTER_AND_________IPV6FILTER"></span>IPv4Filter and IPv6Filter</p>
+</dt> <dd>
+<p>Specifies the IPv4 or IPv6 addresses that listeners can use. The defaults are IPv4Filter = * and IPv6Filter = *.</p>
+<p><strong>IPv4:</strong> An IPv4 literal string consists of four dotted decimal numbers, each in the range 0 through 255. For example: 192.168.0.0.</p>
+<p><strong>IPv6:</strong> An IPv6 literal string is enclosed in brackets
+ and contains hexadecimal numbers that are separated by colons. For 
+example: [::1] or [3ffe:ffff::6ECB:0101].</p>
+</dd> <dt>
+<p><span id="EnableCompatibilityHttpListener"></span><span id="enablecompatibilityhttplistener"></span><span id="ENABLECOMPATIBILITYHTTPLISTENER"></span>EnableCompatibilityHttpListener</p>
+</dt> <dd>
+<p>Specifies whether the compatibility HTTP listener is enabled. If this setting is <strong>True</strong>, the listener will listen on port 80 in addition to port 5985. The default is <strong>False</strong>.</p>
+</dd> <dt>
+<p><span id="EnableCompatibilityHttpsListener"></span><span id="enablecompatibilityhttpslistener"></span><span id="ENABLECOMPATIBILITYHTTPSLISTENER"></span>EnableCompatibilityHttpsListener</p>
+</dt> <dd>
+<p>Specifies whether the compatibility HTTPS listener is enabled. If this setting is <strong>True</strong>, the listener will listen on port 443 in addition to port 5986. The default is <strong>False</strong>.</p>
+</dd> </dl>
+<h2 id="winrs-default-configuration-settings" class="heading-with-anchor">Winrs Default Configuration Settings<a class="docon docon-link heading-anchor" tabindex="-1" aria-hidden="true" href="#winrs-default-configuration-settings"></a></h2>
+<p><strong>Winrm quickconfig</strong> also configures <strong>Winrs</strong> default settings.</p>
+<dl> <dt>
+<p><span id="AllowRemoteShellAccess"></span><span id="allowremoteshellaccess"></span><span id="ALLOWREMOTESHELLACCESS"></span>AllowRemoteShellAccess</p>
+</dt> <dd>
+<p>Enables access to remote shells. If you set this parameter to <strong>False</strong>, new remote shell connections will be rejected by the server. The default is <strong>True</strong>.</p>
+</dd> <dt>
+<p><span id="IdleTimeout"></span><span id="idletimeout"></span><span id="IDLETIMEOUT"></span>IdleTimeout</p>
+</dt> <dd>
+<p>Specifies the maximum time, in milliseconds, that the remote shell 
+will remain open when there is no user activity in the remote shell. The
+ remote shell is automatically deleted after the time that is specified.</p>
+<p><strong>WinRM 2.0:</strong> The default is 180000. The minimum value is 60000. Setting this value lower than 60000 will have no effect on the time-out.</p>
+</dd> <dt>
+<p><span id="MaxConcurrentUsers"></span><span id="maxconcurrentusers"></span><span id="MAXCONCURRENTUSERS"></span>MaxConcurrentUsers</p>
+</dt> <dd>
+<p>Specifies the maximum number of users who can concurrently perform 
+remote operations on the same computer through a remote shell. New 
+remote shell connections will be rejected if they exceed the specified 
+limit. The default is 5.</p>
+</dd> <dt>
+<p><span id="MaxShellRunTime"></span><span id="maxshellruntime"></span><span id="MAXSHELLRUNTIME"></span>MaxShellRunTime</p>
+</dt> <dd>
+<p>Specifies the maximum time, in milliseconds, that the remote command or script is allowed to execute. The default is 28800000.</p>
+<p><strong>WinRM 2.0:</strong> The MaxShellRunTime setting is set to 
+read-only. Changing the value for MaxShellRunTime will have no effect on
+ the remote shells.</p>
+</dd> <dt>
+<p><span id="MaxProcessesPerShell"></span><span id="maxprocessespershell"></span><span id="MAXPROCESSESPERSHELL"></span>MaxProcessesPerShell</p>
+</dt> <dd>
+<p>Specifies the maximum number of processes that any shell operation is
+ allowed to start. A value of 0 allows for an unlimited number of 
+processes. The default is 15.</p>
+</dd> <dt>
+<p><span id="MaxMemoryPerShellMB"></span><span id="maxmemorypershellmb"></span><span id="MAXMEMORYPERSHELLMB"></span>MaxMemoryPerShellMB</p>
+</dt> <dd>
+<p>Specifies the maximum amount of memory allocated per shell, including the shell's child processes. The default is 150 MB.</p>
+</dd> <dt>
+<p><span id="MaxShellsPerUser"></span><span id="maxshellsperuser"></span><span id="MAXSHELLSPERUSER"></span>MaxShellsPerUser</p>
+</dt> <dd>
+<p>Specifies the maximum number of concurrent shells that any user can 
+remotely open on the same computer. If this policy setting is enabled, 
+the user will not be able to open new remote shells if the count exceeds
+ the specified limit. If this policy setting is disabled or is not 
+configured, the limit will be set to 5 remote shells per user by 
+default.</p>
+</dd> </dl>
+<h2 id="configuring-winrm-with-group-policy" class="heading-with-anchor">Configuring WinRM with Group Policy<a class="docon docon-link heading-anchor" tabindex="-1" aria-hidden="true" href="#configuring-winrm-with-group-policy"></a></h2>
+<p>Use the Group Policy editor to configure Windows Remote Shell and WinRM for computers in your enterprise.</p>
+<p><strong>To configure with Group Policy</strong></p>
+<ol>
+<li>Open a Command Prompt window as an administrator.</li>
+<li>At the Command Prompt, type <strong>gpedit.msc</strong>. The <strong>Group Policy Object Editor</strong> window opens.</li>
+<li>Find the <strong>Windows Remote Management</strong> and <strong>Windows Remote Shell</strong> Group Policy Objects (GPO) under <strong>Computer Configuration\Administrative Templates\Windows Components</strong>.</li>
+<li>On the <strong>Extended</strong> tab, select a setting to see a description. Double click a setting to edit it.</li>
+</ol>
+<h2 id="windows-firewall-and-winrm-20-ports" class="heading-with-anchor">Windows Firewall and WinRM 2.0 Ports<a class="docon docon-link heading-anchor" tabindex="-1" aria-hidden="true" href="#windows-firewall-and-winrm-20-ports"></a></h2>
+<p>Starting in WinRM 2.0, the default listener ports configured by <strong>Winrm quickconfig</strong> are port 5985 for HTTP transport and port 5986 for HTTPS. WinRM listeners can be configured on any arbitrary port.</p>
+<p>If a computer is upgraded to WinRM 2.0, the previously configured listeners are migrated and still receive traffic.</p>
+<h2 id="winrm-installation-and-configuration-notes" class="heading-with-anchor">WinRM Installation and Configuration Notes<a class="docon docon-link heading-anchor" tabindex="-1" aria-hidden="true" href="#winrm-installation-and-configuration-notes"></a></h2>
+<p>WinRM is not dependent on any other service except WinHttp. If the 
+IIS Admin Service is installed on the same computer, you might see 
+messages that indicate WinRM cannot be loaded before Internet 
+Information Services (IIS). However, WinRM does not actually depend on 
+IIS: these messages occur because the load order ensures that the IIS 
+service starts before the HTTP service. WinRM does require that 
+WinHTTP.dll be registered.</p>
+<p>If the ISA2004 firewall client is installed on the computer, it can 
+cause a Web Services for Management (WS-Management) client to stop 
+responding. To avoid this issue, install ISA2004 Firewall SP1.</p>
+<p>If two listener services with different IP addresses are configured 
+with the same port number and computer name, WinRM listens or receives 
+messages on only one address. This is because the URL prefixes used by 
+the WS-Management protocol are the same.</p>
+<h2 id="ipmi-driver-and-provider-installation-notes" class="heading-with-anchor">IPMI Driver and Provider Installation Notes<a class="docon docon-link heading-anchor" tabindex="-1" aria-hidden="true" href="#ipmi-driver-and-provider-installation-notes"></a></h2>
+<p>The driver might not detect the existence of IPMI drivers that are 
+not from Microsoft. If the driver fails to start, you might need to 
+disable it.</p>
+<p>If the <a href="https://docs.microsoft.com/en-us/windows/desktop/winrm/windows-remote-management-glossary" data-linktype="relative-path"><em>baseboard management controller (BMC)</em></a>
+ resources appear in the system BIOS, ACPI (Plug and Play) detects the 
+BMC hardware and automatically installs the IPMI driver. Plug and Play 
+support might not be present in all BMCs. If the BMC is detected by Plug
+ and Play, an Unknown Device appears in Device Manager before the 
+Hardware Management component is installed. When the driver is 
+installed, a new component, the Microsoft ACPI Generic IPMI Compliant 
+Device, appears in Device Manager.</p>
+<p>If your system does not automatically detect the BMC and install the 
+driver, but a BMC was detected during the setup process, the BMC device 
+must be manually created. To do this, type the following command at a 
+command prompt: <strong>Rundll32 ipmisetp.dll, AddTheDevice</strong>. 
+After this command is executed, the IPMI device is created and appears 
+in Device Manager. If you uninstall the Hardware Management component, 
+the device is removed.</p>
+<p>For more information, see <a href="http://go.microsoft.com/fwlink/p/?linkid=45204" data-linktype="external">Hardware Management Introduction</a>.</p>
+<p>The IPMI provider places the hardware classes in the <strong>root\hardware</strong> <a href="https://msdn.microsoft.com/library/aa390820#wmi-gloss-namespace" data-linktype="external"><em>namespace</em></a> of WMI. For more information about the hardware classes, see <a href="https://msdn.microsoft.com/library/aa391402" data-linktype="external">IPMI Provider</a>. For more information about WMI <em>namespaces</em>, see <a href="https://msdn.microsoft.com/library/aa394553" data-linktype="external">WMI Architecture</a>.</p>
+<h2 id="wmi-plug-in-configuration-notes" class="heading-with-anchor">WMI Plug-in Configuration Notes<a class="docon docon-link heading-anchor" tabindex="-1" aria-hidden="true" href="#wmi-plug-in-configuration-notes"></a></h2>
+<p>Beginning with Windows&nbsp;8 and Windows Server&nbsp;2012, <a href="https://docs.microsoft.com/en-us/windows/desktop/winrm/windows-remote-management-glossary" data-linktype="relative-path"><em>WMI plug-ins</em></a> have their own security configurations. For a normal or power (non-administrator) user to be able to use the <em>WMI plug-in</em>, you need to enable access for that user after the <a href="https://docs.microsoft.com/en-us/windows/desktop/winrm/windows-remote-management-glossary" data-linktype="relative-path"><em>listener</em></a> has been configured. First, you must set up the user for remote access to <a href="https://docs.microsoft.com/en-us/windows/desktop/winrm/windows-remote-management-glossary" data-linktype="relative-path"><em>WMI</em></a> through one of these steps:</p>
+<ul>
+<li><p>run <strong>lusrmgr.msc</strong> to add the user to the <strong>WinRMRemoteWMIUsers__</strong> group in the <strong>Local Users and Groups</strong> window, or</p>
+</li>
+<li><p>use the <strong>winrm</strong> command-line tool to configure the security descriptor for the <a href="https://docs.microsoft.com/en-us/windows/desktop/winrm/windows-remote-management-glossary" data-linktype="relative-path"><em>namespace</em></a> of the <a href="https://docs.microsoft.com/en-us/windows/desktop/winrm/windows-remote-management-glossary" data-linktype="relative-path"><em>WMI plug-in</em></a>, as follows: *<em>winrm configSDDL <a href="http://schemas.microsoft.com/wbem/wsman/1/wmi/***WmiNamespace" data-linktype="external">http://schemas.microsoft.com/wbem/wsman/1/wmi/***WmiNamespace</a></em>.</p>
+<p>When the user interface appears, add the user.</p>
+</li>
+</ul>
+<p>After setting up the user for remote access to <a href="https://docs.microsoft.com/en-us/windows/desktop/winrm/windows-remote-management-glossary" data-linktype="relative-path"><em>WMI</em></a>, you must set up <em>WMI</em> to allow the user to access the plug-in. To do this, run <strong>wmimgmt.msc</strong> to modify the <em>WMI</em> security for the <a href="https://docs.microsoft.com/en-us/windows/desktop/winrm/windows-remote-management-glossary" data-linktype="relative-path"><em>namespace</em></a> to be accessed in the <strong>WMI Control</strong> window.</p>
+<p>The majority of the WMI classes for management are in the <strong>root\cimv2</strong> namespace.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+						<!-- </content> -->
+							
+						</main>
+
+						<!-- feedback section -->
+
+
+				
+						<!-- end feedback section -->
+
+						<div class="footerContainer is-visible-interactive has-default-focus ">
+<footer id="footer-interactive" data-bi-name="footer" class="footer-layout">
+
+    <a data-mscc-ic="false" class="locale-selector-link" href="https://docs.microsoft.com/en-us/locale?target=https://docs.microsoft.com/en-us/windows/desktop/winrm/installation-and-configuration-for-windows-remote-management" data-bi-name="select-locale"><span class="icon docon docon-world is-size-4 has-margin-right-small"></span><span class="local-selector-link-text">English (United States)</span></a>
+
+    <ul class="links" data-bi-name="footerlinks">
+		<li><a data-mscc-ic="false" href="https://docs.microsoft.com/previous-versions/" data-bi-name="archivelink">Previous Version Docs</a></li>
+		<li><a data-mscc-ic="false" href="https://docs.microsoft.com/teamblog" data-bi-name="bloglink">Blog</a></li>
+		<li><a data-mscc-ic="false" href="https://docs.microsoft.com/contribute" data-bi-name="contributorGuide">Contribute</a></li>
+			<li><a data-mscc-ic="false" href="https://go.microsoft.com/fwlink/?LinkId=521839" data-bi-name="privacy">Privacy &amp; Cookies</a></li>
+		<li><a data-mscc-ic="false" href="https://docs.microsoft.com/en-us/legal/termsofuse" data-bi-name="termsofuse">Terms of Use</a></li>
+		<li><a data-mscc-ic="false" href="https://aka.ms/sitefeedback" data-bi-name="feedback">Site Feedback</a></li>
+		<li><a data-mscc-ic="false" href="https://www.microsoft.com/en-us/legal/intellectualproperty/Trademarks/EN-US.aspx" data-bi-name="trademarks">Trademarks</a></li>
+    </ul>
+</footer>						</div>
+					</div>
+
+					<!--end of div.columns -->
+
+				</div>
+			
+			<!--end of .primary-holder -->
+			</section>
+
+				<div id="left-container" class="left-container column is-one-third-tablet is-one-quarter-desktop">
+					<nav class="sidebar" id="sidebar" data-bi-name="left toc" role="navigation" aria-label="Main Navigation" style="width: 254.617px; top: 24px; bottom: 24px;">
+						<button class="sidebar-header" type="button" aria-label="Close" data-bi-name="contents-collapse">
+							<span>Contents</span>
+							<span class="docon docon-navigate-close" aria-hidden="true"></span>
+						</button>
+						<div id="sidebarContent">
+							<div class="filterHolder">
+							<form class="tocFilter" aria-label="Filter Table of Contents"><input class="input is-size-7" placeholder="Filter by title" aria-label="Filter" data-bi-name="toc-filter" id="toc-filter" type="search" aria-controls="filterResults"><a href="#" title="Clear Filter" class="clearInput"><span class="visually-hidden">Clear Filter</span></a></form><div class="emptyFilterMessage">No results</div></div>
+							<nav class="toc" role="application" aria-label="Table of Contents" id="filterResults"><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")' class="noSibs"><li role="group" aria-expanded="true" aria-label="windows remote management " onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/portal" data-text="windows remote management ">Windows Remote Management</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="group" aria-expanded="true" aria-label="about windows remote management " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/about-windows-remote-management" data-text="about windows remote management ">About Windows Remote Management</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="treeitem"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/whats-new-in-winrm" data-text="what&amp;#39;s new in winrm 2.0 ">What's New in WinRM 2.0</a></li><li role="treeitem" class="selectedHolder"><a tabindex="0" class="selected" aria-current="page" data-showme="true" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/installation-and-configuration-for-windows-remote-management" data-text="installation and configuration for windows remote management ">Installation and Configuration for Windows Remote Management</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/windows-remote-management-architecture" data-text="windows remote management architecture ">Windows Remote Management Architecture</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/ws-management-protocol" data-text="ws-management protocol ">WS-Management Protocol</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/scripting-in-windows-remote-management" data-text="scripting in windows remote management ">Scripting in Windows Remote Management</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/authentication-for-remote-connections" data-text="authentication for remote connections ">Authentication for Remote Connections</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/proxy-servers-and-winrm" data-text="proxy servers and winrm ">Proxy Servers and WinRM</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/windows-remote-management-and-wmi" data-text="windows remote management and wmi ">Windows Remote Management and WMI</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/dmtf-association-traversal" data-text="dmtf profile discovery through association traversal ">DMTF Profile Discovery Through Association Traversal</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/winrm-application-hosting" data-text="infrastructure for managing hosted services ">Infrastructure for Managing Hosted Services</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/iis-host-plug-in-configuration" data-text="iis host plug-in configuration ">IIS Host Plug-in Configuration</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/wsman-service-plug-in-configuration" data-text="winrm service plug-in configuration ">WinRM Service Plug-in Configuration</a></li><li role="group" aria-expanded="false" aria-label="remote shell infrastructure improvements " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)" class="noSubs"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/remote-shell-infrastructure-improvements" data-text="remote shell infrastructure improvements ">Remote Shell Infrastructure Improvements</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="treeitem"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/multi-hop-support" data-text="multi-hop support in winrm ">Multi-Hop Support in WinRM</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/quotas" data-text="quota management for remote shells ">Quota Management for Remote Shells</a></li></ul></li><li role="group" aria-expanded="false" aria-label="resource uris " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)" class="noSubs"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/resource-uris" data-text="resource uris ">Resource URIs</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="treeitem"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/uri-prefixes" data-text="uri prefixes ">URI Prefixes</a></li></ul></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/remote-hardware-management" data-text="remote hardware management ">Remote Hardware Management</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/events" data-text="events ">Events</a></li></ul></li><li role="group" aria-expanded="false" aria-label="using windows remote management " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)" class="noSubs"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/using-windows-remote-management" data-text="using windows remote management ">Using Windows Remote Management</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="treeitem"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/winrm-best-practices" data-text="winrm best practices ">WinRM Best Practices</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/detecting-whether-a-remote-computer-supports-ws-management-protocol" data-text="detecting whether a remote computer supports ws-management protocol ">Detecting Whether a Remote Computer Supports WS-Management Protocol</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/obtaining-data-from-the-local-computer" data-text="obtaining data from the local computer ">Obtaining Data from the Local Computer</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/obtaining-data-from-a-remote-computer" data-text="obtaining data from a remote computer ">Obtaining Data from a Remote Computer</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/enumerating-or-listing-all-instances-of-a-resource" data-text="enumerating or listing all instances of a resource ">Enumerating or Listing All Instances of a Resource</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/querying-for-specific-instances-of-a-resource" data-text="querying for specific instances of a resource ">Querying for Specific Instances of a Resource</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/displaying-xml-output-from-winrm-scripts" data-text="displaying xml output from winrm scripts ">Displaying XML Output from WinRM Scripts</a></li></ul></li><li role="group" aria-expanded="false" aria-label="windows remote management reference " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/windows-remote-management-reference" data-text="windows remote management reference ">Windows Remote Management Reference</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="group" aria-expanded="false" aria-label="winrm client shell api " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/client-shell-api" data-text="winrm client shell api ">WinRM Client Shell API</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="group" aria-expanded="false" aria-label="client shell api additional functions " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)" class="noSubs"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/client-shell-api-additional-functions" data-text="client shell api additional functions ">Client Shell API Additional Functions</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="treeitem"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/nf-wsman-wsmangeterrormessage" data-text="wsmangeterrormessage ">WSMan<wbr>Get<wbr>Error<wbr>Message</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/nf-wsman-wsmangetsessionoptionasdword" data-text="wsmangetsessionoptionasdword ">WSMan<wbr>Get<wbr>Session<wbr>Option<wbr>AsDword</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/nf-wsman-wsmangetsessionoptionasstring" data-text="wsmangetsessionoptionasstring ">WSMan<wbr>Get<wbr>Session<wbr>Option<wbr>AsString</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/nf-wsman-wsmansetsessionoption" data-text="wsmansetsessionoption ">WSMan<wbr>Set<wbr>Session<wbr>Option</a></li></ul></li><li role="group" aria-expanded="false" aria-label="client shell api core functions " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)" class="noSubs"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/client-shell-api-core-functions" data-text="client shell api core functions ">Client Shell API Core Functions</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="treeitem"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/nf-wsman-wsmanclosecommand" data-text="wsmanclosecommand ">WSMan<wbr>Close<wbr>Command</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/nf-wsman-wsmancloseoperation" data-text="wsmancloseoperation ">WSMan<wbr>Close<wbr>Operation</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/nf-wsman-wsmanclosesession" data-text="wsmanclosesession ">WSMan<wbr>Close<wbr>Session</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/nf-wsman-wsmancloseshell" data-text="wsmancloseshell ">WSMan<wbr>Close<wbr>Shell</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/nf-wsman-wsmanconnectshell" data-text="wsmanconnectshell ">WSMan<wbr>Connect<wbr>Shell</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/nf-wsman-wsmanconnectshellcommand" data-text="wsmanconnectshellcommand ">WSMan<wbr>Connect<wbr>Shell<wbr>Command</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/nf-wsman-wsmancreatesession" data-text="wsmancreatesession ">WSMan<wbr>Create<wbr>Session</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/nf-wsman-wsmancreateshell" data-text="wsmancreateshell ">WSMan<wbr>Create<wbr>Shell</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/nf-wsman-wsmancreateshellex" data-text="wsmancreateshellex ">WSMan<wbr>Create<wbr>Shell<wbr>Ex</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/nf-wsman-wsmandeinitialize" data-text="wsmandeinitialize ">WSMan<wbr>Deinitialize</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/nf-wsman-wsmandisconnectshell" data-text="wsmandisconnectshell ">WSMan<wbr>Disconnect<wbr>Shell</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/nf-wsman-wsmaninitialize" data-text="wsmaninitialize ">WSMan<wbr>Initialize</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/nf-wsman-wsmanreceiveshelloutput" data-text="wsmanreceiveshelloutput ">WSMan<wbr>Receive<wbr>Shell<wbr>Output</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/nf-wsman-wsmanreconnectshell" data-text="wsmanreconnectshell ">WSMan<wbr>Reconnect<wbr>Shell</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/nf-wsman-wsmanreconnectshellcommand" data-text="wsmanreconnectshellcommand ">WSMan<wbr>Reconnect<wbr>Shell<wbr>Command</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/nf-wsman-wsmanrunshellcommand" data-text="wsmanrunshellcommand ">WSMan<wbr>Run<wbr>Shell<wbr>Command</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/nf-wsman-wsmanrunshellcommandex" data-text="wsmanrunshellcommandex ">WSMan<wbr>Run<wbr>Shell<wbr>Command<wbr>Ex</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/nf-wsman-wsmansendshellinput" data-text="wsmansendshellinput ">WSMan<wbr>Send<wbr>Shell<wbr>Input</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/nf-wsman-wsmansignalshell" data-text="wsmansignalshell ">WSMan<wbr>Signal<wbr>Shell</a></li></ul></li><li role="group" aria-expanded="false" aria-label="client shell api enumerations " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)" class="noSubs"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/client-shell-api-enumerations" data-text="client shell api enumerations ">Client Shell API Enumerations</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="treeitem"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/ne-wsman-wsmanauthenticationflags" data-text="wsmanauthenticationflags ">WSMan<wbr>Authentication<wbr>Flags</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/ne-wsman-wsmancallbackflags" data-text="wsmancallbackflags ">WSMan<wbr>Callback<wbr>Flags</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/ne-wsman-wsmandatatype" data-text="wsmandatatype ">WSMan<wbr>Data<wbr>Type</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/ne-wsman-wsmanproxyaccesstype" data-text="wsmanproxyaccesstype ">WSMan<wbr>Proxy<wbr>Access<wbr>Type</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/ne-wsman-wsmansessionoption" data-text="wsmansessionoption ">WSMan<wbr>Session<wbr>Option</a></li></ul></li><li role="group" aria-expanded="false" aria-label="client shell api structures and definitions " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)" class="noSubs"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/client-shell-api-structures" data-text="client shell api structures and definitions ">Client Shell API Structures and Definitions</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="treeitem"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/ns-wsman-_wsman_authentication_credentials" data-text="wsman_authentication_credentials ">WSMAN_AUTHENTICATION_CREDENTIALS</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/ns-wsman-_wsman_data" data-text="wsman_data ">WSMAN_DATA</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/ns-wsman-_wsman_data_binary" data-text="wsman_data_binary ">WSMAN_DATA_BINARY</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/ns-wsman-_wsman_data_text" data-text="wsman_data_text ">WSMAN_DATA_TEXT</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/ns-wsman-_wsman_environment_variable" data-text="wsman_environment_variable ">WSMAN_ENVIRONMENT_VARIABLE</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/ns-wsman-_wsman_environment_variable_set" data-text="wsman_environment_variable_set ">WSMAN_ENVIRONMENT_VARIABLE_SET</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/ns-wsman-_wsman_error" data-text="wsman_error ">WSMAN_ERROR</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/ns-wsman-_wsman_key" data-text="wsman_key ">WSMAN_KEY</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/ns-wsman-_wsman_option" data-text="wsman_option ">WSMAN_OPTION</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/ns-wsman-_wsman_option_set" data-text="wsman_option_set ">WSMAN_OPTION_SET</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/ns-wsman-_wsman_proxy_info" data-text="wsman_proxy_info ">WSMAN_PROXY_INFO</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/ns-wsman-_wsman_receive_data_result" data-text="wsman_receive_data_result ">WSMAN_RECEIVE_DATA_RESULT</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/ns-wsman-_wsman_response_data" data-text="wsman_response_data ">WSMAN_RESPONSE_DATA</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/ns-wsman-_wsman_selector_set" data-text="wsman_selector_set ">WSMAN_SELECTOR_SET</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/ns-wsman-_wsman_shell_async" data-text="wsman_shell_async ">WSMAN_SHELL_ASYNC</a></li><li role="treeitem"><a tabindex="0" href="https://msdn.microsoft.com/en-us/library/Dd891185(v=VS.85).aspx" data-text="wsman_shell_completion_function ">WSMAN_SHELL_COMPLETION_FUNCTION</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/ns-wsman-_wsman_shell_disconnect_info" data-text="wsman_shell_disconnect_info ">WSMAN_SHELL_DISCONNECT_INFO</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/ns-wsman-_wsman_shell_startup_info_v10" data-text="wsman_shell_startup_info ">WSMAN_SHELL_STARTUP_INFO</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/ns-wsman-_wsman_stream_id_set" data-text="wsman_stream_id_set ">WSMAN_STREAM_ID_SET</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/ns-wsman-_wsman_username_password_creds" data-text="wsman_username_password_creds ">WSMAN_USERNAME_PASSWORD_CREDS</a></li></ul></li></ul></li><li role="group" aria-expanded="false" aria-label="winrm plug-in api " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/winrm-plugin-api" data-text="winrm plug-in api ">WinRM Plug-in API</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="group" aria-expanded="false" aria-label="authorization plug-in entry points " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)" class="noSubs"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/authorization-plug-in-entry-points" data-text="authorization plug-in entry points ">Authorization Plug-in Entry Points</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="treeitem"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://msdn.microsoft.com/en-us/library/Dd891165(v=VS.85).aspx" data-text="wsman_plugin_authorize_operation ">WSMAN_PLUGIN_AUTHORIZE_OPERATION</a></li><li role="treeitem"><a tabindex="0" href="https://msdn.microsoft.com/en-us/library/Dd891166(v=VS.85).aspx" data-text="wsman_plugin_authorize_query_quota ">WSMAN_PLUGIN_AUTHORIZE_QUERY_QUOTA</a></li><li role="treeitem"><a tabindex="0" href="https://msdn.microsoft.com/en-us/library/Dd891167(v=VS.85).aspx" data-text="wsman_plugin_authorize_release_context ">WSMAN_PLUGIN_AUTHORIZE_RELEASE_CONTEXT</a></li><li role="treeitem"><a tabindex="0" href="https://msdn.microsoft.com/en-us/library/Dd891168(v=VS.85).aspx" data-text="wsman_plugin_authorize_user ">WSMAN_PLUGIN_AUTHORIZE_USER</a></li></ul></li><li role="group" aria-expanded="false" aria-label="authorization plug-in methods " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)" class="noSubs"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/authorization-plug-in-methods" data-text="authorization plug-in methods ">Authorization Plug-in Methods</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="treeitem"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/nf-wsman-wsmanpluginauthzoperationcomplete" data-text="wsmanpluginauthzoperationcomplete ">WSMan<wbr>Plugin<wbr>Authz<wbr>Operation<wbr>Complete</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/nf-wsman-wsmanpluginauthzqueryquotacomplete" data-text="wsmanpluginauthzqueryquotacomplete ">WSMan<wbr>Plugin<wbr>Authz<wbr>Query<wbr>Quota<wbr>Complete</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/nf-wsman-wsmanpluginauthzusercomplete" data-text="wsmanpluginauthzusercomplete ">WSMan<wbr>Plugin<wbr>Authz<wbr>User<wbr>Complete</a></li></ul></li><li role="group" aria-expanded="false" aria-label="operations plug-in entry points " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)" class="noSubs"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/operations-plug-in-entry-points" data-text="operations plug-in entry points ">Operations Plug-in Entry Points</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="treeitem"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/nc-wsman-wsman_plugin_command" data-text="wsman_plugin_command ">WSMAN_PLUGIN_COMMAND</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WsMan/nc-wsman-wsman_plugin_connect" data-text="wsman_plugin_connect ">WSMAN_PLUGIN_CONNECT</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/nc-wsman-wsman_plugin_receive" data-text="wsman_plugin_receive ">WSMAN_PLUGIN_RECEIVE</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/nc-wsman-wsman_plugin_release_command_context" data-text="wsman_plugin_release_command_context ">WSMAN_PLUGIN_RELEASE_COMMAND_CONTEXT</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/nc-wsman-wsman_plugin_release_shell_context" data-text="wsman_plugin_release_shell_context ">WSMAN_PLUGIN_RELEASE_SHELL_CONTEXT</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/nc-wsman-wsman_plugin_send" data-text="wsman_plugin_send ">WSMAN_PLUGIN_SEND</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/nc-wsman-wsman_plugin_shell" data-text="wsman_plugin_shell ">WSMAN_PLUGIN_SHELL</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/nc-wsman-wsman_plugin_shutdown" data-text="wsman_plugin_shutdown ">WSMAN_PLUGIN_SHUTDOWN</a></li><li role="treeitem"><a tabindex="0" href="https://msdn.microsoft.com/en-us/library/Dd891177(v=VS.85).aspx" data-text="wsman_plugin_signal ">WSMAN_PLUGIN_SIGNAL</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/nc-wsman-wsman_plugin_startup" data-text="wsman_plugin_startup ">WSMAN_PLUGIN_STARTUP</a></li></ul></li><li role="group" aria-expanded="false" aria-label="operations plug-in methods " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)" class="noSubs"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/operations-plug-in-methods" data-text="operations plug-in methods ">Operations Plug-in Methods</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="treeitem"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/nf-wsman-wsmanpluginfreerequestdetails" data-text="wsmanpluginfreerequestdetails ">WSMan<wbr>Plugin<wbr>Free<wbr>Request<wbr>Details</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/nf-wsman-wsmanplugingetoperationparameters" data-text="wsmanplugingetoperationparameters ">WSMan<wbr>Plugin<wbr>Get<wbr>Operation<wbr>Parameters</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/nf-wsman-wsmanpluginoperationcomplete" data-text="wsmanpluginoperationcomplete ">WSMan<wbr>Plugin<wbr>Operation<wbr>Complete</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/nf-wsman-wsmanpluginreceiveresult" data-text="wsmanpluginreceiveresult ">WSMan<wbr>Plugin<wbr>Receive<wbr>Result</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/nf-wsman-wsmanpluginreportcontext" data-text="wsmanpluginreportcontext ">WSMan<wbr>Plugin<wbr>Report<wbr>Context</a></li></ul></li><li role="group" aria-expanded="false" aria-label="winrm plug-in api structures " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)" class="noSubs"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/winrm-plug-in-api-structures" data-text="winrm plug-in api structures ">WinRM Plug-in API Structures</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="treeitem"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/ns-wsman-_wsman_authz_quota" data-text="wsman_authz_quota ">WSMAN_AUTHZ_QUOTA</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/ns-wsman-_wsman_certificate_details" data-text="wsman_certificate_details ">WSMAN_CERTIFICATE_DETAILS</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/ns-wsman-_wsman_command_arg_set" data-text="wsman_command_arg_set ">WSMAN_COMMAND_ARG_SET</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/ns-wsman-_wsman_filter" data-text="wsman_filter ">WSMAN_FILTER</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/ns-wsman-_wsman_fragment" data-text="wsman_fragment ">WSMAN_FRAGMENT</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/ns-wsman-_wsman_operation_info" data-text="wsman_operation_info ">WSMAN_OPERATION_INFO</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/ns-wsman-_wsman_plugin_request" data-text="wsman_plugin_request ">WSMAN_PLUGIN_REQUEST</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/Wsman/ns-wsman-_wsman_sender_details" data-text="wsman_sender_details ">WSMAN_SENDER_DETAILS</a></li></ul></li></ul></li><li role="group" aria-expanded="false" aria-label="winrm scripting api " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/winrm-scripting-api" data-text="winrm scripting api ">WinRM Scripting API</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="group" aria-expanded="false" aria-label="connectionoptions " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/connectionoptions" data-text="connectionoptions ">Connection<wbr>Options</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="group" aria-expanded="false" aria-label="connectionoptions properties " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)" class="noSubs"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/connectionoptions-properties" data-text="connectionoptions properties ">Connection<wbr>Options Properties</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="treeitem"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/connectionoptions-password" data-text="password property ">Password Property</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/connectionoptions-username" data-text="username property ">User<wbr>Name Property</a></li></ul></li></ul></li><li role="group" aria-expanded="false" aria-label="enumerator " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/enumerator" data-text="enumerator ">Enumerator</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="group" aria-expanded="false" aria-label="enumerator methods " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)" class="noSubs"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/enumerator-methods" data-text="enumerator methods ">Enumerator Methods</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="treeitem"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/enumerator-readitem" data-text="readitem method ">Read<wbr>Item Method</a></li></ul></li><li role="group" aria-expanded="false" aria-label="enumerator properties " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)" class="noSubs"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/enumerator-properties" data-text="enumerator properties ">Enumerator Properties</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="treeitem"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/enumerator-atendofstream" data-text="atendofstream property ">At<wbr>End<wbr>OfStream Property</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/enumerator-error" data-text="error property ">Error Property</a></li></ul></li></ul></li><li role="group" aria-expanded="false" aria-label="resourcelocator " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/resourcelocator" data-text="resourcelocator ">Resource<wbr>Locator</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="group" aria-expanded="false" aria-label="resourcelocator methods " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)" class="noSubs"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/resourcelocator-methods" data-text="resourcelocator methods ">Resource<wbr>Locator Methods</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="treeitem"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/resourcelocator-addoption" data-text="addoption method ">Add<wbr>Option Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/resourcelocator-addselector" data-text="addselector method ">Add<wbr>Selector Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/resourcelocator-clearoptions" data-text="clearoptions method ">Clear<wbr>Options Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/resourcelocator-clearselectors" data-text="clearselectors method ">Clear<wbr>Selectors Method</a></li></ul></li><li role="group" aria-expanded="false" aria-label="resourcelocator properties " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)" class="noSubs"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/resourcelocator-properties" data-text="resourcelocator properties ">Resource<wbr>Locator Properties</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="treeitem"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/resourcelocator-error" data-text="error property ">Error Property</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/resourcelocator-fragmentdialect" data-text="fragmentdialect property ">Fragment<wbr>Dialect Property</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/resourcelocator-fragmentpath" data-text="fragmentpath property ">Fragment<wbr>Path Property</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/resourcelocator-mustunderstandoptions" data-text="mustunderstandoptions property ">Must<wbr>Understand<wbr>Options Property</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/resourcelocator-resourceuri" data-text="resourceuri property ">ResourceURI Property</a></li></ul></li></ul></li><li role="group" aria-expanded="false" aria-label="session " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/session" data-text="session ">Session</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="group" aria-expanded="false" aria-label="session methods " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)" class="noSubs"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/session-methods" data-text="session methods ">Session Methods</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="treeitem"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/session-create" data-text="create method ">Create Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/session-delete" data-text="delete method ">Delete Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/session-enumerate" data-text="enumerate method ">Enumerate Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/session-get" data-text="get method ">Get Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/session-identify" data-text="identify method ">Identify Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/session-invoke" data-text="invoke method ">Invoke Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/session-put" data-text="put method ">Put Method</a></li></ul></li><li role="group" aria-expanded="false" aria-label="session properties " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)" class="noSubs"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/session-properties" data-text="session properties ">Session Properties</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="treeitem"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/session-batchitems" data-text="batchitems property ">Batch<wbr>Items Property</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/session-error" data-text="error property ">Error Property</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/session-timeout" data-text="timeout property ">Timeout Property</a></li></ul></li></ul></li><li role="group" aria-expanded="false" aria-label="wsman " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/wsman" data-text="wsman ">WSMan</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="group" aria-expanded="false" aria-label="wsman methods " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)" class="noSubs"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/wsman-methods" data-text="wsman methods ">WSMan Methods</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="treeitem"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/wsman-createconnectionoptions" data-text="createconnectionoptions method ">Create<wbr>Connection<wbr>Options Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/wsman-createresourcelocator" data-text="createresourcelocator method ">Create<wbr>Resource<wbr>Locator Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/wsman-createsession" data-text="createsession method ">Create<wbr>Session Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/wsman-enumerationflaghierarchydeep" data-text="enumerationflaghierarchydeep method ">Enumeration<wbr>Flag<wbr>Hierarchy<wbr>Deep Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/wsman-enumerationflaghierarchydeepbasepropsonly" data-text="enumerationflaghierarchydeepbasepropsonly method ">Enumeration<wbr>Flag<wbr>Hierarchy<wbr>Deep<wbr>Base<wbr>Props<wbr>Only Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/wsman-enumerationflaghierarchyshallow" data-text="enumerationflaghierarchyshallow method ">Enumeration<wbr>Flag<wbr>Hierarchy<wbr>Shallow Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/wsman-enumerationflagnonxmltext" data-text="enumerationflagnonxmltext method ">Enumeration<wbr>Flag<wbr>Non<wbr>Xml<wbr>Text Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/wsman-enumerationflagreturnepr" data-text="enumerationflagreturnepr method ">Enumeration<wbr>Flag<wbr>ReturnEPR Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/wsman-enumerationflagreturnobject" data-text="enumerationflagreturnobject method ">Enumeration<wbr>Flag<wbr>Return<wbr>Object Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/wsman-enumerationflagreturnobjectandepr" data-text="enumerationflagreturnobjectandepr method ">Enumeration<wbr>Flag<wbr>Return<wbr>Object<wbr>AndEPR Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/wsman-geterrormessage" data-text="geterrormessage method ">Get<wbr>Error<wbr>Message Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/wsman-sessionflagcredusernamepassword" data-text="sessionflagcredusernamepassword method ">Session<wbr>Flag<wbr>Cred<wbr>Username<wbr>Password Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/wsman-sessionflagenablespnserverport" data-text="sessionflagenablespnserverport method ">Session<wbr>Flag<wbr>Enable<wbr>SPNServer<wbr>Port Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/wsman-sessionflagnoencryption" data-text="sessionflagnoencryption method ">Session<wbr>Flag<wbr>NoEncryption Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/wsman-sessionflagskipcacheck" data-text="sessionflagskipcacheck method ">Session<wbr>Flag<wbr>Skip<wbr>CACheck Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/wsman-sessionflagskipcncheck" data-text="sessionflagskipcncheck method ">Session<wbr>Flag<wbr>Skip<wbr>CNCheck Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/wsman-sessionflagusebasic" data-text="sessionflagusebasic method ">Session<wbr>Flag<wbr>Use<wbr>Basic Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/wsman-sessionflaguseclientcert" data-text="sessionflaguseclientcertificate method ">Session<wbr>Flag<wbr>Use<wbr>Client<wbr>Certificate Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/wsman-sessionflagusecredssp" data-text="sessionflagusecredssp method ">Session<wbr>Flag<wbr>Use<wbr>Cred<wbr>Ssp Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/wsman-sessionflagusedigest" data-text="sessionflagusedigest method ">Session<wbr>Flag<wbr>Use<wbr>Digest Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/wsman-sessionflagusekerberos" data-text="sessionflagusekerberos method ">Session<wbr>Flag<wbr>Use<wbr>Kerberos Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/wsman-sessionflagusenegotiate" data-text="sessionflagusenegotiate method ">Session<wbr>Flag<wbr>Use<wbr>Negotiate Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/wsman-sessionflagusenoauthentication" data-text="sessionflagusenoauthentication method ">Session<wbr>Flag<wbr>Use<wbr>NoAuthentication Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/wsman-sessionflagutf8" data-text="sessionflagutf8 method ">Session<wbr>FlagUTF8 Method</a></li></ul></li><li role="group" aria-expanded="false" aria-label="wsman properties " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)" class="noSubs"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/wsman-properties" data-text="wsman properties ">WSMan Properties</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="treeitem"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/wsman-commandline" data-text="commandline property ">Command<wbr>Line Property</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/wsman-error" data-text="error property ">Error Property</a></li></ul></li></ul></li></ul></li><li role="group" aria-expanded="false" aria-label="winrm c++ api " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/winrm-c---api" data-text="winrm c++ api ">WinRM C++ API</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="group" aria-expanded="false" aria-label="iwsman " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nn-wsmandisp-iwsman" data-text="iwsman ">IWSMan</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="group" aria-expanded="false" aria-label="iwsman methods " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)" class="noSubs"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/iwsman-methods" data-text="iwsman methods ">IWSMan Methods</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="treeitem"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsman-createconnectionoptions" data-text="createconnectionoptions method ">Create<wbr>Connection<wbr>Options Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsman-createsession" data-text="createsession method ">Create<wbr>Session Method</a></li></ul></li><li role="group" aria-expanded="false" aria-label="iwsman properties " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)" class="noSubs"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/iwsman-properties" data-text="iwsman properties ">IWSMan Properties</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="treeitem"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsman-get_commandline" data-text="commandline property ">Command<wbr>Line Property</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsman-get_error" data-text="error property ">Error Property</a></li></ul></li></ul></li><li role="group" aria-expanded="false" aria-label="iwsmanconnectionoptions " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nn-wsmandisp-iwsmanconnectionoptions" data-text="iwsmanconnectionoptions ">IWSMan<wbr>Connection<wbr>Options</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="group" aria-expanded="false" aria-label="iwsmanconnectionoptions properties " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)" class="noSubs"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/iwsmanconnectionoptions-properties" data-text="iwsmanconnectionoptions properties ">IWSMan<wbr>Connection<wbr>Options Properties</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="treeitem"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanconnectionoptions-put_password" data-text="password property ">Password Property</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanconnectionoptions-get_username" data-text="username property ">User<wbr>Name Property</a></li></ul></li></ul></li><li role="group" aria-expanded="false" aria-label="iwsmanconnectionoptionsex " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nn-wsmandisp-iwsmanconnectionoptionsex" data-text="iwsmanconnectionoptionsex ">IWSMan<wbr>Connection<wbr>Options<wbr>Ex</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="group" aria-expanded="false" aria-label="iwsmanconnectionoptionsex properties " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)" class="noSubs"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/iwsmanconnectionoptionsex-properties" data-text="iwsmanconnectionoptionsex properties ">IWSMan<wbr>Connection<wbr>Options<wbr>Ex Properties</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="treeitem"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanconnectionoptionsex-get_certificatethumbprint" data-text="certificatethumbprint property ">Certificate<wbr>Thumbprint Property</a></li></ul></li></ul></li><li role="group" aria-expanded="false" aria-label="iwsmanconnectionoptionsex2 " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nn-wsmandisp-iwsmanconnectionoptionsex2" data-text="iwsmanconnectionoptionsex2 ">IWSMan<wbr>Connection<wbr>Options<wbr>Ex2</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="group" aria-expanded="false" aria-label="iwsmanconnectionoptionsex2 methods " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)" class="noSubs"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/iwsmanconnectionoptionsex2-methods" data-text="iwsmanconnectionoptionsex2 methods ">IWSMan<wbr>Connection<wbr>Options<wbr>Ex2 Methods</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="treeitem"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanconnectionoptionsex2-proxyauthenticationusebasic" data-text="proxyauthenticationusebasic method ">Proxy<wbr>Authentication<wbr>Use<wbr>Basic Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanconnectionoptionsex2-proxyauthenticationusedigest" data-text="proxyauthenticationusedigest method ">Proxy<wbr>Authentication<wbr>Use<wbr>Digest Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanconnectionoptionsex2-proxyauthenticationusenegotiate" data-text="proxyauthenticationusenegotiate method ">Proxy<wbr>Authentication<wbr>Use<wbr>Negotiate Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanconnectionoptionsex2-proxyautodetect" data-text="proxyautodetect method ">Proxy<wbr>Auto<wbr>Detect Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanconnectionoptionsex2-proxyieconfig" data-text="proxyieconfig method ">Proxy<wbr>IEConfig Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanconnectionoptionsex2-proxynoproxyserver" data-text="proxynoproxyserver method ">Proxy<wbr>NoProxy<wbr>Server Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanconnectionoptionsex2-proxywinhttpconfig" data-text="proxywinhttpconfig method ">Proxy<wbr>Win<wbr>Http<wbr>Config Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanconnectionoptionsex2-setproxy" data-text="setproxy method ">Set<wbr>Proxy Method</a></li></ul></li></ul></li><li role="group" aria-expanded="false" aria-label="iwsmanenumerator " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nn-wsmandisp-iwsmanenumerator" data-text="iwsmanenumerator ">IWSMan<wbr>Enumerator</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="group" aria-expanded="false" aria-label="iwsmanenumerator methods " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)" class="noSubs"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/iwsmanenumerator-methods" data-text="iwsmanenumerator methods ">IWSMan<wbr>Enumerator Methods</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="treeitem"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanenumerator-readitem" data-text="readitem method ">Read<wbr>Item Method</a></li></ul></li><li role="group" aria-expanded="false" aria-label="iwsmanenumerator properties " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)" class="noSubs"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/iwsmanenumerator-properties" data-text="iwsmanenumerator properties ">IWSMan<wbr>Enumerator Properties</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="treeitem"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanenumerator-get_atendofstream" data-text="atendofstream property ">At<wbr>End<wbr>OfStream Property</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanenumerator-get_error" data-text="error property ">Error Property</a></li></ul></li></ul></li><li role="group" aria-expanded="false" aria-label="iwsmanex " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nn-wsmandisp-iwsmanex" data-text="iwsmanex ">IWSMan<wbr>Ex</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="group" aria-expanded="false" aria-label="iwsmanex methods " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)" class="noSubs"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/iwsmanex-methods" data-text="iwsmanex methods ">IWSMan<wbr>Ex Methods</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="treeitem"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanex-createresourcelocator" data-text="createresourcelocator method ">Create<wbr>Resource<wbr>Locator Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanex-enumerationflaghierarchydeep" data-text="enumerationflaghierarchydeep method ">Enumeration<wbr>Flag<wbr>Hierarchy<wbr>Deep Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanex-enumerationflaghierarchydeepbasepropsonly" data-text="enumerationflaghierarchydeepbasepropsonly method ">Enumeration<wbr>Flag<wbr>Hierarchy<wbr>Deep<wbr>Base<wbr>Props<wbr>Only Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanex-enumerationflaghierarchyshallow" data-text="enumerationflaghierarchyshallow method ">Enumeration<wbr>Flag<wbr>Hierarchy<wbr>Shallow Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanex-enumerationflagnonxmltext" data-text="enumerationflagnonxmltext method ">Enumeration<wbr>Flag<wbr>Non<wbr>Xml<wbr>Text Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanex-enumerationflagreturnepr" data-text="enumerationflagreturnepr method ">Enumeration<wbr>Flag<wbr>ReturnEPR Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanex-enumerationflagreturnobject" data-text="enumerationflagreturnobject method ">Enumeration<wbr>Flag<wbr>Return<wbr>Object Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanex-enumerationflagreturnobjectandepr" data-text="enumerationflagreturnobjectandepr method ">Enumeration<wbr>Flag<wbr>Return<wbr>Object<wbr>AndEPR Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanex-geterrormessage" data-text="geterrormessage method ">Get<wbr>Error<wbr>Message Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanex-sessionflagcredusernamepassword" data-text="sessionflagcredusernamepassword method ">Session<wbr>Flag<wbr>Cred<wbr>Username<wbr>Password Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanex-sessionflagenablespnserverport" data-text="sessionflagenablespnserverport method ">Session<wbr>Flag<wbr>Enable<wbr>SPNServer<wbr>Port Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanex-sessionflagnoencryption" data-text="sessionflagnoencryption method ">Session<wbr>Flag<wbr>NoEncryption Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanex-sessionflagskipcacheck" data-text="sessionflagskipcacheck method ">Session<wbr>Flag<wbr>Skip<wbr>CACheck Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanex-sessionflagskipcncheck" data-text="sessionflagskipcncheck method ">Session<wbr>Flag<wbr>Skip<wbr>CNCheck Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanex-sessionflagusebasic" data-text="sessionflagusebasic method ">Session<wbr>Flag<wbr>Use<wbr>Basic Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanex-sessionflagusedigest" data-text="sessionflagusedigest method ">Session<wbr>Flag<wbr>Use<wbr>Digest Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanex-sessionflagusekerberos" data-text="sessionflagusekerberos method ">Session<wbr>Flag<wbr>Use<wbr>Kerberos Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanex-sessionflagusenegotiate" data-text="sessionflagusenegotiate method ">Session<wbr>Flag<wbr>Use<wbr>Negotiate Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanex-sessionflagusenoauthentication" data-text="sessionflagusenoauthentication method ">Session<wbr>Flag<wbr>Use<wbr>NoAuthentication Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanex-sessionflagutf8" data-text="sessionflagutf8 method ">Session<wbr>FlagUTF8 Method</a></li></ul></li></ul></li><li role="group" aria-expanded="false" aria-label="iwsmanex2 " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nn-wsmandisp-iwsmanex2" data-text="iwsmanex2 ">IWSMan<wbr>Ex2</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="group" aria-expanded="false" aria-label="iwsmanex2 methods " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)" class="noSubs"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/iwsmanex2-methods" data-text="iwsmanex2 methods ">IWSMan<wbr>Ex2 Methods</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="treeitem"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanex2-sessionflaguseclientcertificate" data-text="sessionflaguseclientcertificate method ">Session<wbr>Flag<wbr>Use<wbr>Client<wbr>Certificate Method</a></li></ul></li></ul></li><li role="group" aria-expanded="false" aria-label="iwsmanex3 " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nn-wsmandisp-iwsmanex3" data-text="iwsmanex3 ">IWSMan<wbr>Ex3</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="group" aria-expanded="false" aria-label="iwsmanex3 methods " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)" class="noSubs"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/iwsmanex3-methods" data-text="iwsmanex3 methods ">IWSMan<wbr>Ex3 Methods</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="treeitem"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanex3-sessionflagusecredssp" data-text="sessionflagusecredssp method ">Session<wbr>Flag<wbr>Use<wbr>Cred<wbr>Ssp Method</a></li></ul></li></ul></li><li role="group" aria-expanded="false" aria-label="iwsmanresourcelocator " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nn-wsmandisp-iwsmanresourcelocator" data-text="iwsmanresourcelocator ">IWSMan<wbr>Resource<wbr>Locator</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="group" aria-expanded="false" aria-label="iwsmanresourcelocator methods " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)" class="noSubs"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/iwsmanresourcelocator-methods" data-text="iwsmanresourcelocator methods ">IWSMan<wbr>Resource<wbr>Locator Methods</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="treeitem"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanresourcelocator-addoption" data-text="addoption method ">Add<wbr>Option Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanresourcelocator-addselector" data-text="addselector method ">Add<wbr>Selector Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanresourcelocator-clearoptions" data-text="clearoptions method ">Clear<wbr>Options Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanresourcelocator-clearselectors" data-text="clearselectors method ">Clear<wbr>Selectors Method</a></li></ul></li><li role="group" aria-expanded="false" aria-label="iwsmanresourcelocator properties " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)" class="noSubs"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/iwsmanresourcelocator-properties" data-text="iwsmanresourcelocator properties ">IWSMan<wbr>Resource<wbr>Locator Properties</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="treeitem"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanresourcelocator-get_error" data-text="error property ">Error Property</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanresourcelocator-get_fragmentdialect" data-text="fragmentdialect property ">Fragment<wbr>Dialect Property</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanresourcelocator-get_fragmentpath" data-text="fragmentpath property ">Fragment<wbr>Path Property</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanresourcelocator-get_mustunderstandoptions" data-text="mustunderstandoptions property ">Must<wbr>Understand<wbr>Options Property</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmanresourcelocator-get_resourceuri" data-text="resourceuri property ">ResourceURI Property</a></li></ul></li></ul></li><li role="group" aria-expanded="false" aria-label="iwsmansession " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nn-wsmandisp-iwsmansession" data-text="iwsmansession ">IWSMan<wbr>Session</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="group" aria-expanded="false" aria-label="iwsmansession methods " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)" class="noSubs"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/iwsmansession-methods" data-text="iwsmansession methods ">IWSMan<wbr>Session Methods</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="treeitem"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmansession-create" data-text="create method ">Create Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmansession-delete" data-text="delete method ">Delete Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmansession-enumerate" data-text="enumerate method ">Enumerate Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmansession-get" data-text="get method ">Get Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmansession-identify" data-text="identify method ">Identify Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmansession-invoke" data-text="invoke method ">Invoke Method</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmansession-put" data-text="put method ">Put Method</a></li></ul></li><li role="group" aria-expanded="false" aria-label="iwsmansession properties " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)" class="noSubs"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/iwsmansession-properties" data-text="iwsmansession properties ">IWSMan<wbr>Session Properties</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="treeitem"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmansession-get_batchitems" data-text="batchitems property ">Batch<wbr>Items Property</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmansession-get_error" data-text="error property ">Error Property</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/nf-wsmandisp-iwsmansession-get_timeout" data-text="timeout property ">Timeout Property</a></li></ul></li></ul></li><li role="group" aria-expanded="false" aria-label="winrm constants and enumerations " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/winrm-constants-and-enumerations" data-text="winrm constants and enumerations ">WinRM Constants and Enumerations</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="group" aria-expanded="false" aria-label="session constants " tabindex="0" onclick="event.stopPropagation();msDocs.functions.toggleAriaExpanded(this)" class="noSubs"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/session-constants" data-text="session constants ">Session Constants</a><ul role="tree" onclick='msDocs.functions.stopSomePropagation(event, "top")'><li role="treeitem"><a onclick='msDocs.functions.stopSomePropagation(event, "left")' tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/authentication-constants" data-text="authentication constants ">Authentication Constants</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/other-session-constants" data-text="other session constants ">Other Session Constants</a></li></ul></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/enumeration-constants" data-text="enumeration constants ">Enumeration Constants</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/ne-wsmandisp-_wsmanproxyaccesstypeflags" data-text="wsmanproxyaccesstypeflags ">WSMan<wbr>Proxy<wbr>Access<wbr>Type<wbr>Flags</a></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/api/WSManDisp/ne-wsmandisp-_wsmanproxyauthenticationflags" data-text="wsmanproxyauthenticationflags ">WSMan<wbr>Proxy<wbr>Authentication<wbr>Flags</a></li></ul></li></ul></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/winrm-powershell-commandlets" data-text="managed reference for winrm windows powershell command classes ">Managed Reference for WinRM Windows Power<wbr>Shell Command Classes</a></li></ul></li><li role="treeitem"><a tabindex="0" href="https://docs.microsoft.com/en-us/windows/desktop/winrm/windows-remote-management-glossary" data-text="windows remote management glossary ">Windows Remote Management Glossary</a></li></ul></li></ul></nav>
+							<div class="pdf-download-holder"></div>
+						</div>
+					</nav>
+				</div>
+
+			<aside id="interactive-container" class="interactive-container is-visible-interactive column has-body-background-dark ">
+			</aside>
+		</div>
+
+		<!--end of .mainContainer -->
+	</div>
+
+	<div id="openFeedbackContainer" class="openfeedback-container">
+		<form class="rating has-default-focus rating-helpful-active" action="javascript:" data-bi-name="rating">
+			<button class="rating-close has-inner-focus docon docon-navigate-close" type="button" aria-label="Close" data-bi-name="rating-close"></button>
+			<button class="button is-primary rating-mobile-feedback" type="button" data-bi-name="rating-mobile-feedback">Feedback</button>
+			<div class="rating-helpful">
+				<label>Is this page helpful?</label>
+				<div class="buttons">
+					<button class="button is-primary" type="button" data-bi-name="rating-yes" data-bi-sat="1">Yes</button>
+					<button class="button is-primary" type="button" data-bi-name="rating-no" data-bi-sat="0">No</button>
+				</div>
+			</div>
+			<div class="rating-verbatim">
+				<label for="rating-0">How can we improve?</label>
+				<textarea class="rating-textarea" id="rating-0" placeholder="Please share your ideas. We welcome feedback in any language."></textarea>
+				<button class="button is-primary" type="submit" data-bi-name="rating-verbatim" disabled="disabled">Submit</button>
+			</div>
+			<div class="rating-thanks1">
+				<p>Thanks for the feedback!</p>
+				<p>Comments or suggestions? <a href="#" data-bi-name="rating-verbatim-link">Tell us here</a>.</p>
+			</div>
+			<div class="rating-thanks2">
+				<span>Thanks for the feedback!</span>
+			</div>
+		</form></div>
+
+	<div class="footerContainer has-default-focus is-hidden-interactive ">
+<footer id="footer" data-bi-name="footer" class="footer-layout uhf-container has-padding" role="contentinfo">
+
+    <a data-mscc-ic="false" class="locale-selector-link" href="https://docs.microsoft.com/en-us/locale?target=https://docs.microsoft.com/en-us/windows/desktop/winrm/installation-and-configuration-for-windows-remote-management" data-bi-name="select-locale"><span class="icon docon docon-world is-size-4 has-margin-right-small"></span><span class="local-selector-link-text">English (United States)</span></a>
+
+    <ul class="links" data-bi-name="footerlinks">
+		<li><a data-mscc-ic="false" href="https://docs.microsoft.com/previous-versions/" data-bi-name="archivelink">Previous Version Docs</a></li>
+		<li><a data-mscc-ic="false" href="https://docs.microsoft.com/teamblog" data-bi-name="bloglink">Blog</a></li>
+		<li><a data-mscc-ic="false" href="https://docs.microsoft.com/contribute" data-bi-name="contributorGuide">Contribute</a></li>
+			<li><a data-mscc-ic="false" href="https://go.microsoft.com/fwlink/?LinkId=521839" data-bi-name="privacy">Privacy &amp; Cookies</a></li>
+		<li><a data-mscc-ic="false" href="https://docs.microsoft.com/en-us/legal/termsofuse" data-bi-name="termsofuse">Terms of Use</a></li>
+		<li><a data-mscc-ic="false" href="https://aka.ms/sitefeedback" data-bi-name="feedback">Site Feedback</a></li>
+		<li><a data-mscc-ic="false" href="https://www.microsoft.com/en-us/legal/intellectualproperty/Trademarks/EN-US.aspx" data-bi-name="trademarks">Trademarks</a></li>
+    </ul>
+</footer>	</div>
+
+	<div class="action-panel has-default-focus"></div>
+
+</body></html>

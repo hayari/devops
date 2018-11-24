@@ -1,0 +1,5 @@
+---
+- name: Install php onto server
+  yum: name=php,php-gd,php-pear,php-mysql state=absent
+  register: myout
+- debug: msg={{myout}}

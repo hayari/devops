@@ -1,0 +1,11 @@
+---
+- hosts: all
+  tasks:
+  - name: copy file to server
+    copy: src=test.sh dest=/home/vagrant/test.sh mode=0755
+  - name: Run the script
+    command: /home/vagrant/test.sh
+    register: comm_out
+    ignore_errors: yes
+  - debug: msg="STDOUT - {{comm_out.stdout}}"
+  - debug: msg="STDERR - {{comm_out.stderr}}"

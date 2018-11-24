@@ -1,0 +1,56 @@
+---
+- include_vars: "oracle-database.yml"
+
+- name: install required libraries
+  yum: name={{ item }} state=present
+  with_items: "{{ oracle_database_packages_list }}"
+
+- name: disable selinux
+  selinux: state=disabled
+  ignore_errors: yes
+
+- name: disable firewall deamon (firewalld)
+  service: name=firewalld state=stopped enabled=no
+  ignore_errors: yes
+
+- name: change kernel parameters
+  sysctl:
+    name: "{{ item.key }}"
+    value: "{{ item.value }}"
+    state: present
+  with_dict: oracle_database_kernel_params
+
+- name: create groups
+  group: name={{ oracle_database_install_group }} state=present
+
+- name: add extra groups
+  group: name={{ item }} state=present
+  with_items: "{{ oracle_database_extra_groups }}"
+
+- name: create user
+  user: name={{ oracle_database_user }} group={{ oracle_database_install_group }}
+
+- name: add extra groups
+  user: name={{ oracle_database_user }} groups={{ item }} append=yes
+  with_items: "{{ oracle_database_extra_groups }}"
+
+- name: add oracle user limits
+  lineinfile:
+    dest: /etc/security/limits.conf
+    line: "{{ oracle_database_user }} {{ item.limit }} {{ item.type}} {{ item.value }}"
+  with_items:
+    - { limit: 'soft', type: nofile, value: '{{ oracle_database_limits_soft_no_file }}' }
+    - { limit: 'hard', type: nofile, value: '{{ oracle_database_limits_hard_no_file }}' }
+    - { limit: 'soft', type: nproc, value: '{{ oracle_database_limits_soft_nproc }}' }
+    - { limit: 'hard', type: nproc, value: '{{ oracle_database_limits_hard_nproc }}' }
+    - { limit: 'soft', type: stack, value: '{{ oracle_database_limits_soft_stack }}' }
+    - { limit: 'hard', type: stack, value: '{{ oracle_database_limits_hard_stack }}' }
+    - { limit: 'soft', type: memlock, value: '{{ oracle_database_limits_soft_memlock }}' }
+    - { limit: 'hard', type: memlock, value: '{{ oracle_database_limits_hard_memlock }}' }
+
+- name: create oracle base directory
+  file:
+    state: directory
+    path: "{{ oracle_database_oracle_base }}"
+    owner: "{{ oracle_database_user }}"
+    group: "{{ oracle_database_install_group }}"

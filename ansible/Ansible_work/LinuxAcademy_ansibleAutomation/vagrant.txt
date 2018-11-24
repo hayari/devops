@@ -1,0 +1,47 @@
+vagrant plugin install vagrant-libvirt
+vagrant plugin install vagrant-mutate
+vagrant plugin install vagrant-hostsupdater
+
+vagrant box add centos/7 --provider=libvirt
+vagrant init centos/7
+
+vagrant box add moozer/win10 --provider=libvirt
+
+
+Vagrantfile:
+
+Vagrant.configure("2") do |config|
+ 
+  config.vm.define "centrale" do |centrale|
+    centrale.vm.box = "centos/7"
+    centrale.vm.network "private_network", ip: "192.168.121.10"
+    centrale.vm.hostname = "centrale.example.com"
+    centrale.hostsupdater.aliases = ["centrale", "centrale.example.com"]
+  end
+  config.vm.define "server1" do |server1|
+    server1.vm.box = "centos/7"
+    server1.vm.network "private_network", ip: "192.168.121.11"
+    server1.vm.hostname = "server1.example.com"
+    server1.hostsupdater.aliases = ["server1", "server1.example.com"]
+  end
+  config.vm.define "server2" do |server2|
+    server2.vm.box = "centos/7"
+    server2.vm.network "private_network", ip: "192.168.121.12"
+    server2.vm.hostname = "server2.example.com"
+    server2.hostsupdater.aliases = ["server2", "server2.example.com"]
+  end
+  config.vm.provision :shell, path: "bootstrap.sh"
+end
+
+bootstrap.sh:
+ 
+sudo echo "192.168.121.10  centrale  centrale.example.com">>/etc/hosts
+sudo echo "192.168.121.11  server1  server1.example.com">>/etc/hosts
+sudo echo "192.168.121.12  server2  server2.example.com">>/etc/hosts
+sudo yum -y update
+sudo yum -y install epel-release
+useradd ansible
+echo "ansible" | passwd --stdin ansible
+echo "ansible ALL=(ALL)  NOPASSWD:ALL" >/etc/sudoers.d/ansible
+
+vagrant up --provider=libvirt

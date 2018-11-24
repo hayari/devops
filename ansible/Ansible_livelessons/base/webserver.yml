@@ -1,0 +1,50 @@
+---
+- name: Install a webserver on Centos
+  hosts: ansible1
+  gather_facts: yes
+  vars:
+    pkgs: 
+      - httpd
+      - firewalld
+    web_service: httpd
+    web_firewall: http
+  tasks:
+    - name: Install softwares
+      yum: name="{{pkgs}}" state=latest
+         
+
+    - name: start {{web_service}}
+      service: name="{{web_service}}" state=restarted enabled=true
+    
+    - name : open port 80 on server 
+      firewalld: 
+        permanent: True
+        immediate: true
+        service: "{{web_firewall}}"
+        state: enabled
+    
+
+    - name: start firewalld
+      service:  name=firewalld state=restarted enabled=true
+
+    - name: create index.html
+      copy: 
+        content: "Welcome to the Ansible managed Web server" 
+        dest: /var/www/html/index.html
+ 
+- name: verify the web server
+  hosts: localhost
+  become: false
+  tasks:
+    - uri:
+        url: http://ansible1
+        return_content: yes
+      register: index
+
+    - debug: var=index
+...
+
+
+
+    
+   

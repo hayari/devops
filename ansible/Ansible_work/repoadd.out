@@ -1,0 +1,105 @@
+
+PLAY [all] *************************************************************************************************************************************************************
+
+TASK [delete all existing repo] ****************************************************************************************************************************************
+changed: [server2]
+changed: [server3]
+changed: [server1]
+
+TASK [Add local epel repository] ***************************************************************************************************************************************
+changed: [server2]
+changed: [server3]
+changed: [server1]
+
+TASK [Add local centos repository] *************************************************************************************************************************************
+changed: [server1]
+changed: [server2]
+changed: [server3]
+
+TASK [yum-clean-metadata] **********************************************************************************************************************************************
+changed: [server2]
+changed: [server3]
+changed: [server1]
+
+TASK [debug] ***********************************************************************************************************************************************************
+ok: [server1] => {
+    "repolist": {
+        "changed": true, 
+        "cmd": [
+            "yum", 
+            "repolist"
+        ], 
+        "delta": "0:00:16.174902", 
+        "end": "2018-11-05 21:29:59.550526", 
+        "failed": false, 
+        "rc": 0, 
+        "start": "2018-11-05 21:29:43.375624", 
+        "stderr": "", 
+        "stderr_lines": [], 
+        "stdout": "Loaded plugins: fastestmirror\nLoading mirror speeds from cached hostfile\nrepo id                            repo name                              status\nlocalcentos                        local Centos YUM repo                   3971\nlocalepel/7/x86_64                 local EPEL YUM repo                    12742\nrepolist: 16713", 
+        "stdout_lines": [
+            "Loaded plugins: fastestmirror", 
+            "Loading mirror speeds from cached hostfile", 
+            "repo id                            repo name                              status", 
+            "localcentos                        local Centos YUM repo                   3971", 
+            "localepel/7/x86_64                 local EPEL YUM repo                    12742", 
+            "repolist: 16713"
+        ]
+    }
+}
+ok: [server2] => {
+    "repolist": {
+        "changed": true, 
+        "cmd": [
+            "yum", 
+            "repolist"
+        ], 
+        "delta": "0:00:09.869928", 
+        "end": "2018-11-05 21:29:53.219171", 
+        "failed": false, 
+        "rc": 0, 
+        "start": "2018-11-05 21:29:43.349243", 
+        "stderr": "", 
+        "stderr_lines": [], 
+        "stdout": "Loaded plugins: fastestmirror\nLoading mirror speeds from cached hostfile\nrepo id                            repo name                              status\nlocalcentos                        local Centos YUM repo                   3971\nlocalepel/7/x86_64                 local EPEL YUM repo                    12742\nrepolist: 16713", 
+        "stdout_lines": [
+            "Loaded plugins: fastestmirror", 
+            "Loading mirror speeds from cached hostfile", 
+            "repo id                            repo name                              status", 
+            "localcentos                        local Centos YUM repo                   3971", 
+            "localepel/7/x86_64                 local EPEL YUM repo                    12742", 
+            "repolist: 16713"
+        ]
+    }
+}
+ok: [server3] => {
+    "repolist": {
+        "changed": true, 
+        "cmd": [
+            "yum", 
+            "repolist"
+        ], 
+        "delta": "0:00:11.871023", 
+        "end": "2018-11-05 21:29:55.727162", 
+        "failed": false, 
+        "rc": 0, 
+        "start": "2018-11-05 21:29:43.856139", 
+        "stderr": "", 
+        "stderr_lines": [], 
+        "stdout": "Loaded plugins: fastestmirror\nLoading mirror speeds from cached hostfile\nrepo id                            repo name                              status\nlocalcentos                        local Centos YUM repo                   3971\nlocalepel/7/x86_64                 local EPEL YUM repo                    12742\nrepolist: 16713", 
+        "stdout_lines": [
+            "Loaded plugins: fastestmirror", 
+            "Loading mirror speeds from cached hostfile", 
+            "repo id                            repo name                              status", 
+            "localcentos                        local Centos YUM repo                   3971", 
+            "localepel/7/x86_64                 local EPEL YUM repo                    12742", 
+            "repolist: 16713"
+        ]
+    }
+}
+
+PLAY RECAP *************************************************************************************************************************************************************
+server1                    : ok=5    changed=4    unreachable=0    failed=0   
+server2                    : ok=5    changed=4    unreachable=0    failed=0   
+server3                    : ok=5    changed=4    unreachable=0    failed=0   
+

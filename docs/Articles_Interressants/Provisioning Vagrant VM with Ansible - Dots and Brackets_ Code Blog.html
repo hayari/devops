@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)http://codeblog.dotsandbrackets.com/ansible-vagrant/ -->
+<html lang="en-US" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#" class="js"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="profile" href="http://gmpg.org/xfn/11">
+		<link rel="pingback" href="http://codeblog.dotsandbrackets.com/xmlrpc.php">
+		<script>(function(html){html.className = html.className.replace(/\bno-js\b/,'js')})(document.documentElement);</script>
+<title>Provisioning Vagrant VM with Ansible - Dots and Brackets: Code Blog</title>
+
+<!-- This site is optimized with the Yoast SEO plugin v5.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="Ansible is a tool for configuring machines automagically. It can send simple ad-hoc commands (e.g. reboot) to one one or more hosts, or even apply a whole">
+<link rel="canonical" href="https://codeblog.dotsandbrackets.com/ansible-vagrant/">
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Provisioning Vagrant VM with Ansible - Dots and Brackets: Code Blog">
+<meta property="og:description" content="Ansible is a tool for configuring machines automagically. It can send simple ad-hoc commands (e.g. reboot) to one one or more hosts, or even apply a whole">
+<meta property="og:url" content="https://codeblog.dotsandbrackets.com/ansible-vagrant/">
+<meta property="og:site_name" content="Dots and Brackets: Code Blog">
+<meta property="article:tag" content="ansible">
+<meta property="article:tag" content="consul">
+<meta property="article:tag" content="quick guide">
+<meta property="article:tag" content="Vagrant">
+<meta property="article:section" content="Development">
+<meta property="article:published_time" content="2017-09-06T01:04:13+00:00">
+<meta property="fb:app_id" content="314344578927328">
+<meta property="og:image" content="http://codeblog.dotsandbrackets.com/wp-content/uploads/2017/09/ansible-vagrant.jpg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:description" content="Ansible is a tool for configuring machines automagically. It can send simple ad-hoc commands (e.g. reboot) to one one or more hosts, or even apply a whole">
+<meta name="twitter:title" content="Provisioning Vagrant VM with Ansible - Dots and Brackets: Code Blog">
+<meta name="twitter:image" content="http://codeblog.dotsandbrackets.com/wp-content/uploads/2017/09/ansible-vagrant.jpg">
+<script type="application/ld+json">{"@context":"http:\/\/schema.org","@type":"WebSite","@id":"#website","url":"https:\/\/codeblog.dotsandbrackets.com\/","name":"Dots and Brackets: Code Blog","potentialAction":{"@type":"SearchAction","target":"https:\/\/codeblog.dotsandbrackets.com\/?s={search_term_string}","query-input":"required name=search_term_string"}}</script>
+<script type="application/ld+json">{"@context":"http:\/\/schema.org","@type":"Person","url":"https:\/\/codeblog.dotsandbrackets.com\/ansible-vagrant\/","sameAs":[],"@id":"#person","name":"Pavel Klimenkov"}</script>
+<!-- / Yoast SEO plugin. -->
+
+<link rel="dns-prefetch" href="http://s0.wp.com/">
+<link rel="dns-prefetch" href="http://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="http://s.w.org/">
+<link rel="alternate" type="application/rss+xml" title="Dots and Brackets: Code Blog » Feed" href="https://codeblog.dotsandbrackets.com/feed/">
+<link rel="alternate" type="application/rss+xml" title="Dots and Brackets: Code Blog » Comments Feed" href="https://codeblog.dotsandbrackets.com/comments/feed/">
+<link rel="alternate" type="application/rss+xml" title="Dots and Brackets: Code Blog » Provisioning Vagrant VM with Ansible Comments Feed" href="https://codeblog.dotsandbrackets.com/ansible-vagrant/feed/">
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2\/svg\/","svgExt":".svg","source":{"concatemoji":"http:\/\/codeblog.dotsandbrackets.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.6"}};
+			!function(a,b,c){function d(a){var c,d,e,f,g,h=b.createElement("canvas"),i=h.getContext&&h.getContext("2d"),j=String.fromCharCode;if(!i||!i.fillText)return!1;switch(i.textBaseline="top",i.font="600 32px Arial",a){case"flag":return i.fillText(j(55356,56806,55356,56826),0,0),!(h.toDataURL().length<3e3)&&(i.clearRect(0,0,h.width,h.height),i.fillText(j(55356,57331,65039,8205,55356,57096),0,0),c=h.toDataURL(),i.clearRect(0,0,h.width,h.height),i.fillText(j(55356,57331,55356,57096),0,0),d=h.toDataURL(),c!==d);case"diversity":return i.fillText(j(55356,57221),0,0),e=i.getImageData(16,16,1,1).data,f=e[0]+","+e[1]+","+e[2]+","+e[3],i.fillText(j(55356,57221,55356,57343),0,0),e=i.getImageData(16,16,1,1).data,g=e[0]+","+e[1]+","+e[2]+","+e[3],f!==g;case"simple":return i.fillText(j(55357,56835),0,0),0!==i.getImageData(16,16,1,1).data[0];case"unicode8":return i.fillText(j(55356,57135),0,0),0!==i.getImageData(16,16,1,1).data[0];case"unicode9":return i.fillText(j(55358,56631),0,0),0!==i.getImageData(16,16,1,1).data[0]}return!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g,h,i;for(i=Array("simple","flag","unicode8","diversity","unicode9"),c.supports={everything:!0,everythingExceptFlag:!0},h=0;h<i.length;h++)c.supports[i[h]]=d(i[h]),c.supports.everything=c.supports.everything&&c.supports[i[h]],"flag"!==i[h]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[i[h]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script><script src="./Provisioning Vagrant VM with Ansible - Dots and Brackets_ Code Blog_files/wp-emoji-release.min.js" type="text/javascript"></script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel="stylesheet" id="twentysixteen-jetpack-css" href="./Provisioning Vagrant VM with Ansible - Dots and Brackets_ Code Blog_files/twentysixteen.css" type="text/css" media="all">
+<link rel="stylesheet" id="crayon-css" href="./Provisioning Vagrant VM with Ansible - Dots and Brackets_ Code Blog_files/crayon.min.css" type="text/css" media="all">
+<link rel="stylesheet" id="crayon-theme-raygun-css" href="./Provisioning Vagrant VM with Ansible - Dots and Brackets_ Code Blog_files/raygun.css" type="text/css" media="all">
+<link rel="stylesheet" id="crayon-font-monaco-css" href="./Provisioning Vagrant VM with Ansible - Dots and Brackets_ Code Blog_files/monaco.css" type="text/css" media="all">
+<link rel="stylesheet" id="twentysixteen-fonts-css" href="./Provisioning Vagrant VM with Ansible - Dots and Brackets_ Code Blog_files/css" type="text/css" media="all">
+<link rel="stylesheet" id="genericons-css" href="./Provisioning Vagrant VM with Ansible - Dots and Brackets_ Code Blog_files/genericons.css" type="text/css" media="all">
+<link rel="stylesheet" id="twentysixteen-style-css" href="./Provisioning Vagrant VM with Ansible - Dots and Brackets_ Code Blog_files/style.css" type="text/css" media="all">
+<!--[if lt IE 10]>
+<link rel='stylesheet' id='twentysixteen-ie-css'  href='http://codeblog.dotsandbrackets.com/wp-content/themes/twentysixteen/css/ie.css?ver=20160816' type='text/css' media='all' />
+<![endif]-->
+<!--[if lt IE 9]>
+<link rel='stylesheet' id='twentysixteen-ie8-css'  href='http://codeblog.dotsandbrackets.com/wp-content/themes/twentysixteen/css/ie8.css?ver=20160816' type='text/css' media='all' />
+<![endif]-->
+<!--[if lt IE 8]>
+<link rel='stylesheet' id='twentysixteen-ie7-css'  href='http://codeblog.dotsandbrackets.com/wp-content/themes/twentysixteen/css/ie7.css?ver=20160816' type='text/css' media='all' />
+<![endif]-->
+<link rel="stylesheet" id="social-logos-css" href="./Provisioning Vagrant VM with Ansible - Dots and Brackets_ Code Blog_files/social-logos.min.css" type="text/css" media="all">
+<link rel="stylesheet" id="jetpack_css-css" href="./Provisioning Vagrant VM with Ansible - Dots and Brackets_ Code Blog_files/jetpack.css" type="text/css" media="all">
+<script type="text/javascript" src="./Provisioning Vagrant VM with Ansible - Dots and Brackets_ Code Blog_files/jquery.js"></script>
+<script type="text/javascript" src="./Provisioning Vagrant VM with Ansible - Dots and Brackets_ Code Blog_files/jquery-migrate.min.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var CrayonSyntaxSettings = {"version":"_2.7.2_beta","is_admin":"0","ajaxurl":"https:\/\/codeblog.dotsandbrackets.com\/wp-admin\/admin-ajax.php","prefix":"crayon-","setting":"crayon-setting","selected":"crayon-setting-selected","changed":"crayon-setting-changed","special":"crayon-setting-special","orig_value":"data-orig-value","debug":""};
+var CrayonSyntaxStrings = {"copy":"Press %s to Copy, %s to Paste","minimize":"Click To Expand Code"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Provisioning Vagrant VM with Ansible - Dots and Brackets_ Code Blog_files/crayon.min.js"></script>
+<!--[if lt IE 9]>
+<script type='text/javascript' src='http://codeblog.dotsandbrackets.com/wp-content/themes/twentysixteen/js/html5.js?ver=3.7.3'></script>
+<![endif]-->
+<link rel="https://api.w.org/" href="https://codeblog.dotsandbrackets.com/wp-json/">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://codeblog.dotsandbrackets.com/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://codeblog.dotsandbrackets.com/wp-includes/wlwmanifest.xml"> 
+<meta name="generator" content="WordPress 4.6">
+<link rel="shortlink" href="http://wp.me/p7RsVb-fr">
+<link rel="alternate" type="application/json+oembed" href="https://codeblog.dotsandbrackets.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fcodeblog.dotsandbrackets.com%2Fansible-vagrant%2F">
+<link rel="alternate" type="text/xml+oembed" href="https://codeblog.dotsandbrackets.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fcodeblog.dotsandbrackets.com%2Fansible-vagrant%2F&amp;format=xml">
+
+<link rel="dns-prefetch" href="http://v0.wordpress.com/">
+<link rel="dns-prefetch" href="http://i0.wp.com/">
+<link rel="dns-prefetch" href="http://i1.wp.com/">
+<link rel="dns-prefetch" href="http://i2.wp.com/">
+<style type="text/css">img#wpstats{display:none}</style>		<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+		<style type="text/css"></style></head>
+
+<body class="single single-post postid-957 single-format-standard">
+<div id="page" class="site">
+	<div class="site-inner">
+		<a class="skip-link screen-reader-text" href="http://codeblog.dotsandbrackets.com/ansible-vagrant/#content">Skip to content</a>
+
+		<header id="masthead" class="site-header" role="banner">
+			<div class="site-header-main">
+				<div class="site-branding">
+					
+											<p class="site-title"><a href="https://codeblog.dotsandbrackets.com/" rel="home">Dots and Brackets: Code Blog</a></p>
+											<p class="site-description">Blog about DevOps, distributed applications and microservices</p>
+									</div><!-- .site-branding -->
+
+									<button id="menu-toggle" class="menu-toggle">Menu</button>
+
+					<div id="site-header-menu" class="site-header-menu">
+													<nav id="site-navigation" class="main-navigation" role="navigation" aria-label="Primary Menu">
+								<div class="menu-other-resources-container"><ul id="menu-other-resources" class="primary-menu"><li id="menu-item-9" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-9"><a href="https://dotsandbrackets.com/">Personal blog (ru)</a></li>
+</ul></div>							</nav><!-- .main-navigation -->
+						
+											</div><!-- .site-header-menu -->
+							</div><!-- .site-header-main -->
+
+					</header><!-- .site-header -->
+
+		<div id="content" class="site-content">
+
+<div id="primary" class="content-area">
+	<main id="main" class="site-main" role="main">
+		
+<article id="post-957" class="post-957 post type-post status-publish format-standard hentry category-development tag-ansible tag-consul tag-quick-guide tag-vagrant">
+	<header class="entry-header">
+		<h1 class="entry-title">Provisioning Vagrant VM with Ansible</h1>	</header><!-- .entry-header -->
+
+	
+	
+	<div class="entry-content">
+		<p><img data-attachment-id="962" data-permalink="https://codeblog.dotsandbrackets.com/ansible-vagrant/ansible-vagrant-2/" data-orig-file="https://i2.wp.com/codeblog.dotsandbrackets.com/wp-content/uploads/2017/09/ansible-vagrant.jpg?fit=1029%2C456&amp;ssl=1" data-orig-size="1029,456" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;1&quot;}" data-image-title="Ansible Vagrant" data-image-description="" data-medium-file="https://i2.wp.com/codeblog.dotsandbrackets.com/wp-content/uploads/2017/09/ansible-vagrant.jpg?fit=300%2C133&amp;ssl=1" data-large-file="https://i2.wp.com/codeblog.dotsandbrackets.com/wp-content/uploads/2017/09/ansible-vagrant.jpg?fit=840%2C372&amp;ssl=1" class="alignnone size-full wp-image-962" src="./Provisioning Vagrant VM with Ansible - Dots and Brackets_ Code Blog_files/ansible-vagrant.jpg" alt="Ansible Vagrant" width="600" height="266"></p>
+<p>I’m still looking for ways to automate hosts configuration.&nbsp;So far I’ve been using <a href="http://codeblog.dotsandbrackets.com/vagrant-create-consul-cluster/">Vagrant + bash</a>/<a href="http://codeblog.dotsandbrackets.com/vagrant-windows/">PowerShell</a> for configuring Linux or Windows hosts, but somehow I managed to miss the tool designed specifically for tasks like this – Ansible. It’s been around for&nbsp;last five&nbsp;years or so and became almost a synonym to “automatic configuration”. Today I’ll finally give it a try and see what difference it makes to use it comparing to provisioning with good old Bash.</p>
+<p><span id="more-957"></span></p>
+<h2>What’s Ansible</h2>
+<p>As I said, Ansible is a tool for configuring machines&nbsp;automagically. It can send simple ad-hoc commands&nbsp;(e.g. <code>reboot</code>) to&nbsp;one one or more hosts, or even apply a whole playbook with complex scenarios&nbsp;(e.g. install service, copy config files, make sure service is running) to&nbsp;hundreds of them.</p>
+<p>It uses a “push” model, so&nbsp;there’s always some sort of control server that&nbsp;sends commands to target&nbsp;hosts via SSH (to Linux hosts) or PowerShell (Win). As it’s written in Python, the interpreter&nbsp;obviously should be installed on control server. What’s more, target hosts need Python as well, as Ansible delivers its commands as <code>.py</code>&nbsp;files and executes them&nbsp;on target&nbsp;hosts, not locally.</p>
+<p>Sounds pretty clear, so let’s try to apply some of this.</p>
+<h2>The plan</h2>
+<p>I want to rewrite&nbsp;Consul server installation I <a href="http://codeblog.dotsandbrackets.com/vagrant-create-consul-cluster/">blogged about before</a>. It used to be Vagrant + Bash, but Vagrant + Ansible might be a more interesting combination.</p>
+<p>As I recall, Consul server provisioning&nbsp;included the following:</p>
+<ol>
+<li>Install unzip.</li>
+<li>Download and unzip&nbsp;Consul.</li>
+<li>Make it executable.</li>
+<li>Put executable into <code>/usr/local/bin</code>. It’s going to be a service.</li>
+<li>Put Consul service definition file to <code>/etc/systemd/system/</code>&nbsp;dir.</li>
+<li>Put Consul configuration file <code>/etc/systemd/system/consul.d/</code>.</li>
+<li>Start the service.</li>
+</ol>
+<p>Sounds like something that Ansible should be able to handle very well.</p>
+<h2>Installation</h2>
+<p>I’m still going to use Vagrant and VirtualBox for host creation, and installing&nbsp;both of them is still a pleasure. Getting Ansible to run, however, is a bit trickier,&nbsp;at least on Mac. In my case&nbsp;I had to install <code>pip</code>&nbsp;first, then use <code>pip</code>&nbsp;to install <code>ansible</code>, then install <code>sshpass</code>, so Ansible&nbsp;can use SSH with login and passwords. That’s not “download-and-run” way that I got used to, but it could’ve been worse.</p>
+<h2>Step 0. Preparing the host</h2>
+<p>Before we can configure the host, we need&nbsp;to create it. What’s more, Ansible will need python and guest account to use for SSH connection, so these&nbsp;should be installed&nbsp;as well. Fortunately, Vagrant makes configuring such&nbsp;things trivial.</p>
+<p>First, create Vagrantfile file:</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5bf2adcb36a43537508409" class="crayon-syntax crayon-theme-raygun crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; font-size: 12px !important; line-height: 15px !important; height: auto;">
+		
+			<div class="crayon-toolbar" data-settings=" mouseover overlay hide delay" style="font-size: 12px !important; height: 18px !important; line-height: 18px !important; margin-top: -18px; display: none; z-index: 4;"><span class="crayon-title">vagrant init</span>
+			<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button crayon-pressed" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code" style="display: none;"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div><span class="crayon-language">Shell</span></div></div>
+			<div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 4; font-size: 12px !important; line-height: 15px !important; z-index: 0; opacity: 0; overflow: hidden;">[pav@pav-macbookpro]$ vagrant init ubuntu/xenial64 --minimal</textarea></div>
+			<div class="crayon-main" style="position: relative; z-index: 1; overflow: hidden;">
+				<table class="crayon-table" style="">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-5bf2adcb36a43537508409-1">1</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5bf2adcb36a43537508409-1"><span class="crayon-sy">[</span><span class="crayon-v">pav</span><span class="crayon-sy">@</span><span class="crayon-v">pav</span><span class="crayon-o">-</span><span class="crayon-v">macbookpro</span><span class="crayon-sy">]</span><span class="crayon-sy">$</span><span class="crayon-h"> </span><span class="crayon-e">vagrant </span><span class="crayon-e">init </span><span class="crayon-v">ubuntu</span><span class="crayon-o">/</span><span class="crayon-v">xenial64</span><span class="crayon-h"> </span><span class="crayon-o">--</span><span class="crayon-v">minimal</span></div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0002 seconds] -->
+<p>And then, give it static IP address, set&nbsp;existing <code>ubuntu</code>&nbsp;user’s password to <code>ubuntu</code>, and install Python’s bare minimum to make Ansible happy:</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5bf2adcb36a53351082337" class="crayon-syntax crayon-theme-raygun crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; font-size: 12px !important; line-height: 15px !important; height: auto;">
+		
+			<div class="crayon-toolbar" data-settings=" mouseover overlay hide delay" style="font-size: 12px !important; height: 18px !important; line-height: 18px !important; margin-top: -18px; display: none; position: absolute; z-index: 2;"><span class="crayon-title">Vagrantfile</span>
+			<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button crayon-pressed" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div><span class="crayon-language">Ruby</span></div></div>
+			<div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 4; font-size: 12px !important; line-height: 15px !important; z-index: 0; opacity: 0; overflow: hidden;">Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/xenial64"
+
+  config.vm.define "consul-server" do |machine|
+	machine.vm.network "private_network", ip: "192.168.99.100"
+	machine.vm.provision "shell", inline: "echo ubuntu:ubuntu | chpasswd"
+	machine.vm.provision "shell", inline: "apt-get update &amp;&amp; apt-get install -y python-minimal"
+  end
+end</textarea></div>
+			<div class="crayon-main" style="position: relative; z-index: 1; overflow: hidden;">
+				<table class="crayon-table" style="">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-5bf2adcb36a53351082337-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a53351082337-2">2</div><div class="crayon-num" data-line="crayon-5bf2adcb36a53351082337-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a53351082337-4">4</div><div class="crayon-num crayon-marked-num crayon-top" data-line="crayon-5bf2adcb36a53351082337-5">5</div><div class="crayon-num crayon-marked-num crayon-striped-num" data-line="crayon-5bf2adcb36a53351082337-6">6</div><div class="crayon-num crayon-marked-num crayon-bottom" data-line="crayon-5bf2adcb36a53351082337-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a53351082337-8">8</div><div class="crayon-num" data-line="crayon-5bf2adcb36a53351082337-9">9</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5bf2adcb36a53351082337-1"><span class="crayon-v">Vagrant</span><span class="crayon-sy">.</span><span class="crayon-e">configure</span><span class="crayon-sy">(</span><span class="crayon-s">"2"</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-st">do</span><span class="crayon-h"> </span><span class="crayon-o">|</span><span class="crayon-v">config</span><span class="crayon-o">|</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a53351082337-2"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">config</span><span class="crayon-sy">.</span><span class="crayon-v">vm</span><span class="crayon-sy">.</span><span class="crayon-v">box</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">"ubuntu/xenial64"</span></div><div class="crayon-line" id="crayon-5bf2adcb36a53351082337-3">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a53351082337-4"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">config</span><span class="crayon-sy">.</span><span class="crayon-v">vm</span><span class="crayon-sy">.</span><span class="crayon-i">define</span><span class="crayon-h"> </span><span class="crayon-s">"consul-server"</span><span class="crayon-h"> </span><span class="crayon-st">do</span><span class="crayon-h"> </span><span class="crayon-o">|</span><span class="crayon-v">machine</span><span class="crayon-o">|</span></div><div class="crayon-line crayon-marked-line crayon-top" id="crayon-5bf2adcb36a53351082337-5"><span class="crayon-h">	</span><span class="crayon-v">machine</span><span class="crayon-sy">.</span><span class="crayon-v">vm</span><span class="crayon-sy">.</span><span class="crayon-i">network</span><span class="crayon-h"> </span><span class="crayon-s">"private_network"</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">ip</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-s">"192.168.99.100"</span></div><div class="crayon-line crayon-marked-line crayon-striped-line" id="crayon-5bf2adcb36a53351082337-6"><span class="crayon-h">	</span><span class="crayon-v">machine</span><span class="crayon-sy">.</span><span class="crayon-v">vm</span><span class="crayon-sy">.</span><span class="crayon-i">provision</span><span class="crayon-h"> </span><span class="crayon-s">"shell"</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">inline</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-s">"echo ubuntu:ubuntu | chpasswd"</span></div><div class="crayon-line crayon-marked-line crayon-bottom" id="crayon-5bf2adcb36a53351082337-7"><span class="crayon-h">	</span><span class="crayon-v">machine</span><span class="crayon-sy">.</span><span class="crayon-v">vm</span><span class="crayon-sy">.</span><span class="crayon-i">provision</span><span class="crayon-h"> </span><span class="crayon-s">"shell"</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">inline</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-s">"apt-get update &amp;&amp; apt-get install -y python-minimal"</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a53351082337-8"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-st">end</span></div><div class="crayon-line" id="crayon-5bf2adcb36a53351082337-9"><span class="crayon-st">end</span></div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0004 seconds] -->
+<p>Piece of cake. Now, <code>vagrant up</code>&nbsp;and we can test that SSH&nbsp;connection is working:</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5bf2adcb36a55470636728" class="crayon-syntax crayon-theme-raygun crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; font-size: 12px !important; line-height: 15px !important; height: auto;">
+		
+			<div class="crayon-toolbar" data-settings=" mouseover overlay hide delay" style="font-size: 12px !important; height: 18px !important; line-height: 18px !important; margin-top: -18px; display: none; position: absolute; z-index: 2;"><span class="crayon-title">Test SSH connection</span>
+			<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button crayon-pressed" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div><span class="crayon-language">Shell</span></div></div>
+			<div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 4; font-size: 12px !important; line-height: 15px !important; z-index: 0; opacity: 0; overflow: hidden;">[pav@pav-macbookpro]$ vagrant up
+# Bringing machine 'consul-server' up with 'virtualbox' provider...
+# ...
+# ==&gt; consul-server: Setting up python (2.7.11-1) ...
+
+[pav@pav-macbookpro]$ ssh ubuntu@192.168.99.100
+# The authenticity of host '192.168.99.100 (192.168.99.100)' can't be established.
+# ECDSA key fingerprint is SHA256:Bzxp6dpLcdJPRUMyJKZUVzK8jLN6z4OI1iG1j4Iu77M.
+# Are you sure you want to continue connecting (yes/no)? yes
+# Warning: Permanently added '192.168.99.100' (ECDSA) to the list of known hosts.
+ubuntu@192.168.99.100's password: 
+# ...
+ubuntu@ubuntu-xenial:~$</textarea></div>
+			<div class="crayon-main" style="position: relative; z-index: 1; overflow: hidden;">
+				<table class="crayon-table" style="">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-5bf2adcb36a55470636728-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a55470636728-2">2</div><div class="crayon-num" data-line="crayon-5bf2adcb36a55470636728-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a55470636728-4">4</div><div class="crayon-num" data-line="crayon-5bf2adcb36a55470636728-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a55470636728-6">6</div><div class="crayon-num crayon-marked-num crayon-top crayon-bottom" data-line="crayon-5bf2adcb36a55470636728-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a55470636728-8">8</div><div class="crayon-num crayon-marked-num crayon-top crayon-bottom" data-line="crayon-5bf2adcb36a55470636728-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a55470636728-10">10</div><div class="crayon-num" data-line="crayon-5bf2adcb36a55470636728-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a55470636728-12">12</div><div class="crayon-num" data-line="crayon-5bf2adcb36a55470636728-13">13</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5bf2adcb36a55470636728-1"><span class="crayon-sy">[</span><span class="crayon-v">pav</span><span class="crayon-sy">@</span><span class="crayon-v">pav</span><span class="crayon-o">-</span><span class="crayon-v">macbookpro</span><span class="crayon-sy">]</span><span class="crayon-sy">$</span><span class="crayon-h"> </span><span class="crayon-e">vagrant </span><span class="crayon-v">up</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a55470636728-2"><span class="crayon-c"># Bringing machine 'consul-server' up with 'virtualbox' provider...</span></div><div class="crayon-line" id="crayon-5bf2adcb36a55470636728-3"><span class="crayon-c"># ...</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a55470636728-4"><span class="crayon-c"># ==&gt; consul-server: Setting up python (2.7.11-1) ...</span></div><div class="crayon-line" id="crayon-5bf2adcb36a55470636728-5">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a55470636728-6"><span class="crayon-sy">[</span><span class="crayon-v">pav</span><span class="crayon-sy">@</span><span class="crayon-v">pav</span><span class="crayon-o">-</span><span class="crayon-v">macbookpro</span><span class="crayon-sy">]</span><span class="crayon-sy">$</span><span class="crayon-h"> </span><span class="crayon-e">ssh </span><span class="crayon-v">ubuntu</span><span class="crayon-sy">@</span><span class="crayon-cn">192.168.99.100</span></div><div class="crayon-line crayon-marked-line crayon-top crayon-bottom" id="crayon-5bf2adcb36a55470636728-7"><span class="crayon-c"># The authenticity of host '192.168.99.100 (192.168.99.100)' can't be established.</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a55470636728-8"><span class="crayon-c"># ECDSA key fingerprint is SHA256:Bzxp6dpLcdJPRUMyJKZUVzK8jLN6z4OI1iG1j4Iu77M.</span></div><div class="crayon-line crayon-marked-line crayon-top crayon-bottom" id="crayon-5bf2adcb36a55470636728-9"><span class="crayon-c"># Are you sure you want to continue connecting (yes/no)? yes</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a55470636728-10"><span class="crayon-c"># Warning: Permanently added '192.168.99.100' (ECDSA) to the list of known hosts.</span></div><div class="crayon-line" id="crayon-5bf2adcb36a55470636728-11"><span class="crayon-v">ubuntu</span><span class="crayon-sy">@</span><span class="crayon-cn">192.168.99.100</span>'<span class="crayon-i">s</span><span class="crayon-h"> </span><span class="crayon-v">password</span><span class="crayon-o">:</span><span class="crayon-h"> </span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a55470636728-12"><span class="crayon-c"># ...</span></div><div class="crayon-line" id="crayon-5bf2adcb36a55470636728-13"><span class="crayon-v">ubuntu</span><span class="crayon-sy">@</span><span class="crayon-v">ubuntu</span><span class="crayon-o">-</span><span class="crayon-v">xenial</span><span class="crayon-o">:</span><span class="crayon-o">~</span><span class="crayon-sy">$</span></div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0003 seconds] -->
+<p>So far, so good. Testing SSH connection did one important thing: it added VM&nbsp;fingerprint to known hosts list, so Ansible won’t complain later. We&nbsp;also could’ve configured it to trust all hosts by default, but for single host experiment like ours it doesn’t worth it.</p>
+<p>OK then, the host is ready, let’s do some Ansible.</p>
+<h2>Step 1.&nbsp;Creating an inventory file</h2>
+<p>Ansible stores the hosts it’s going to deal with in inventory files. That’s regular text files in&nbsp;INI format that&nbsp;define&nbsp;host names, IP addresses, groups, credentials, variables and&nbsp;other options. Even single IP address will make a valid inventory file.</p>
+<p>Inventory’s default location is <code>/etc/ansible/hosts</code>, but as I’ll immediately forget about that path, I’d rather put the file&nbsp;locally, next to Vagrantfile. So here’s my <code>hosts</code> inventory file:</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5bf2adcb36a58809265180" class="crayon-syntax crayon-theme-raygun crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; font-size: 12px !important; line-height: 15px !important; height: auto;">
+		
+			<div class="crayon-toolbar" data-settings=" mouseover overlay hide delay" style="font-size: 12px !important; height: 18px !important; line-height: 18px !important; margin-top: -18px; display: none; z-index: 4;"><span class="crayon-title">hosts</span>
+			<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button crayon-pressed" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div><span class="crayon-language">INI</span></div></div>
+			<div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 4; font-size: 12px !important; line-height: 15px !important; z-index: 0; opacity: 0; overflow: hidden;">consul-server ansible_host=192.168.99.100 ansible_user=ubuntu ansible_ssh_pass=ubuntu</textarea></div>
+			<div class="crayon-main" style="position: relative; z-index: 1; overflow: hidden;">
+				<table class="crayon-table" style="">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-5bf2adcb36a58809265180-1">1</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5bf2adcb36a58809265180-1"><span class="crayon-i">consul</span><span class="crayon-o">-</span><span class="crayon-i">server</span><span class="crayon-h"> </span><span class="crayon-v">ansible_host</span><span class="crayon-o">=</span><span class="crayon-cn">192.168.99.100</span><span class="crayon-h"> </span><span class="crayon-v">ansible_user</span><span class="crayon-o">=</span><span class="crayon-i">ubuntu</span><span class="crayon-h"> </span><span class="crayon-v">ansible_ssh_pass</span><span class="crayon-o">=</span><span class="crayon-i">ubuntu</span></div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+<p>I know, I know, storing SSH credentials in plain text… Well, I’ll destroy the VM soon after finishing this blog post, so who cares. But in production I’d definitely use either&nbsp;SSH certificates or Ansible Vault for keeping secrets.</p>
+<p>One more thing, even though <code>ansible_ssh_pass</code>&nbsp;setting is deprecated and I should use <code>ansible_pass</code>&nbsp;instead, latter one sometimes works, sometimes doesn’t. I don’t know if it’s a Mac thing (I had few other issues as well), or an effect recent solar eclipse, but legacy setting works 100% of time.</p>
+<p>So, having the inventory set up, let’s try sending some ad-hoc commands with Ansible to see if it’s working:</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5bf2adcb36a5a708385251" class="crayon-syntax crayon-theme-raygun crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; font-size: 12px !important; line-height: 15px !important; height: auto;">
+		
+			<div class="crayon-toolbar" data-settings=" mouseover overlay hide delay" style="font-size: 12px !important; height: 18px !important; line-height: 18px !important; margin-top: -18px; display: none; position: absolute; z-index: 2;"><span class="crayon-title">ad-hoc commands</span>
+			<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button crayon-pressed" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code" style="display: none;"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div><span class="crayon-language">Shell</span></div></div>
+			<div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 4; font-size: 12px !important; line-height: 15px !important; z-index: 0; opacity: 0; overflow: hidden;">[pav@pav-macbookpro]$ ansible all -i hosts -m ping
+# consul-server | SUCCESS =&gt; {
+#    "changed": false, 
+#    "ping": "pong"
+# }
+
+[pav@pav-macbookpro]$ ansible all -i hosts -m command -a "lsb_release -r"
+# consul-server | SUCCESS | rc=0 &gt;&gt;
+# Release:	16.04</textarea></div>
+			<div class="crayon-main" style="position: relative; z-index: 1; overflow: hidden;">
+				<table class="crayon-table" style="">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-5bf2adcb36a5a708385251-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a5a708385251-2">2</div><div class="crayon-num" data-line="crayon-5bf2adcb36a5a708385251-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a5a708385251-4">4</div><div class="crayon-num" data-line="crayon-5bf2adcb36a5a708385251-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a5a708385251-6">6</div><div class="crayon-num" data-line="crayon-5bf2adcb36a5a708385251-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a5a708385251-8">8</div><div class="crayon-num" data-line="crayon-5bf2adcb36a5a708385251-9">9</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5bf2adcb36a5a708385251-1"><span class="crayon-sy">[</span><span class="crayon-v">pav</span><span class="crayon-sy">@</span><span class="crayon-v">pav</span><span class="crayon-o">-</span><span class="crayon-v">macbookpro</span><span class="crayon-sy">]</span><span class="crayon-sy">$</span><span class="crayon-h"> </span><span class="crayon-e">ansible </span><span class="crayon-v">all</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-i">i</span><span class="crayon-h"> </span><span class="crayon-v">hosts</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-i">m</span><span class="crayon-h"> </span><span class="crayon-v">ping</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a5a708385251-2"><span class="crayon-c"># consul-server | SUCCESS =&gt; {</span></div><div class="crayon-line" id="crayon-5bf2adcb36a5a708385251-3"><span class="crayon-c">#&nbsp;&nbsp;&nbsp;&nbsp;"changed": false, </span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a5a708385251-4"><span class="crayon-c">#&nbsp;&nbsp;&nbsp;&nbsp;"ping": "pong"</span></div><div class="crayon-line" id="crayon-5bf2adcb36a5a708385251-5"><span class="crayon-c"># }</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a5a708385251-6">&nbsp;</div><div class="crayon-line" id="crayon-5bf2adcb36a5a708385251-7"><span class="crayon-sy">[</span><span class="crayon-v">pav</span><span class="crayon-sy">@</span><span class="crayon-v">pav</span><span class="crayon-o">-</span><span class="crayon-v">macbookpro</span><span class="crayon-sy">]</span><span class="crayon-sy">$</span><span class="crayon-h"> </span><span class="crayon-e">ansible </span><span class="crayon-v">all</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-i">i</span><span class="crayon-h"> </span><span class="crayon-v">hosts</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-i">m</span><span class="crayon-h"> </span><span class="crayon-r">command</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-i">a</span><span class="crayon-h"> </span><span class="crayon-s">"lsb_release -r"</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a5a708385251-8"><span class="crayon-c"># consul-server | SUCCESS | rc=0 &gt;&gt;</span></div><div class="crayon-line" id="crayon-5bf2adcb36a5a708385251-9"><span class="crayon-c"># Release:	16.04</span></div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0003 seconds] -->
+<p>It’s definitely working. The first command launched&nbsp;<code>ping</code>&nbsp;module (<code>-m</code>) at <code>all</code>&nbsp;items in <code>hosts</code>&nbsp;inventory (<code>-i</code>) file. The other one executed raw shell <code>command</code>&nbsp;– <code>lsb_release -r</code>, which returned OS version of the VM. If our <code>hosts</code>&nbsp;file had hundred of&nbsp;machines, we’d get hundred of results.</p>
+<p><code>all</code>&nbsp;isn’t the only possible target. I could’ve used specific VM name, e.g. <code>consul-server</code>&nbsp;or even a group, if I’d defined any.</p>
+<h2>Step 2. Creating a playbook</h2>
+<p>Sending ad-hoc&nbsp;commands one by one doesn’t scale. It’s actually even worse than having all commands in one shell file.&nbsp;When we need to combine multiple Ansible commands in one place, we create&nbsp;a playbook.</p>
+<p>A playbook is regular YAML file which has the same things we passed through the command line – hosts and modules, and even more. And it’s really simple. Let’s create a playbook that performs the first step from&nbsp;Consul installation list – installing <code>unzip</code>, and you’ll see how simple that is.</p>
+<h3>Step 2.1&nbsp;Install unzip</h3>
+<p>This is the playbook that would do the trick on Debian-like systems:</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5bf2adcb36a85876754027" class="crayon-syntax crayon-theme-raygun crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; font-size: 12px !important; line-height: 15px !important; height: auto;">
+		
+			<div class="crayon-toolbar" data-settings=" mouseover overlay hide delay" style="font-size: 12px !important; height: 18px !important; line-height: 18px !important; margin-top: -18px; display: none; position: absolute; z-index: 2;"><span class="crayon-title">consul.yml</span>
+			<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button crayon-pressed" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code" style="display: none;"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div><span class="crayon-language">YAML</span></div></div>
+			<div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 4; font-size: 12px !important; line-height: 15px !important; z-index: 0; opacity: 0; overflow: hidden;">- hosts: consul-server
+  tasks:
+   - name: Install unzip
+     apt: name=unzip state=present
+     become: true</textarea></div>
+			<div class="crayon-main" style="position: relative; z-index: 1; overflow: hidden;">
+				<table class="crayon-table" style="">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-5bf2adcb36a85876754027-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a85876754027-2">2</div><div class="crayon-num" data-line="crayon-5bf2adcb36a85876754027-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a85876754027-4">4</div><div class="crayon-num" data-line="crayon-5bf2adcb36a85876754027-5">5</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5bf2adcb36a85876754027-1"><span class="crayon-s ">- hosts</span><span class="">: consul-server</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a85876754027-2"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-s ">tasks</span><span class="">:</span></div><div class="crayon-line" id="crayon-5bf2adcb36a85876754027-3"><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-s ">- name</span><span class="">: Install unzip</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a85876754027-4"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-s ">apt</span><span class="">: name=unzip state=present</span></div><div class="crayon-line" id="crayon-5bf2adcb36a85876754027-5"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-s ">become</span><span class="">: true</span></div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+<p>This time I was specific and used concrete host name: <code>consul-server</code>. The section that comes after that – <code>tasks</code>&nbsp;– contains list of individual steps to perform on target host. Right now there’s only one step – <code>apt</code>, which&nbsp;knows how to manage Ubuntu’s apt packages. In our case it basically says “make sure that <code>unzip</code>&nbsp;is present”.</p>
+<p>What’s really cool is it doesn’t say “install”, it’s “present”, so if <code>unzip</code> is already there, nothing will happen. Such&nbsp;effect has a name – idempotence, which allows applying the same operation many times, but it will have an effect only once. In fact, Ansible comes with idempotence in mind and all modules, even <code>command</code> (with some help) can be idempotent. If you read <a href="http://codeblog.dotsandbrackets.com/vagrant-create-consul-cluster/">the article</a> about provisioning with Vagrant, I&nbsp;had to make an extra effort to achieve this with regular shell,&nbsp;yet here it comes for free.</p>
+<p>And I almost forgotten about <code>become: true</code>. Under the strange name&nbsp;lurks simple idea: you have to <code>become</code>&nbsp;a root if you want to install something. No more, no less.</p>
+<p>But enough chitchat, we have a playbook to execute:</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5bf2adcb36a88064291271" class="crayon-syntax crayon-theme-raygun crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; font-size: 12px !important; line-height: 15px !important; height: auto;">
+		
+			<div class="crayon-toolbar" data-settings=" mouseover overlay hide delay" style="font-size: 12px !important; height: 18px !important; line-height: 18px !important; margin-top: -18px; display: none; position: absolute; z-index: 2;"><span class="crayon-title">Launch playbook</span>
+			<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button crayon-pressed" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code" style="display: none;"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div><span class="crayon-language">Shell</span></div></div>
+			<div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 4; font-size: 12px !important; line-height: 15px !important; z-index: 0; opacity: 0; overflow: hidden;">[pav@pav-macbookpro]$ ansible-playbook -i hosts consul.yml
+#
+#PLAY [consul-server] ******************************************************
+#
+#TASK [Gathering Facts] ****************************************************
+#ok: [consul-server]
+#
+#TASK [Install unzip] ******************************************************
+#changed: [consul-server]
+#
+#PLAY RECAP ****************************************************************
+#consul-server              : ok=2    changed=1    unreachable=0    failed=0</textarea></div>
+			<div class="crayon-main" style="position: relative; z-index: 1; overflow: hidden;">
+				<table class="crayon-table" style="">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-5bf2adcb36a88064291271-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a88064291271-2">2</div><div class="crayon-num" data-line="crayon-5bf2adcb36a88064291271-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a88064291271-4">4</div><div class="crayon-num" data-line="crayon-5bf2adcb36a88064291271-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a88064291271-6">6</div><div class="crayon-num" data-line="crayon-5bf2adcb36a88064291271-7">7</div><div class="crayon-num crayon-marked-num crayon-top crayon-striped-num" data-line="crayon-5bf2adcb36a88064291271-8">8</div><div class="crayon-num crayon-marked-num crayon-bottom" data-line="crayon-5bf2adcb36a88064291271-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a88064291271-10">10</div><div class="crayon-num" data-line="crayon-5bf2adcb36a88064291271-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a88064291271-12">12</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5bf2adcb36a88064291271-1"><span class="crayon-sy">[</span><span class="crayon-v">pav</span><span class="crayon-sy">@</span><span class="crayon-v">pav</span><span class="crayon-o">-</span><span class="crayon-v">macbookpro</span><span class="crayon-sy">]</span><span class="crayon-sy">$</span><span class="crayon-h"> </span><span class="crayon-v">ansible</span><span class="crayon-o">-</span><span class="crayon-v">playbook</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-i">i</span><span class="crayon-h"> </span><span class="crayon-e">hosts </span><span class="crayon-v">consul</span><span class="crayon-e">.yml</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a88064291271-2"><span class="crayon-c">#</span></div><div class="crayon-line" id="crayon-5bf2adcb36a88064291271-3"><span class="crayon-c">#PLAY [consul-server] ******************************************************</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a88064291271-4"><span class="crayon-c">#</span></div><div class="crayon-line" id="crayon-5bf2adcb36a88064291271-5"><span class="crayon-c">#TASK [Gathering Facts] ****************************************************</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a88064291271-6"><span class="crayon-c">#ok: [consul-server]</span></div><div class="crayon-line" id="crayon-5bf2adcb36a88064291271-7"><span class="crayon-c">#</span></div><div class="crayon-line crayon-marked-line crayon-top crayon-striped-line" id="crayon-5bf2adcb36a88064291271-8"><span class="crayon-c">#TASK [Install unzip] ******************************************************</span></div><div class="crayon-line crayon-marked-line crayon-bottom" id="crayon-5bf2adcb36a88064291271-9"><span class="crayon-c">#changed: [consul-server]</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a88064291271-10"><span class="crayon-c">#</span></div><div class="crayon-line" id="crayon-5bf2adcb36a88064291271-11"><span class="crayon-c">#PLAY RECAP ****************************************************************</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a88064291271-12"><span class="crayon-c">#consul-server&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ok=2&nbsp;&nbsp;&nbsp;&nbsp;changed=1&nbsp;&nbsp;&nbsp;&nbsp;unreachable=0&nbsp;&nbsp;&nbsp;&nbsp;failed=0</span></div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0002 seconds] -->
+<p>Apparently, Ubuntu VM didn’t have <code>unzip</code>&nbsp;installed, so “Install unzip” task reported that it changed something. But if you execute the same playbook one more time, it won’t install anything. Trust me, I already tried that.</p>
+<h3>Step 2.2 – 2.4 Download and install Consul</h3>
+<p>What has been a three separate steps in regular shell provisioner is single task in Ansible:&nbsp;<code>unarchive</code>&nbsp;module can download anything from the web, unpack it, put the result at desired location and change file attributes in the end. If only it could brew the beer..</p>
+<p>This adds one more task to the playbook:</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5bf2adcb36a8a999727560" class="crayon-syntax crayon-theme-raygun crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; font-size: 12px !important; line-height: 15px !important; height: auto;">
+		
+			<div class="crayon-toolbar" data-settings=" mouseover overlay hide delay" style="font-size: 12px !important; height: 18px !important; line-height: 18px !important; margin-top: -18px; display: none; position: absolute; z-index: 2;"><span class="crayon-title">Install consul</span>
+			<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button crayon-pressed" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div><span class="crayon-language">YAML</span></div></div>
+			<div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 4; font-size: 12px !important; line-height: 15px !important; z-index: 0; opacity: 0; overflow: hidden;">- hosts: consul-server
+
+  vars:
+    consul_version: 0.9.2
+
+  tasks:
+
+   - name: Install unzip
+     apt: name=unzip state=present
+     become: true
+
+   - name: Install Consul
+     become: true
+     unarchive:
+       src: https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_amd64.zip
+       remote_src: yes
+       dest: /usr/local/bin
+       creates: /usr/local/bin/consul
+       mode: 0555</textarea></div>
+			<div class="crayon-main" style="position: relative; z-index: 1; overflow: hidden;">
+				<table class="crayon-table" style="">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-5bf2adcb36a8a999727560-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a8a999727560-2">2</div><div class="crayon-num crayon-marked-num crayon-top" data-line="crayon-5bf2adcb36a8a999727560-3">3</div><div class="crayon-num crayon-marked-num crayon-bottom crayon-striped-num" data-line="crayon-5bf2adcb36a8a999727560-4">4</div><div class="crayon-num" data-line="crayon-5bf2adcb36a8a999727560-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a8a999727560-6">6</div><div class="crayon-num" data-line="crayon-5bf2adcb36a8a999727560-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a8a999727560-8">8</div><div class="crayon-num" data-line="crayon-5bf2adcb36a8a999727560-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a8a999727560-10">10</div><div class="crayon-num" data-line="crayon-5bf2adcb36a8a999727560-11">11</div><div class="crayon-num crayon-marked-num crayon-top crayon-striped-num" data-line="crayon-5bf2adcb36a8a999727560-12">12</div><div class="crayon-num crayon-marked-num" data-line="crayon-5bf2adcb36a8a999727560-13">13</div><div class="crayon-num crayon-marked-num crayon-striped-num" data-line="crayon-5bf2adcb36a8a999727560-14">14</div><div class="crayon-num crayon-marked-num" data-line="crayon-5bf2adcb36a8a999727560-15">15</div><div class="crayon-num crayon-marked-num crayon-striped-num" data-line="crayon-5bf2adcb36a8a999727560-16">16</div><div class="crayon-num crayon-marked-num" data-line="crayon-5bf2adcb36a8a999727560-17">17</div><div class="crayon-num crayon-marked-num crayon-striped-num" data-line="crayon-5bf2adcb36a8a999727560-18">18</div><div class="crayon-num crayon-marked-num crayon-bottom" data-line="crayon-5bf2adcb36a8a999727560-19">19</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5bf2adcb36a8a999727560-1"><span class="crayon-s ">- hosts</span><span class="">: consul-server</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a8a999727560-2">&nbsp;</div><div class="crayon-line crayon-marked-line crayon-top" id="crayon-5bf2adcb36a8a999727560-3"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-s ">vars</span><span class="">:</span></div><div class="crayon-line crayon-marked-line crayon-bottom crayon-striped-line" id="crayon-5bf2adcb36a8a999727560-4"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-s ">consul_version</span><span class="">: 0.9.2</span></div><div class="crayon-line" id="crayon-5bf2adcb36a8a999727560-5">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a8a999727560-6"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-s ">tasks</span><span class="">:</span></div><div class="crayon-line" id="crayon-5bf2adcb36a8a999727560-7">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a8a999727560-8"><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-s ">- name</span><span class="">: Install unzip</span></div><div class="crayon-line" id="crayon-5bf2adcb36a8a999727560-9"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-s ">apt</span><span class="">: name=unzip state=present</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a8a999727560-10"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-s ">become</span><span class="">: true</span></div><div class="crayon-line" id="crayon-5bf2adcb36a8a999727560-11">&nbsp;</div><div class="crayon-line crayon-marked-line crayon-top crayon-striped-line" id="crayon-5bf2adcb36a8a999727560-12"><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-s ">- name</span><span class="">: Install Consul</span></div><div class="crayon-line crayon-marked-line" id="crayon-5bf2adcb36a8a999727560-13"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-s ">become</span><span class="">: true</span></div><div class="crayon-line crayon-marked-line crayon-striped-line" id="crayon-5bf2adcb36a8a999727560-14"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-s ">unarchive</span><span class="">:</span></div><div class="crayon-line crayon-marked-line" id="crayon-5bf2adcb36a8a999727560-15"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-s ">src</span><span class="">: https</span><span class="">://releases.hashicorp.com/consul/</span><span class="crayon-o">{</span><span class="crayon-o">{</span><span class="crayon-h"> </span>consul<span class="crayon-sy">_</span>version<span class="crayon-h"> </span><span class="crayon-o">}</span><span class="crayon-o">}</span>/consul<span class="crayon-sy">_</span><span class="crayon-o">{</span><span class="crayon-o">{</span><span class="crayon-h"> </span>consul<span class="crayon-sy">_</span>version<span class="crayon-h"> </span><span class="crayon-o">}</span><span class="crayon-o">}</span><span class="crayon-sy">_</span>linux<span class="crayon-sy">_</span>amd64<span class="crayon-o">.</span>zip</div><div class="crayon-line crayon-marked-line crayon-striped-line" id="crayon-5bf2adcb36a8a999727560-16"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-s ">remote_src</span><span class="">: yes</span></div><div class="crayon-line crayon-marked-line" id="crayon-5bf2adcb36a8a999727560-17"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-s ">dest</span><span class="">: /usr/local/bin</span></div><div class="crayon-line crayon-marked-line crayon-striped-line" id="crayon-5bf2adcb36a8a999727560-18"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-s ">creates</span><span class="">: /usr/local/bin/consul</span></div><div class="crayon-line crayon-marked-line crayon-bottom" id="crayon-5bf2adcb36a8a999727560-19"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-s ">mode</span><span class="">: 0555</span></div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0003 seconds] -->
+<p>I had to add more&nbsp;blank lines for readability (or lack of it) and use one more feature of a playbook:&nbsp;variables. But generally “Install Consul” task is&nbsp;pretty straightforward. The only interesting thing is <code>creates</code>&nbsp;property, that makes the whole task idempotent: if <code>consul</code>&nbsp;is already there, there’s nothing to download. And the other thing is <code>mode</code>, which&nbsp;makes&nbsp;the file executable to all users.</p>
+<p>After relaunching the playbook we can check if it did install <code>consul</code>&nbsp;on target VM:</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5bf2adcb36a8d501090232" class="crayon-syntax crayon-theme-raygun crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; font-size: 12px !important; line-height: 15px !important; height: auto;">
+		
+			<div class="crayon-toolbar" data-settings=" mouseover overlay hide delay" style="font-size: 12px !important; height: 18px !important; line-height: 18px !important; margin-top: -18px; display: none; position: absolute; z-index: 2;"><span class="crayon-title">Check consul version</span>
+			<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button crayon-pressed" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div><span class="crayon-language">Shell</span></div></div>
+			<div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 4; font-size: 12px !important; line-height: 15px !important; z-index: 0; opacity: 0; overflow: hidden;">[pav@pav-macbookpro]$ ansible all -i hosts -m command -a "consul --version"
+# consul-server | SUCCESS | rc=0 &gt;&gt;
+# Consul v0.9.2
+# Protocol 2 spoken by default, understands 2 to 3 (agent will automatically use protocol &gt;2 when speaking to compatible agents)</textarea></div>
+			<div class="crayon-main" style="position: relative; z-index: 1; overflow: hidden;">
+				<table class="crayon-table" style="">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-5bf2adcb36a8d501090232-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a8d501090232-2">2</div><div class="crayon-num crayon-marked-num crayon-top crayon-bottom" data-line="crayon-5bf2adcb36a8d501090232-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a8d501090232-4">4</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5bf2adcb36a8d501090232-1"><span class="crayon-sy">[</span><span class="crayon-v">pav</span><span class="crayon-sy">@</span><span class="crayon-v">pav</span><span class="crayon-o">-</span><span class="crayon-v">macbookpro</span><span class="crayon-sy">]</span><span class="crayon-sy">$</span><span class="crayon-h"> </span><span class="crayon-e">ansible </span><span class="crayon-v">all</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-i">i</span><span class="crayon-h"> </span><span class="crayon-v">hosts</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-i">m</span><span class="crayon-h"> </span><span class="crayon-r">command</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-i">a</span><span class="crayon-h"> </span><span class="crayon-s">"consul --version"</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a8d501090232-2"><span class="crayon-c"># consul-server | SUCCESS | rc=0 &gt;&gt;</span></div><div class="crayon-line crayon-marked-line crayon-top crayon-bottom" id="crayon-5bf2adcb36a8d501090232-3"><span class="crayon-c"># Consul v0.9.2</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a8d501090232-4"><span class="crayon-c"># Protocol 2 spoken by default, understands 2 to 3 (agent will automatically use protocol &gt;2 when speaking to compatible agents)</span></div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0002 seconds] -->
+<p>It definitely did.</p>
+<h3>Step 2.5 Make Consul a service</h3>
+<p>Making Consul a service simply means copying service definition file to systemd services directory. As I already have <code>consul.service</code> file from older post, I just need to copy it locally and add <code>copy</code>&nbsp;task to the playbook.</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5bf2adcb36a8e527225149" class="crayon-syntax crayon-theme-raygun crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; font-size: 12px !important; line-height: 15px !important; height: auto;">
+		
+			<div class="crayon-toolbar" data-settings=" mouseover overlay hide delay" style="font-size: 12px !important; height: 18px !important; line-height: 18px !important; margin-top: -18px; display: none; position: absolute; z-index: 2;"><span class="crayon-title">consul.service</span>
+			<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button crayon-pressed" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div><span class="crayon-language">INI</span></div></div>
+			<div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 4; font-size: 12px !important; line-height: 15px !important; z-index: 0; opacity: 0; overflow: hidden;">[Unit]
+Description=consul agent
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+EnvironmentFile=-/etc/sysconfig/consul
+Restart=on-failure
+ExecStart=/usr/local/bin/consul agent $CONSUL_FLAGS -config-dir=/etc/systemd/system/consul.d
+ExecReload=/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target</textarea></div>
+			<div class="crayon-main" style="position: relative; z-index: 1; overflow: hidden;">
+				<table class="crayon-table" style="">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-5bf2adcb36a8e527225149-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a8e527225149-2">2</div><div class="crayon-num" data-line="crayon-5bf2adcb36a8e527225149-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a8e527225149-4">4</div><div class="crayon-num" data-line="crayon-5bf2adcb36a8e527225149-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a8e527225149-6">6</div><div class="crayon-num" data-line="crayon-5bf2adcb36a8e527225149-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a8e527225149-8">8</div><div class="crayon-num" data-line="crayon-5bf2adcb36a8e527225149-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a8e527225149-10">10</div><div class="crayon-num" data-line="crayon-5bf2adcb36a8e527225149-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a8e527225149-12">12</div><div class="crayon-num" data-line="crayon-5bf2adcb36a8e527225149-13">13</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5bf2adcb36a8e527225149-1"><span class="crayon-e ">[Unit]</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a8e527225149-2"><span class="crayon-v">Description</span><span class="crayon-o">=</span><span class="crayon-i">consul</span><span class="crayon-h"> </span><span class="crayon-i">agent</span></div><div class="crayon-line" id="crayon-5bf2adcb36a8e527225149-3"><span class="crayon-v">Requires</span><span class="crayon-o">=</span><span class="crayon-i">network</span><span class="crayon-o">-</span><span class="crayon-i">online</span><span class="crayon-sy">.</span><span class="crayon-i">target</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a8e527225149-4"><span class="crayon-v">After</span><span class="crayon-o">=</span><span class="crayon-i">network</span><span class="crayon-o">-</span><span class="crayon-i">online</span><span class="crayon-sy">.</span><span class="crayon-i">target</span></div><div class="crayon-line" id="crayon-5bf2adcb36a8e527225149-5">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a8e527225149-6"><span class="crayon-e ">[Service]</span></div><div class="crayon-line" id="crayon-5bf2adcb36a8e527225149-7"><span class="crayon-v">EnvironmentFile</span><span class="crayon-o">=</span><span class="crayon-o">-</span><span class="crayon-o">/</span><span class="crayon-i">etc</span><span class="crayon-o">/</span><span class="crayon-i">sysconfig</span><span class="crayon-o">/</span><span class="crayon-i">consul</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a8e527225149-8"><span class="crayon-v">Restart</span><span class="crayon-o">=</span><span class="crayon-i">on</span><span class="crayon-o">-</span><span class="crayon-i">failure</span></div><div class="crayon-line" id="crayon-5bf2adcb36a8e527225149-9"><span class="crayon-v">ExecStart</span><span class="crayon-o">=</span><span class="crayon-o">/</span><span class="crayon-i">usr</span><span class="crayon-o">/</span><span class="crayon-i">local</span><span class="crayon-o">/</span><span class="crayon-i">bin</span><span class="crayon-o">/</span><span class="crayon-i">consul</span><span class="crayon-h"> </span><span class="crayon-i">agent</span><span class="crayon-h"> </span><span class="crayon-sy">$</span><span class="crayon-i">CONSUL_FLAGS</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-i">config</span><span class="crayon-o">-</span><span class="crayon-v">dir</span><span class="crayon-o">=</span><span class="crayon-o">/</span><span class="crayon-i">etc</span><span class="crayon-o">/</span><span class="crayon-i">systemd</span><span class="crayon-o">/</span><span class="crayon-i">system</span><span class="crayon-o">/</span><span class="crayon-i">consul</span><span class="crayon-sy">.</span><span class="crayon-i">d</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a8e527225149-10"><span class="crayon-v">ExecReload</span><span class="crayon-o">=</span><span class="crayon-o">/</span><span class="crayon-i">bin</span><span class="crayon-o">/</span><span class="crayon-i">kill</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-i">HUP</span><span class="crayon-h"> </span><span class="crayon-sy">$</span><span class="crayon-i">MAINPID</span></div><div class="crayon-line" id="crayon-5bf2adcb36a8e527225149-11">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a8e527225149-12"><span class="crayon-e ">[Install]</span></div><div class="crayon-line" id="crayon-5bf2adcb36a8e527225149-13"><span class="crayon-v">WantedBy</span><span class="crayon-o">=</span><span class="crayon-i">multi</span><span class="crayon-o">-</span><span class="crayon-i">user</span><span class="crayon-sy">.</span><span class="crayon-i">target</span></div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0003 seconds] -->
+<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5bf2adcb36a90050199709" class="crayon-syntax crayon-theme-raygun crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; font-size: 12px !important; line-height: 15px !important; height: auto;">
+		
+			<div class="crayon-toolbar" data-settings=" mouseover overlay hide delay" style="font-size: 12px !important; height: 18px !important; line-height: 18px !important; margin-top: -18px; display: none; position: absolute; z-index: 2;"><span class="crayon-title">consul.yaml</span>
+			<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button crayon-pressed" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code" style="display: none;"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div><span class="crayon-language">YAML</span></div></div>
+			<div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 4; font-size: 12px !important; line-height: 15px !important; z-index: 0; opacity: 0; overflow: hidden;">  #...
+  tasks:
+
+   - name: Make Consul a service
+     become: true
+     copy: 
+       src: consul.service
+       dest: /etc/systemd/system/consul.service 
+  #...</textarea></div>
+			<div class="crayon-main" style="position: relative; z-index: 1; overflow: hidden;">
+				<table class="crayon-table" style="">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-5bf2adcb36a90050199709-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a90050199709-2">2</div><div class="crayon-num" data-line="crayon-5bf2adcb36a90050199709-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a90050199709-4">4</div><div class="crayon-num" data-line="crayon-5bf2adcb36a90050199709-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a90050199709-6">6</div><div class="crayon-num" data-line="crayon-5bf2adcb36a90050199709-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a90050199709-8">8</div><div class="crayon-num" data-line="crayon-5bf2adcb36a90050199709-9">9</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5bf2adcb36a90050199709-1"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c">#...</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a90050199709-2"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-s ">tasks</span><span class="">:</span></div><div class="crayon-line" id="crayon-5bf2adcb36a90050199709-3">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a90050199709-4"><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-s ">- name</span><span class="">: Make Consul a service</span></div><div class="crayon-line" id="crayon-5bf2adcb36a90050199709-5"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-s ">become</span><span class="">: true</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a90050199709-6"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-s ">copy</span><span class="">: </span></div><div class="crayon-line" id="crayon-5bf2adcb36a90050199709-7"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-s ">src</span><span class="">: consul.service</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a90050199709-8"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-s ">dest</span><span class="">: /etc/systemd/system/consul.service </span></div><div class="crayon-line" id="crayon-5bf2adcb36a90050199709-9"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c">#...</span></div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+<p></p>
+<h3>Step 2.6 Configure Consul</h3>
+<p>Configuring Consul means simply copy JSON&nbsp;file with settings to somewhere where Consul expects it to be. In our case, to this directory&nbsp;–&nbsp;
+			<span id="crayon-5bf2adcb36a92349703737" class="crayon-syntax crayon-syntax-inline  crayon-theme-raygun crayon-theme-raygun-inline crayon-font-monaco" style="font-size: 12px !important; line-height: 15px !important;font-size: 12px !important;"><span class="crayon-pre crayon-code" style="font-size: 12px !important; line-height: 15px !important;font-size: 12px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><span class="crayon-o">/</span><span class="crayon-v">etc</span><span class="crayon-o">/</span><span class="crayon-v">systemd</span><span class="crayon-o">/</span><span class="crayon-v">system</span><span class="crayon-o">/</span><span class="crayon-v">consul</span><span class="crayon-e">.d</span></span></span>. It would’ve been fairly easy to do, but configuration file has server IP address, which ideally should be stored somewhere in the playbook, not in the configuration.&nbsp;What we can do is to turn Consul config file into template and pass server IP as a variable into it. Ansible&nbsp;‘speaks’ templates out of the box, so there won’t be any problem here.</p>
+<p>What’s more, <code>consul.d</code>&nbsp;directory most likely will not exist, so in addition to populating template file and copying it somewhere, there should be a task to make sure that “somewhere” exists. All this leads to these changes in our playbook.</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5bf2adcb36a93874335587" class="crayon-syntax crayon-theme-raygun crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; font-size: 12px !important; line-height: 15px !important; height: auto;">
+		
+			<div class="crayon-toolbar" data-settings=" mouseover overlay hide delay" style="font-size: 12px !important; height: 18px !important; line-height: 18px !important; margin-top: -18px; display: none; position: absolute; z-index: 2;"><span class="crayon-title">consul.yml</span>
+			<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button crayon-pressed" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code" style="display: none;"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div><span class="crayon-language">Shell</span></div></div>
+			<div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 4; font-size: 12px !important; line-height: 15px !important; z-index: 0; opacity: 0; overflow: hidden;">  #...
+  vars:
+    consul_version: 0.9.2
+    consul_server_ip: 192.168.99.100
+    consul_config_dir: /etc/systemd/system/consul.d
+
+  tasks:
+  #...
+   - name: Ensure config directory exists
+     become: true
+     file: 
+       path: "{{ consul_config_dir }}"
+       state: directory
+
+   - name: Deploy consul config
+     become: true
+     template: 
+       src: init.json.j2
+       dest: "{{consul_config_dir}}/init.json"
+   #...</textarea></div>
+			<div class="crayon-main" style="position: relative; z-index: 1; overflow: hidden;">
+				<table class="crayon-table" style="">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-5bf2adcb36a93874335587-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a93874335587-2">2</div><div class="crayon-num" data-line="crayon-5bf2adcb36a93874335587-3">3</div><div class="crayon-num crayon-marked-num crayon-top crayon-striped-num" data-line="crayon-5bf2adcb36a93874335587-4">4</div><div class="crayon-num crayon-marked-num crayon-bottom" data-line="crayon-5bf2adcb36a93874335587-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a93874335587-6">6</div><div class="crayon-num" data-line="crayon-5bf2adcb36a93874335587-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a93874335587-8">8</div><div class="crayon-num" data-line="crayon-5bf2adcb36a93874335587-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a93874335587-10">10</div><div class="crayon-num" data-line="crayon-5bf2adcb36a93874335587-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a93874335587-12">12</div><div class="crayon-num" data-line="crayon-5bf2adcb36a93874335587-13">13</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a93874335587-14">14</div><div class="crayon-num" data-line="crayon-5bf2adcb36a93874335587-15">15</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a93874335587-16">16</div><div class="crayon-num" data-line="crayon-5bf2adcb36a93874335587-17">17</div><div class="crayon-num crayon-marked-num crayon-top crayon-bottom crayon-striped-num" data-line="crayon-5bf2adcb36a93874335587-18">18</div><div class="crayon-num" data-line="crayon-5bf2adcb36a93874335587-19">19</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a93874335587-20">20</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5bf2adcb36a93874335587-1"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c">#...</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a93874335587-2"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">vars</span><span class="crayon-o">:</span></div><div class="crayon-line" id="crayon-5bf2adcb36a93874335587-3"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">consul_version</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-cn">0.9.2</span></div><div class="crayon-line crayon-marked-line crayon-top crayon-striped-line" id="crayon-5bf2adcb36a93874335587-4"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">consul_server_ip</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-cn">192.168.99.100</span></div><div class="crayon-line crayon-marked-line crayon-bottom" id="crayon-5bf2adcb36a93874335587-5"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">consul_config_dir</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-v">etc</span><span class="crayon-o">/</span><span class="crayon-v">systemd</span><span class="crayon-o">/</span><span class="crayon-v">system</span><span class="crayon-o">/</span><span class="crayon-v">consul</span><span class="crayon-e">.d</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a93874335587-6">&nbsp;</div><div class="crayon-line" id="crayon-5bf2adcb36a93874335587-7"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">tasks</span><span class="crayon-o">:</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a93874335587-8"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c">#...</span></div><div class="crayon-line" id="crayon-5bf2adcb36a93874335587-9"><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-v">name</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-e">Ensure </span><span class="crayon-e">config </span><span class="crayon-e">directory </span><span class="crayon-e">exists</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a93874335587-10"><span class="crayon-e">&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-v">become</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-t">true</span></div><div class="crayon-line" id="crayon-5bf2adcb36a93874335587-11"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-r">file</span><span class="crayon-o">:</span><span class="crayon-h"> </span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a93874335587-12"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-v">path</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-s">"{{ consul_config_dir }}"</span></div><div class="crayon-line" id="crayon-5bf2adcb36a93874335587-13"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-v">state</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-v">directory</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a93874335587-14">&nbsp;</div><div class="crayon-line" id="crayon-5bf2adcb36a93874335587-15"><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-v">name</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-e">Deploy </span><span class="crayon-e">consul </span><span class="crayon-e">config</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a93874335587-16"><span class="crayon-e">&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-v">become</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-t">true</span></div><div class="crayon-line" id="crayon-5bf2adcb36a93874335587-17"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-v">template</span><span class="crayon-o">:</span><span class="crayon-h"> </span></div><div class="crayon-line crayon-marked-line crayon-top crayon-bottom crayon-striped-line" id="crayon-5bf2adcb36a93874335587-18"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-v">src</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-v">init</span><span class="crayon-e">.json</span><span class="crayon-e">.j2</span></div><div class="crayon-line" id="crayon-5bf2adcb36a93874335587-19"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-v">dest</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-s">"{{consul_config_dir}}/init.json"</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a93874335587-20"><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-c">#...</span></div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0005 seconds] -->
+<p>Along with that comes template for configuration file: <code>init.json.j2</code>, where j2 stands for <a href="http://jinja.pocoo.org/docs/2.9/">Jinja2</a> templating language.</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5bf2adcb36a95467840164" class="crayon-syntax crayon-theme-raygun crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; font-size: 12px !important; line-height: 15px !important; height: auto;">
+		
+			<div class="crayon-toolbar" data-settings=" mouseover overlay hide delay" style="font-size: 12px !important; height: 18px !important; line-height: 18px !important; margin-top: -18px; display: none; position: absolute; z-index: 2;"><span class="crayon-title">init.json.j2</span>
+			<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button crayon-pressed" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code" style="display: none;"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div><span class="crayon-language">JavaScript</span></div></div>
+			<div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 4; font-size: 12px !important; line-height: 15px !important; z-index: 0; opacity: 0; overflow: hidden;">{
+	"server": true,
+	"ui": true,
+	"advertise_addr": "{{ consul_server_ip }}",
+	"client_addr": "{{ consul_server_ip }}",
+	"data_dir": "/tmp/consul",
+	"bootstrap_expect": 1
+}</textarea></div>
+			<div class="crayon-main" style="position: relative; z-index: 1; overflow: hidden;">
+				<table class="crayon-table" style="">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-5bf2adcb36a95467840164-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a95467840164-2">2</div><div class="crayon-num" data-line="crayon-5bf2adcb36a95467840164-3">3</div><div class="crayon-num crayon-marked-num crayon-top crayon-striped-num" data-line="crayon-5bf2adcb36a95467840164-4">4</div><div class="crayon-num crayon-marked-num crayon-bottom" data-line="crayon-5bf2adcb36a95467840164-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a95467840164-6">6</div><div class="crayon-num" data-line="crayon-5bf2adcb36a95467840164-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a95467840164-8">8</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5bf2adcb36a95467840164-1"><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a95467840164-2"><span class="crayon-h">	</span><span class="crayon-s">"server"</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-t">true</span><span class="crayon-sy">,</span></div><div class="crayon-line" id="crayon-5bf2adcb36a95467840164-3"><span class="crayon-h">	</span><span class="crayon-s">"ui"</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-t">true</span><span class="crayon-sy">,</span></div><div class="crayon-line crayon-marked-line crayon-top crayon-striped-line" id="crayon-5bf2adcb36a95467840164-4"><span class="crayon-h">	</span><span class="crayon-s">"advertise_addr"</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-s">"{{ consul_server_ip }}"</span><span class="crayon-sy">,</span></div><div class="crayon-line crayon-marked-line crayon-bottom" id="crayon-5bf2adcb36a95467840164-5"><span class="crayon-h">	</span><span class="crayon-s">"client_addr"</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-s">"{{ consul_server_ip }}"</span><span class="crayon-sy">,</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a95467840164-6"><span class="crayon-h">	</span><span class="crayon-s">"data_dir"</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-s">"/tmp/consul"</span><span class="crayon-sy">,</span></div><div class="crayon-line" id="crayon-5bf2adcb36a95467840164-7"><span class="crayon-h">	</span><span class="crayon-s">"bootstrap_expect"</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-cn">1</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a95467840164-8"><span class="crayon-sy">}</span></div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0002 seconds] -->
+<p></p>
+<h3>Step 2.6 Starting the service</h3>
+<p>This is going to be one of the simplest tasks. Ansible’s <code>service</code>&nbsp;module is the one that can&nbsp;make sure the service is running, and the code for that is going to be the following:</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5bf2adcb36a97962238826" class="crayon-syntax crayon-theme-raygun crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; font-size: 12px !important; line-height: 15px !important; height: auto;">
+		
+			<div class="crayon-toolbar" data-settings=" mouseover overlay hide delay" style="font-size: 12px !important; height: 18px !important; line-height: 18px !important; margin-top: -18px; display: none; position: absolute; z-index: 2;"><span class="crayon-title">consul.yml</span>
+			<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button crayon-pressed" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code" style="display: none;"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div><span class="crayon-language">YAML</span></div></div>
+			<div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 4; font-size: 12px !important; line-height: 15px !important; z-index: 0; opacity: 0; overflow: hidden;">   # ...
+   - name: Ensure consul's running
+     become: true
+     service: name=consul state=started</textarea></div>
+			<div class="crayon-main" style="position: relative; z-index: 1; overflow: hidden;">
+				<table class="crayon-table" style="">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-5bf2adcb36a97962238826-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a97962238826-2">2</div><div class="crayon-num" data-line="crayon-5bf2adcb36a97962238826-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a97962238826-4">4</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5bf2adcb36a97962238826-1"><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-c"># ...</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a97962238826-2"><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-s ">- name</span><span class="">: Ensure consul's running</span></div><div class="crayon-line" id="crayon-5bf2adcb36a97962238826-3"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-s ">become</span><span class="">: true</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a97962238826-4"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-s ">service</span><span class="">: name=consul state=started</span></div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+<p>If you got this&nbsp;far and can apply the whole playbook to the VM, it will succeed, and put something new at <code>192.168.99.100:8500</code> address:</p>
+<p><img data-attachment-id="960" data-permalink="https://codeblog.dotsandbrackets.com/ansible-vagrant/consul-2/" data-orig-file="https://i1.wp.com/codeblog.dotsandbrackets.com/wp-content/uploads/2017/09/consul.jpg?fit=1020%2C426&amp;ssl=1" data-orig-size="1020,426" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;1&quot;}" data-image-title="consul" data-image-description="" data-medium-file="https://i1.wp.com/codeblog.dotsandbrackets.com/wp-content/uploads/2017/09/consul.jpg?fit=300%2C125&amp;ssl=1" data-large-file="https://i1.wp.com/codeblog.dotsandbrackets.com/wp-content/uploads/2017/09/consul.jpg?fit=840%2C351&amp;ssl=1" class="alignnone size-full wp-image-960 below-entry-meta" src="./Provisioning Vagrant VM with Ansible - Dots and Brackets_ Code Blog_files/consul.jpg" alt="consul" width="600" height="251"></p>
+<p>Yup, this is Consul.</p>
+<h2>Step 3.&nbsp;Connecting Vagrant to Ansible</h2>
+<p>Here’s the thing: Vagrant can use Ansible&nbsp;as provisioner, so we can launch the playbook directly from&nbsp;Vagrantfile:</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5bf2adcb36a99507620896" class="crayon-syntax crayon-theme-raygun crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; font-size: 12px !important; line-height: 15px !important; height: auto;">
+		
+			<div class="crayon-toolbar" data-settings=" mouseover overlay hide delay" style="font-size: 12px !important; height: 18px !important; line-height: 18px !important; margin-top: -18px; display: none; position: absolute; z-index: 2;"><span class="crayon-title">Vagrantfile</span>
+			<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button crayon-pressed" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div><span class="crayon-language">Ruby</span></div></div>
+			<div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 4; font-size: 12px !important; line-height: 15px !important; z-index: 0; opacity: 0; overflow: hidden;">Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/xenial64"
+
+  config.vm.define "consul-server" do |machine|
+	machine.vm.network "private_network", ip: "192.168.99.100"
+	machine.vm.provision "shell", inline: "apt-get update &amp;&amp; apt-get install -y python-minimal"
+	machine.vm.provision "ansible", playbook: "consul.yml"
+  end
+end</textarea></div>
+			<div class="crayon-main" style="position: relative; z-index: 1; overflow: hidden;">
+				<table class="crayon-table" style="">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-5bf2adcb36a99507620896-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a99507620896-2">2</div><div class="crayon-num" data-line="crayon-5bf2adcb36a99507620896-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a99507620896-4">4</div><div class="crayon-num" data-line="crayon-5bf2adcb36a99507620896-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a99507620896-6">6</div><div class="crayon-num crayon-marked-num crayon-top crayon-bottom" data-line="crayon-5bf2adcb36a99507620896-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a99507620896-8">8</div><div class="crayon-num" data-line="crayon-5bf2adcb36a99507620896-9">9</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5bf2adcb36a99507620896-1"><span class="crayon-v">Vagrant</span><span class="crayon-sy">.</span><span class="crayon-e">configure</span><span class="crayon-sy">(</span><span class="crayon-s">"2"</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-st">do</span><span class="crayon-h"> </span><span class="crayon-o">|</span><span class="crayon-v">config</span><span class="crayon-o">|</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a99507620896-2"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">config</span><span class="crayon-sy">.</span><span class="crayon-v">vm</span><span class="crayon-sy">.</span><span class="crayon-v">box</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">"ubuntu/xenial64"</span></div><div class="crayon-line" id="crayon-5bf2adcb36a99507620896-3">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a99507620896-4"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">config</span><span class="crayon-sy">.</span><span class="crayon-v">vm</span><span class="crayon-sy">.</span><span class="crayon-i">define</span><span class="crayon-h"> </span><span class="crayon-s">"consul-server"</span><span class="crayon-h"> </span><span class="crayon-st">do</span><span class="crayon-h"> </span><span class="crayon-o">|</span><span class="crayon-v">machine</span><span class="crayon-o">|</span></div><div class="crayon-line" id="crayon-5bf2adcb36a99507620896-5"><span class="crayon-h">	</span><span class="crayon-v">machine</span><span class="crayon-sy">.</span><span class="crayon-v">vm</span><span class="crayon-sy">.</span><span class="crayon-i">network</span><span class="crayon-h"> </span><span class="crayon-s">"private_network"</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">ip</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-s">"192.168.99.100"</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a99507620896-6"><span class="crayon-h">	</span><span class="crayon-v">machine</span><span class="crayon-sy">.</span><span class="crayon-v">vm</span><span class="crayon-sy">.</span><span class="crayon-i">provision</span><span class="crayon-h"> </span><span class="crayon-s">"shell"</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">inline</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-s">"apt-get update &amp;&amp; apt-get install -y python-minimal"</span></div><div class="crayon-line crayon-marked-line crayon-top crayon-bottom" id="crayon-5bf2adcb36a99507620896-7"><span class="crayon-h">	</span><span class="crayon-v">machine</span><span class="crayon-sy">.</span><span class="crayon-v">vm</span><span class="crayon-sy">.</span><span class="crayon-i">provision</span><span class="crayon-h"> </span><span class="crayon-s">"ansible"</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">playbook</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-s">"consul.yml"</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a99507620896-8"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-st">end</span></div><div class="crayon-line" id="crayon-5bf2adcb36a99507620896-9"><span class="crayon-st">end</span></div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0004 seconds] -->
+<p>I don’t need to configure <code>ubuntu</code>&nbsp;password, as Vagrant is going to take&nbsp;care of inventories and credentials from now on, so I removed the whole line. If you destroy existing VM with <code>vagrant destroy -f</code>&nbsp;and recreate it with <code>vagrant up</code>, you could clearly see in the output that Vagrant will initiate Ansible provisioner and&nbsp;end up with identical VM as before.</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5bf2adcb36a9a243527200" class="crayon-syntax crayon-theme-raygun crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; font-size: 12px !important; line-height: 15px !important; height: auto;">
+		
+			<div class="crayon-toolbar" data-settings=" mouseover overlay hide delay" style="font-size: 12px !important; height: 18px !important; line-height: 18px !important; margin-top: -18px; display: none; position: absolute; z-index: 2;"><span class="crayon-title">vagrant up</span>
+			<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button crayon-pressed" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div><span class="crayon-language">Shell</span></div></div>
+			<div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 4; font-size: 12px !important; line-height: 15px !important; z-index: 0; opacity: 0; overflow: hidden;">[pav@pav-macbookpro]$ vagrant up
+# ...
+# ==&gt; consul-server: Running provisioner: ansible...
+#     consul-server: Running ansible-playbook...
+#
+# PLAY [consul-server] ***********************************************************
+# ...
+# consul-server              : ok=7    changed=6    unreachable=0    failed=0   </textarea></div>
+			<div class="crayon-main" style="position: relative; z-index: 1; overflow: hidden;">
+				<table class="crayon-table" style="">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-5bf2adcb36a9a243527200-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a9a243527200-2">2</div><div class="crayon-num" data-line="crayon-5bf2adcb36a9a243527200-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a9a243527200-4">4</div><div class="crayon-num" data-line="crayon-5bf2adcb36a9a243527200-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a9a243527200-6">6</div><div class="crayon-num" data-line="crayon-5bf2adcb36a9a243527200-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-5bf2adcb36a9a243527200-8">8</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5bf2adcb36a9a243527200-1"><span class="crayon-sy">[</span><span class="crayon-v">pav</span><span class="crayon-sy">@</span><span class="crayon-v">pav</span><span class="crayon-o">-</span><span class="crayon-v">macbookpro</span><span class="crayon-sy">]</span><span class="crayon-sy">$</span><span class="crayon-h"> </span><span class="crayon-e">vagrant </span><span class="crayon-v">up</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a9a243527200-2"><span class="crayon-c"># ...</span></div><div class="crayon-line" id="crayon-5bf2adcb36a9a243527200-3"><span class="crayon-c"># ==&gt; consul-server: Running provisioner: ansible...</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a9a243527200-4"><span class="crayon-c">#&nbsp;&nbsp;&nbsp;&nbsp; consul-server: Running ansible-playbook...</span></div><div class="crayon-line" id="crayon-5bf2adcb36a9a243527200-5"><span class="crayon-c">#</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a9a243527200-6"><span class="crayon-c"># PLAY [consul-server] ***********************************************************</span></div><div class="crayon-line" id="crayon-5bf2adcb36a9a243527200-7"><span class="crayon-c"># ...</span></div><div class="crayon-line crayon-striped-line" id="crayon-5bf2adcb36a9a243527200-8"><span class="crayon-c"># consul-server&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ok=7&nbsp;&nbsp;&nbsp;&nbsp;changed=6&nbsp;&nbsp;&nbsp;&nbsp;unreachable=0&nbsp;&nbsp;&nbsp;&nbsp;failed=0&nbsp;&nbsp; </span></div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0002 seconds] -->
+<p></p>
+<h2>Conclusion</h2>
+<p>I like it. Even though&nbsp;configuring Ansible&nbsp;on Mac wasn’t completely flawless, I like how it&nbsp;ended up. Configuration gets much clearer, idempotency comes out of the box, and instead of&nbsp;reinventing the wheel for every bit of configuration I can choose existing one from a bazillion of ready to use <a href="http://docs.ansible.com/ansible/latest/modules_by_category.html">modules</a>. What’s more, we didn’t touch it here, but Ansible has a concept of roles, e.g. “ftp server”, so we can reuse the pieces of existing playbooks over and over. What’s even more, Ansible Galaxy is a hub of such ready to use roles and, believe it or not, “<a href="https://galaxy.ansible.com/list#/roles?page=1&amp;page_size=10&amp;autocomplete=consul%20consul%20server%20consul%20service">Consul service</a>” role is already there. Lots of them.</p>
+<div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" data-shared="sharing-twitter-957" class="share-twitter sd-button share-icon no-text" href="https://codeblog.dotsandbrackets.com/ansible-vagrant/?share=twitter&amp;nb=1" target="_blank" title="Click to share on Twitter"><span></span><span class="sharing-screen-reader-text">Click to share on Twitter (Opens in new window)</span></a></li><li class="share-facebook"><a rel="nofollow" data-shared="sharing-facebook-957" class="share-facebook sd-button share-icon no-text" href="https://codeblog.dotsandbrackets.com/ansible-vagrant/?share=facebook&amp;nb=1" target="_blank" title="Click to share on Facebook"><span></span><span class="sharing-screen-reader-text">Click to share on Facebook (Opens in new window)</span></a></li><li class="share-google-plus-1"><a rel="nofollow" data-shared="sharing-google-957" class="share-google-plus-1 sd-button share-icon no-text" href="https://codeblog.dotsandbrackets.com/ansible-vagrant/?share=google-plus-1&amp;nb=1" target="_blank" title="Click to share on Google+"><span></span><span class="sharing-screen-reader-text">Click to share on Google+ (Opens in new window)</span></a></li><li class="share-linkedin"><a rel="nofollow" data-shared="sharing-linkedin-957" class="share-linkedin sd-button share-icon no-text" href="https://codeblog.dotsandbrackets.com/ansible-vagrant/?share=linkedin&amp;nb=1" target="_blank" title="Click to share on LinkedIn"><span></span><span class="sharing-screen-reader-text">Click to share on LinkedIn (Opens in new window)</span></a></li><li class="share-end"></li></ul></div></div></div>	</div><!-- .entry-content -->
+
+	<footer class="entry-footer">
+		<span class="byline"><span class="author vcard"><img alt="" src="./Provisioning Vagrant VM with Ansible - Dots and Brackets_ Code Blog_files/f3466bc33f694c86093d5786dc63a367.png" srcset="http://0.gravatar.com/avatar/f3466bc33f694c86093d5786dc63a367?s=98&amp;d=identicon&amp;r=g 2x" class="avatar avatar-49 photo" height="49" width="49"><span class="screen-reader-text">Author </span> <a class="url fn n" href="https://codeblog.dotsandbrackets.com/author/pav/">pav</a></span></span><span class="posted-on"><span class="screen-reader-text">Posted on </span><a href="https://codeblog.dotsandbrackets.com/ansible-vagrant/" rel="bookmark"><time class="entry-date published updated" datetime="2017-09-06T01:04:13+00:00">September 6, 2017</time></a></span><span class="cat-links"><span class="screen-reader-text">Categories </span><a href="https://codeblog.dotsandbrackets.com/category/development/" rel="category tag">Development</a></span><span class="tags-links"><span class="screen-reader-text">Tags </span><a href="https://codeblog.dotsandbrackets.com/tag/ansible/" rel="tag">ansible</a>, <a href="https://codeblog.dotsandbrackets.com/tag/consul/" rel="tag">consul</a>, <a href="https://codeblog.dotsandbrackets.com/tag/quick-guide/" rel="tag">quick guide</a>, <a href="https://codeblog.dotsandbrackets.com/tag/vagrant/" rel="tag">Vagrant</a></span>			</footer><!-- .entry-footer -->
+</article><!-- #post-## -->
+
+<div id="comments" class="comments-area">
+
+			<h2 class="comments-title">
+			1 thought on “Provisioning Vagrant VM with Ansible”		</h2>
+
+		
+		<ol class="comment-list">
+					<li id="comment-521" class="pingback even thread-even depth-1">
+			<div class="comment-body">
+				Pingback: <a href="http://codeblog.dotsandbrackets.com/provisioning-cluster-ansible/" rel="external nofollow" class="url">Provisioning cluster of VMs with Ansible - Dots and Brackets: Code Blog</a> 			</div>
+</li><!-- #comment-## -->
+		</ol><!-- .comment-list -->
+
+		
+	
+	
+					<div id="respond" class="comment-respond">
+			<h2 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="http://codeblog.dotsandbrackets.com/ansible-vagrant/#respond" style="display:none;">Cancel reply</a></small></h2>				<form action="http://codeblog.dotsandbrackets.com/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate="">
+					<p class="comment-notes"><span id="email-notes">Your email address will not be published.</span> Required fields are marked <span class="required">*</span></p><p class="comment-form-comment"><label for="comment">Comment</label> <textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" aria-required="true" required="required"></textarea></p><p class="comment-form-author"><label for="author">Name <span class="required">*</span></label> <input id="author" name="author" type="text" value="" size="30" maxlength="245" aria-required="true" required="required"></p>
+<p class="comment-form-email"><label for="email">Email <span class="required">*</span></label> <input id="email" name="email" type="email" value="" size="30" maxlength="100" aria-describedby="email-notes" aria-required="true" required="required"></p>
+<p class="comment-form-url"><label for="url">Website</label> <input id="url" name="url" type="url" value="" size="30" maxlength="200"></p>
+<p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="Post Comment"> <input type="hidden" name="comment_post_ID" value="957" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="75ee3f2a41"></p><p class="comment-subscription-form"><input type="checkbox" name="subscribe_comments" id="subscribe_comments" value="subscribe" style="width: auto; -moz-appearance: checkbox; -webkit-appearance: checkbox;"> <label class="subscribe-label" id="subscribe-label" for="subscribe_comments">Notify me of follow-up comments by email.</label></p><p class="comment-subscription-form"><input type="checkbox" name="subscribe_blog" id="subscribe_blog" value="subscribe" style="width: auto; -moz-appearance: checkbox; -webkit-appearance: checkbox;"> <label class="subscribe-label" id="subscribe-blog-label" for="subscribe_blog">Notify me of new posts by email.</label></p><p style="display: none;"></p>				<input type="hidden" id="ak_js" name="ak_js" value="1542630969244"></form>
+					</div><!-- #respond -->
+		
+</div><!-- .comments-area -->
+
+	<nav class="navigation post-navigation" role="navigation">
+		<h2 class="screen-reader-text">Post navigation</h2>
+		<div class="nav-links"><div class="nav-previous"><a href="https://codeblog.dotsandbrackets.com/continuous-integration-deployment/" rel="prev"><span class="meta-nav" aria-hidden="true">Previous</span> <span class="screen-reader-text">Previous post:</span> <span class="post-title">Easy continuous integration and deployment with GitLab CI</span></a></div><div class="nav-next"><a href="https://codeblog.dotsandbrackets.com/provisioning-cluster-ansible/" rel="next"><span class="meta-nav" aria-hidden="true">Next</span> <span class="screen-reader-text">Next post:</span> <span class="post-title">Provisioning cluster of VMs with Ansible</span></a></div></div>
+	</nav>
+	</main><!-- .site-main -->
+
+	
+</div><!-- .content-area -->
+
+
+	<aside id="secondary" class="sidebar widget-area" role="complementary">
+		<section id="search-2" class="widget widget_search">
+<form role="search" method="get" class="search-form" action="https://codeblog.dotsandbrackets.com/">
+	<label>
+		<span class="screen-reader-text">Search for:</span>
+		<input type="search" class="search-field" placeholder="Search …" value="" name="s">
+	</label>
+	<button type="submit" class="search-submit"><span class="screen-reader-text">Search</span></button>
+</form>
+</section>		<section id="recent-posts-2" class="widget widget_recent_entries">		<h2 class="widget-title">Recent Posts</h2>		<ul>
+					<li>
+				<a href="https://codeblog.dotsandbrackets.com/internal-load-balancer/">Configuring Internal Load Balancer with Deployment Manager</a>
+						</li>
+					<li>
+				<a href="https://codeblog.dotsandbrackets.com/type-providers/">Extending Deployment Manager with Type Providers</a>
+						</li>
+					<li>
+				<a href="https://codeblog.dotsandbrackets.com/bugs-google-cloud-platform/">Few bugs (or features?) I managed to find in Google Cloud Platform so far</a>
+						</li>
+					<li>
+				<a href="https://codeblog.dotsandbrackets.com/python-templates-deployment-manager/">Python templates in GCP Deployment Manager</a>
+						</li>
+					<li>
+				<a href="https://codeblog.dotsandbrackets.com/gcp-deployment-manager/">Automating GCP Infrastructure with Deployment Manager</a>
+						</li>
+				</ul>
+		</section>		<section id="recent-comments-2" class="widget widget_recent_comments"><h2 class="widget-title">Recent Comments</h2><ul id="recentcomments"><li class="recentcomments"><span class="comment-author-link">Pablo</span> on <a href="https://codeblog.dotsandbrackets.com/private-registry-swarm/#comment-10396">Using private registry in Docker Swarm</a></li><li class="recentcomments"><span class="comment-author-link">Soroush Shahrokni</span> on <a href="https://codeblog.dotsandbrackets.com/private-registry-swarm/#comment-8846">Using private registry in Docker Swarm</a></li><li class="recentcomments"><span class="comment-author-link">pav</span> on <a href="https://codeblog.dotsandbrackets.com/build-image-packer/#comment-8835">Building VM image with Packer</a></li><li class="recentcomments"><span class="comment-author-link">LCE</span> on <a href="https://codeblog.dotsandbrackets.com/build-image-packer/#comment-8834">Building VM image with Packer</a></li><li class="recentcomments"><span class="comment-author-link">George</span> on <a href="https://codeblog.dotsandbrackets.com/private-registry-swarm/#comment-7704">Using private registry in Docker Swarm</a></li></ul></section><section id="archives-2" class="widget widget_archive"><h2 class="widget-title">Archives</h2>		<ul>
+			<li><a href="https://codeblog.dotsandbrackets.com/2018/10/">October 2018</a></li>
+	<li><a href="https://codeblog.dotsandbrackets.com/2018/09/">September 2018</a></li>
+	<li><a href="https://codeblog.dotsandbrackets.com/2018/08/">August 2018</a></li>
+	<li><a href="https://codeblog.dotsandbrackets.com/2018/07/">July 2018</a></li>
+	<li><a href="https://codeblog.dotsandbrackets.com/2018/06/">June 2018</a></li>
+	<li><a href="https://codeblog.dotsandbrackets.com/2018/05/">May 2018</a></li>
+	<li><a href="https://codeblog.dotsandbrackets.com/2018/04/">April 2018</a></li>
+	<li><a href="https://codeblog.dotsandbrackets.com/2018/03/">March 2018</a></li>
+	<li><a href="https://codeblog.dotsandbrackets.com/2018/02/">February 2018</a></li>
+	<li><a href="https://codeblog.dotsandbrackets.com/2018/01/">January 2018</a></li>
+	<li><a href="https://codeblog.dotsandbrackets.com/2017/12/">December 2017</a></li>
+	<li><a href="https://codeblog.dotsandbrackets.com/2017/11/">November 2017</a></li>
+	<li><a href="https://codeblog.dotsandbrackets.com/2017/10/">October 2017</a></li>
+	<li><a href="https://codeblog.dotsandbrackets.com/2017/09/">September 2017</a></li>
+	<li><a href="https://codeblog.dotsandbrackets.com/2017/08/">August 2017</a></li>
+	<li><a href="https://codeblog.dotsandbrackets.com/2017/07/">July 2017</a></li>
+	<li><a href="https://codeblog.dotsandbrackets.com/2017/06/">June 2017</a></li>
+	<li><a href="https://codeblog.dotsandbrackets.com/2017/05/">May 2017</a></li>
+	<li><a href="https://codeblog.dotsandbrackets.com/2017/04/">April 2017</a></li>
+	<li><a href="https://codeblog.dotsandbrackets.com/2017/03/">March 2017</a></li>
+	<li><a href="https://codeblog.dotsandbrackets.com/2017/02/">February 2017</a></li>
+	<li><a href="https://codeblog.dotsandbrackets.com/2017/01/">January 2017</a></li>
+	<li><a href="https://codeblog.dotsandbrackets.com/2016/12/">December 2016</a></li>
+	<li><a href="https://codeblog.dotsandbrackets.com/2016/11/">November 2016</a></li>
+	<li><a href="https://codeblog.dotsandbrackets.com/2016/10/">October 2016</a></li>
+	<li><a href="https://codeblog.dotsandbrackets.com/2016/09/">September 2016</a></li>
+		</ul>
+		</section><section id="categories-2" class="widget widget_categories"><h2 class="widget-title">Categories</h2>		<ul>
+	<li class="cat-item cat-item-98"><a href="https://codeblog.dotsandbrackets.com/category/developers-life/">Developer's Life</a>
+</li>
+	<li class="cat-item cat-item-3"><a href="https://codeblog.dotsandbrackets.com/category/development/">Development</a>
+</li>
+		</ul>
+</section><section id="meta-2" class="widget widget_meta"><h2 class="widget-title">Meta</h2>			<ul>
+						<li><a rel="nofollow" href="https://codeblog.dotsandbrackets.com/wp-login.php">Log in</a></li>
+			<li><a href="https://codeblog.dotsandbrackets.com/feed/">Entries <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="https://codeblog.dotsandbrackets.com/comments/feed/">Comments <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="https://wordpress.org/" title="Powered by WordPress, state-of-the-art semantic personal publishing platform.">WordPress.org</a></li>			</ul>
+			</section>	</aside><!-- .sidebar .widget-area -->
+
+		</div><!-- .site-content -->
+
+		<footer id="colophon" class="site-footer" role="contentinfo">
+							<nav class="main-navigation" role="navigation" aria-label="Footer Primary Menu">
+					<div class="menu-other-resources-container"><ul id="menu-other-resources-1" class="primary-menu"><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-9"><a href="https://dotsandbrackets.com/">Personal blog (ru)</a></li>
+</ul></div>				</nav><!-- .main-navigation -->
+			
+			
+			<div class="site-info">
+								<span class="site-title"><a href="https://codeblog.dotsandbrackets.com/" rel="home">Dots and Brackets: Code Blog</a></span>
+				<a href="https://wordpress.org/">Proudly powered by WordPress</a>
+			</div><!-- .site-info -->
+		</footer><!-- .site-footer -->
+	</div><!-- .site-inner -->
+</div><!-- .site -->
+
+	<div style="display:none">
+	<div class="grofile-hash-map-f3466bc33f694c86093d5786dc63a367">
+	</div>
+	</div>
+
+	<script type="text/javascript">
+		window.WPCOM_sharing_counts = {"https:\/\/codeblog.dotsandbrackets.com\/ansible-vagrant\/":957};
+	</script>
+<!--[if lte IE 8]>
+<link rel='stylesheet' id='jetpack-carousel-ie8fix-css'  href='http://codeblog.dotsandbrackets.com/wp-content/plugins/jetpack/modules/carousel/jetpack-carousel-ie8fix.css?ver=20121024' type='text/css' media='all' />
+<![endif]-->
+<script type="text/javascript" src="./Provisioning Vagrant VM with Ansible - Dots and Brackets_ Code Blog_files/photon.js"></script>
+<script type="text/javascript" src="./Provisioning Vagrant VM with Ansible - Dots and Brackets_ Code Blog_files/devicepx-jetpack.js"></script>
+<script type="text/javascript" src="./Provisioning Vagrant VM with Ansible - Dots and Brackets_ Code Blog_files/skip-link-focus-fix.js"></script>
+<script type="text/javascript" src="./Provisioning Vagrant VM with Ansible - Dots and Brackets_ Code Blog_files/comment-reply.min.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var screenReaderText = {"expand":"expand child menu","collapse":"collapse child menu"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Provisioning Vagrant VM with Ansible - Dots and Brackets_ Code Blog_files/functions.js"></script>
+<script type="text/javascript" src="./Provisioning Vagrant VM with Ansible - Dots and Brackets_ Code Blog_files/wp-embed.min.js"></script>
+<script type="text/javascript" src="./Provisioning Vagrant VM with Ansible - Dots and Brackets_ Code Blog_files/spin.js"></script>
+<script type="text/javascript" src="./Provisioning Vagrant VM with Ansible - Dots and Brackets_ Code Blog_files/jquery.spin.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var jetpackCarouselStrings = {"widths":[370,700,1000,1200,1400,2000],"is_logged_in":"","lang":"en","ajaxurl":"http:\/\/codeblog.dotsandbrackets.com\/wp-admin\/admin-ajax.php","nonce":"46d2b32ab8","display_exif":"1","display_geo":"1","single_image_gallery":"1","single_image_gallery_media_file":"","background_color":"black","comment":"Comment","post_comment":"Post Comment","write_comment":"Write a Comment...","loading_comments":"Loading Comments...","download_original":"View full size <span class=\"photo-size\">{0}<span class=\"photo-size-times\">\u00d7<\/span>{1}<\/span>","no_comment_text":"Please be sure to submit some text with your comment.","no_comment_email":"Please provide an email address to comment.","no_comment_author":"Please provide your name to comment.","comment_post_error":"Sorry, but there was an error posting your comment. Please try again later.","comment_approved":"Your comment was approved.","comment_unapproved":"Your comment is in moderation.","camera":"Camera","aperture":"Aperture","shutter_speed":"Shutter Speed","focal_length":"Focal Length","copyright":"Copyright","comment_registration":"0","require_name_email":"1","login_url":"https:\/\/codeblog.dotsandbrackets.com\/wp-login.php?redirect_to=https%3A%2F%2Fcodeblog.dotsandbrackets.com%2Fansible-vagrant%2F","blog_id":"1","meta_data":["camera","aperture","shutter_speed","focal_length","copyright"],"local_comments_commenting_as":"<fieldset><label for=\"email\">Email (Required)<\/label> <input type=\"text\" name=\"email\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-email-field\" \/><\/fieldset><fieldset><label for=\"author\">Name (Required)<\/label> <input type=\"text\" name=\"author\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-author-field\" \/><\/fieldset><fieldset><label for=\"url\">Website<\/label> <input type=\"text\" name=\"url\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-url-field\" \/><\/fieldset>"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Provisioning Vagrant VM with Ansible - Dots and Brackets_ Code Blog_files/jetpack-carousel.js"></script>
+<script async="async" type="text/javascript" src="./Provisioning Vagrant VM with Ansible - Dots and Brackets_ Code Blog_files/form.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var sharing_js_options = {"lang":"en","counts":"1"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Provisioning Vagrant VM with Ansible - Dots and Brackets_ Code Blog_files/sharing.js"></script>
+<script type="text/javascript">
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-twitter', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomtwitter', 'menubar=1,resizable=1,width=600,height=350' );
+				return false;
+			});
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-facebook', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomfacebook', 'menubar=1,resizable=1,width=600,height=400' );
+				return false;
+			});
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-google-plus-1', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomgoogle-plus-1', 'menubar=1,resizable=1,width=480,height=550' );
+				return false;
+			});
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-linkedin', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomlinkedin', 'menubar=1,resizable=1,width=580,height=450' );
+				return false;
+			});
+</script>
+<script type="text/javascript" src="./Provisioning Vagrant VM with Ansible - Dots and Brackets_ Code Blog_files/e-201847.js" async="" defer=""></script>
+<script type="text/javascript">
+	_stq = window._stq || [];
+	_stq.push([ 'view', {v:'ext',j:'1:4.9',blog:'116176913',post:'957',tz:'-4',srv:'codeblog.dotsandbrackets.com'} ]);
+	_stq.push([ 'clickTrackerInit', '116176913', '957' ]);
+</script>
+
+
+<img src="./Provisioning Vagrant VM with Ansible - Dots and Brackets_ Code Blog_files/g.gif" alt=":)" width="6" height="5" id="wpstats"></body></html>

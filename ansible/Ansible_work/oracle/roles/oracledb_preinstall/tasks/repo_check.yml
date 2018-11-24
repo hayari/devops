@@ -1,0 +1,32 @@
+---
+- find:
+    paths: /etc/yum.repos.d/
+    patterns: "*"
+  register: find_results
+
+- name: delete all existing repo files
+  file: 
+    path: "{{ item.path }}" 
+    state: absent
+  when: configure_local_repo and delete_existing_repos
+  with_items: "{{ find_results['files'] }}"
+
+
+- name: Add local repositories
+  yum_repository:
+    name: "{{item.reponame}}"
+    description: "{{item.description}}"
+    baseurl: "{{item.baseurl}}"
+    gpgcheck: "{{item.gpgcheck}}"
+    enabled: "{{item.enabled}}"
+    file: "local_repos"
+  with_items: "{{localrepos}}"
+  when: configure_local_repo
+
+- name: yum-update-metadata
+  yum: update_cache=yes
+
+
+
+
+

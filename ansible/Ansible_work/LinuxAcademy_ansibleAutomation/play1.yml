@@ -1,0 +1,20 @@
+---
+- hosts: all
+  become: yes
+  vars:
+  - description: "{{ansible_hostname}}"
+  tasks:
+  - name: install apache
+    yum: name=httpd state=latest
+
+  - name: write the index file
+    template: src=template.j2 dest=/var/www/html/index.html
+    notify: restart apache
+
+  - name: ensure apache is running
+    service: name=httpd state=running
+
+  handlers:
+  - name: restart apache
+    service: name=httpd state=restarted
+...

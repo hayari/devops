@@ -1,0 +1,2488 @@
+Ansible on windows:
+Powershell version: $PSVersionTable.PSVersion   
+if the variable does not exist, it is safe to assume the engine is version 1.0
+
+
+To find .NET Framework versions by viewing the registry (.NET Framework 1-4):
+regedit => HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\NDP
+The installed versions are listed under the NDP subkey. The version number is stored in the Version entry. For the .NET Framework 4 the Version entry is under the Client or Full subkey (under NDP), or under both subkeys. 
+
+remove auto logon and set the execution policy back to the default of Restricted:
+
+# this isn't needed but is a good security practice to complete
+Set-ExecutionPolicy -ExecutionPolicy Restricted -Force
+
+$reg_winlogon_path = "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon"
+Set-ItemProperty -Path $reg_winlogon_path -Name AutoAdminLogon -Value 0
+Remove-ItemProperty -Path $reg_winlogon_path -Name DefaultUserName -ErrorAction SilentlyContinue
+Remove-ItemProperty -Path $reg_winlogon_path -Name DefaultPassword -ErrorAction SilentlyContinue
+
+
+Config vagrant :
+start VAGRANTFILE with all #centrale.ssh.host = "192.168.121.10"  commented
+then uncomment it and vagrant reload
+
+
+
+-----
+
+https://git.ir/linuxacademy-red-hat-certificate-of-expertise-in-ansible-automation-prep-course/
+
+Yaml for ansible syntax : https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html
+
+Install Ansible (redhat 7):
+yum -y install epel-release 
+yum -y install git python python-devel python-pip ansible
+
+/etc/ansible:(Ansible config files)
+	ansible.cfg
+	hosts
+	roles 
+
+/etc/ansible/hosts: (INF format)
+[local]
+localhost
+
+[centos]
+centrale.example.com
+server1.example.com
+server2.example.com
+
+[database]
+server2.example.com
+
+on each managed server:
+useradd ansible
+passwd ansible # echo "ansible" | passwd --stdin ansible 
+
+visudo:
+echo "ansible ALL=(ALL)  NOPASSWD:ALL" >/etc/sudoers.d/ansible
+
+on centrale:
+generate and exchange ssh keys:
+ssh-keygen
+ssh-copy-id ansible@server1.example.com
+ssh-copy-id ansible@server2.example.com
+
+(for vagrant machine set PasswordAuthentication yes in /etc/ssh/sshd_config inorder to exchange ids)
+
+
+Configuration is read at every run of ansible command with the order:
+	1-Env variable ANSIBLE_CONFIG
+	2-ansible.cfg in the current directory
+	3-.ansible.cfg in the home directory
+	4-/etc/ansible/ansible.cfg
+
+Adhoc command:
+ansible all -a "ls"
+ansible databases --list-hosts
+ansible servers -b -a "/usr/sbin/reboot"  # -b : run with sudo (root)
+ansible servers -b -a "touch testfile" --become-user tempuser # --become-user: load profile of the user (su - tempuser) before execute the command 
+ansible hosts -i myhosts.txt -m ping
+ansible servers -b -m yum -a "name=vim state=latest"
+ansible -u vagrant : connect to ssh througth user vagrant (remote_user)
+ansible -b: become become_user using become_method before running the command
+
+test.yml:
+--- # Test ansible playbook File
+- hosts: servers
+  user: ansible (or remote_user)
+  sudo: yes ( or become: yes
+		become_method: sudo)
+
+  connection: ssh
+  gather_facts: no
+  ignore_error: yes (continue execution of the tasks for the current host if a task fails. The default the execution of the tasks for the current will stop and ansible will create .retry file to restart the execution for the failes hosts only using --limit option)
+  tasks: 
+    - name: Install vim
+      action: yum  name=vim state=absent
+    - name: install elinks
+      yum:
+        name: nginx
+        state: latest
+      register: output (get the output of the module yum in the output variable)
+      notify:(fire only if the task needs to be run and succesfully run)
+      - enable and start nginx
+
+    - name: print output
+      debug: var=output (the module debug will output the results)
+
+    - name: 2nd manner =>print output stdout formated
+      debug: msg="stdout={{ output.stdout }}" 
+    - name: print output stderr formated
+      debug: msg="stderr={{ output.stderr }}"
+    - name: print ansible infos with debug module
+      debug:
+        msg: "System {{inventory_hostname}} gateway is {{ ansible_default_ipv4.gateway }}"
+    handlers:
+    - name: enable and start nginx  (run only at the end of the playbook play if the section nginx run and installed succesfully the software) 
+      service:
+         name: nginx
+         enabled: yes
+         state: restarted
+
+...
+
+
+
+ansible servers -m setup : collect facts from servers
+ansible servers -m setup -a 'filter=ansible_default_ipv4': filter facts information
+ansible all -a "ls -l" -f 100: forks:how many hosts are configured by ansible in parallel. by default equal to 5 => any 5 hosts are configured in parallel. if number of hosts increase it may be usefull to increase forks in order to return in less time.
+
+
+Inventories:
+
+static inventories:
+examples:
+testserver.example.com:24 # communication is made on port 24
+jumpserver ansible_port=5555 ansible_host=192.168.2.8 # create a shortcut "jumpserver"=192.168.2.8:5555
+[webserver-group1]
+www[01:50].example.com # all 50 server are selected
+[targets]
+localhost ansible_connection=local # give information on connection to hosts
+other1.example.com ansible_connection=ssh ansible_user=user2
+
+[atlanta]
+host1
+host2
+[atlanta:vars] # provide variable relative to atlanta group but this way is not prefered (to provied variable inside the inventory file)
+ntp_server=ntp.atlanta.example.com
+proxy=proxy.atlanta.example.com
+
+[control]
+control  ansible-host=10.1.20.1
+
+[haproxy]
+haproxy1  ansible-host=10.4.0.4
+
+[all:vars]  # variable for all hosts
+ansible_user=vagrant
+ansible_ssh_private_key_file=~/.vagrant.d/insecure-private-key
+
+groups:
+
+all: contains every host
+ungrouped: contains all hosts that don't have another group aside from all.
+
+host and group variables can be stored in individual files relative to the inventory file.
+
+if the inventory is /etc/ansible/hosts:
+[melbourne] # => /etc/ansible/group_vars/melbourne[.yml|.yaml]=can contain group vars or /etc/ansible/group_vars/melbourne/ the directory may contain multiple files defining variables. ansible will read all files in the directory
+mainhost # => /etc/ansible/host_vars/mainhost[.yml|.yaml]=can contain host vars
+
+[webserver] # => /etc/ansible/group_vars/webserver[.yml|.yaml]=can contain group vars
+mainhost 
+
+same if the inventory is /home/ansible/myhosts:directories "/home/ansible/host_vars" and "/home/ansible/group_vars" will contains variables relative to hosts and groups 
+
+
+
+Dynamic inventories:
+CMDB like LDAP, cobbler...
+cloud provider like EC2, Rackspace and openstack
+Ansible tour
+executable file: python file or other binary or script that return a json output and can be called with "--list" and "--host [hostname]"
+NB: executable file must have executable write (chmod +x) otherwise ansible will faill
+
+
+Playbooks:
+- use yml syntax
+Structure:
+
+example 1:
+
+---
+- hosts: myhosts
+  remote_user: ansible
+  gather_stats: no
+  become: yes
+  other_run_params:
+  vars: # define variables
+    my_var: avalue
+  tasks: # define a list of tasks to execute sequentially
+  - name: name of the task step      
+    yourmodule: # name of the module to execute
+        param1: myparam1 # parmas of the module
+        param2: myparam2
+        
+  - name: name of the task
+    yourmodule2: param1=myparam1  param2=myparam2  # another representation of th module params
+    notify:
+    - some_action_to_do_after_playbook_completion
+      
+  - name: another task
+    yourmodule2:
+        
+  handlers:  # list of notify handlers
+    - name: some_action_to_do_after_playbook_completion
+      yourmodule3: parm1=myparam param2=myparm
+...
+
+Handlers are special tasks that run at the end of a play if notified by another task. they are run one time at the end regardless how many time they are trigered 
+
+example 2:
+---
+- hosts: '{{ myhosts }}'
+  gather_facts: '{{ gather }}'
+  vars:  # variable efined within the playbook
+    myhosts: centos
+    gather: yes
+  pkg: telnet      
+  tasks:
+  - name: install software
+    yum:
+      name: '{{ pkg }}'
+      state: latest
+
+ansible_playbook varsubst.yaml --extra-vars "myosts=centos gather=yes pkg=telnet"  # variable defined in the command line
+
+if a playbook.yml fail ansible will create auto playbook.retry wich is usefull to retry the playbook from where it fails with option 
+ansible-playbook playbook.yml --limit @playbook.retry
+and so it usefull if the are many hosts to try. so that ansible will not replay the playbook from the beginning for all hosts. it try justs from where it fails.
+
+
+
+common used modules:
+
+user : manage user accounts
+group : manage groups
+
+copy: copies files to remote locations
+get_url: download files from http, https or ftp
+htpasswd: manage user files for basic authentification
+lineinfile: ensure a particular line is in a file, or replace existing line using a back-referenced regular expression.
+script: run a local script on a remote node after transferring it
+service: manage services (start,restart,reload,enable,disable...)
+
+unarchive: unpacks an archive after (optionally) copying it from the local/remote machine 
+yum/apt: manage packages
+package: Generic OS package manager
+ping: test presence of nodes 
+synchronize: a wrapper arround rsync to make common tasks in your playbook quick and easy
+template: template a file out to a remote server (use jinja2)
+uri: interract with webservices
+wait_for: wait for a condition before contining (examples: timeout, a port to become available, a regex in a file, a file to be present/absent on the filesystem...)
+assert: asserts given expression are true
+git: deploy software (or files) from git checkouts
+file: set attributes of files
+
+command:  execute a command on a remote host (the most secure and predictable)
+shell: execute a command through a shell like /bin/sh . so you can use shell facilities ( pipes, variables, redirect, etc.)
+script: run a local script on a remote node after transferring it
+raw: execute a command without going throw the ansible module subsystem. create a pure ssh connection and execute the command. Its usefull if we are targetting a machine which does not contains python or have an older version and we would to install/upgrade python in order to start using ansible.
+
+
+
+
+ansible all -m setup => gather explicitly all facts
+ansible all -m setup -a 'filter=*ipv4*' => gather facts related to the filter , here all ipv4 entries
+ansible all -m setup --tree facts => pool all the facts and save them to the facts directory which ansible will create and create a fact file for each server treated with ansible
+
+
+
+varaiable precedence:
+1- extra vars  (highest precedence)
+2- tasks vars (only for the task)
+3- block vars (only for tasks in the block)
+4- role and include vars
+5- play vars-files
+6- play vars-prompt
+7- play vars
+8- set-facts
+9- registred vars
+10- host facts
+11- playbook host-vars
+12- playbook group-vars
+13- inventory host-vars
+14- inventory group-vars
+15- inventory vars
+16- role defaults
+
+plays are ordred set of tasks
+playbook contains one or more plays
+
+Use of register, debug, stdout and stderr
+print_motd.yml:
+---
+- hosts: all
+  tasks:
+  - name: get /etc/motd
+    shell: cat /etc/motd
+    register: motd_contents
+  - debug: msg="stdout={{motd_contents}}"
+  - debug: msg="MOTD is empty"
+    when: motd_contents.stdout =="" # use of conditions
+...
+
+mainapp1.yml:
+---
+- hosts: all
+  tasks:
+  - name: upload a file to the target if it doesnt exist
+    copy:
+      src: /opt/program1.sh
+      dest: /home/vagrant/program1.sh
+      mode: 0755
+  - name: if line not there then add it
+    lineinfile:
+      state: present
+      dest: /home/ansible/program1.sh
+      regexp: '^HOSTNAME='
+      line: HOSTNAME={{ansible_hostname}}
+  - name: Run the program
+    shell: /home/ansible/program1.sh
+    register: program_output
+  - debug: msg="stdout={{program_output}}"
+...
+
+
+Loops and conditionals:
+
+Conditionals are used to control execution flow
+there is a statetement called "when"
+no need to use {{}} to use variables inside conditionals as these are alreay implied.
+
+
+---
+- hosts: all
+  tasks:
+  - name: install httpd
+    yum: name=httpd state=latest
+    when: ansible_os_family == "RedHat" # variable name from facts (setup module)
+
+
+---
+- hosts: all
+  vars:
+    create_file: false
+  tasks:
+  - name: create file
+    file: state=touch path=/home/vagrant/variable_was_true
+    when:  not create_file
+
+loops:
+
+---
+- hosts: all
+  tasks:
+  - name: multiple items 
+    file: state=touch path=/home/vagrant/{{item}}
+    with_items:
+    - file_no_1
+    - file_no_2
+    - file_no_3
+
+
+---
+- hosts: centrale
+  tasks:
+  - debug: msg="{{ item }}" # print content of the local files
+    with_file:
+    - firstfile
+    - secondfile
+
+
+error handling in a playbook:
+
+ignore_errors: yes => continue execution of the play even if the current task failes
+
+---
+- hosts: all
+  tasks:
+  - name: copy file to server
+    copy: src=test.sh dest=/home/vagrant/test.sh mode=0755
+  - name: Run the script
+    command: /home/vagrant/test.sh
+    register: comm_out
+    ignore_errors: yes 
+  - debug: msg="STDOUT - {{comm_out.stdout}}"
+  - debug: msg="STDERR - {{comm_out.stderr}}"
+
+
+Tagging tasks in playbooks:
+
+-both plays and tasks support tags
+-you can run only tagged portion or skip the tagged portion
+-if you use the same tag for multiple tasks then those will all be run
+
+install2.yml:
+---
+- hosts: server1, server2
+  become: y
+  tasks:
+  - name: install mysql server
+    yum: name=mysql-server state=latest
+    ignore_errors: yes
+    register: installmsg
+    tags: 
+    - packages
+  - name: start mysql if there
+    service: name=mysqld state=started
+    register: runmsg
+    tags:
+    - startup
+    ...
+
+    ansible-playbook -i vagrant.py install2.yml --tags "startup"  # run only the tasks tagged as startp
+
+    ansible-playbook -i vagrant.py install2.yml --skip-tags "startup"  # skip only the tasks tagged as startup
+
+   the --tags option can take 3 specific tags as argument:
+     - tagged : runs any tagged ressource
+     - untagged: exclude all tagged resources
+     - all: runs all tasks (which is default behavior and also happens if no tags have been specified)
+
+Templates:
+
+-Templates allow you to create a file with variable inside that get replaced
+-You can use any of the ansible variables
+-Tere is a template module
+-Templates are processed by the Jinja2 templating language
+http://jinja2.pocoo.org/docs/templates/
+-template
+  src: /mytemplates/foo.j2
+  dest: /etc/file.conf
+  owner: bin
+  group: wheel
+  mode: 0644
+
+
+---
+- hosts: all
+  become: yes
+  vars:
+  - description: "{{ansible_hostname}}"
+  tasks:
+  - name: install apache
+    yum: name=httpd state=latest
+
+  - name: write the index file
+    template: src=template.j2 dest=/var/www/html/index.html
+    notify: restart apache
+
+  - name: ensure apache is running
+    service: name=httpd state=running
+
+  handlers:
+  - name: restart apache
+    service: name=httpd state=restarted
+...
+
+template.j2:
+<p>Hello world</p>
+ServerName={{description}}
+
+
+install_wordpress.yml:
+---
+- hosts: all
+  become: yes
+  vars:
+    database_name_here: wordpress
+    username_here: wordpress
+    password_here: mypassword
+    dbhost_here: 172.31.108.177
+  tasks:
+  - name: install php for wordpress (multiple packages)
+    yum: name={{item}}
+    with_items:
+    - php
+    - php-gd
+    - php-pear
+    - php-mysql
+
+  - name: restart httpd
+    service: name=httpd state=restarted
+
+  - name: unarchive wordpress install gzip file
+    unarchive: src=https://wordpress.org/latest.tar.gz dest=/tmp/ remote_src=True
+
+  - name: remove html folder
+    command: /usr/bin/rm -rf /var/www/html
+
+  - name: move wordpress
+    command: /usr/bin/mv /tmp/wordpress/ /var/www/html
+
+  - name: copy template onfig file to host
+    template: src=wp-config.j2  dest=/var/www/html/wp-config.php
+...
+
+
+Ansible facts:
+
+-facts is a way of getting data from systems (23 kb of data)
+-can be used in playbook variable
+-can be disabled to speed execution (gather_facts: no)
+
+-to add your own data to facts for a given host:
+  1- mkdir /etc/ansible/facts.d  (ansible may be not installed)
+  2- vim /etc/ansible/facts.d/preference.fact  # all .fact files in the facts.d directory will be read by ansible
+  this .fact file can be json or executable that return JSON or INF file
+  3- [generale]
+    private_fact=bugs
+    other_facts=bunny
+  4- the data will available under ansible_local varaiable
+
+    ansible -i vagrant.py server1 -m setup -a "filter=ansible_local"  
+
+server1 | SUCCESS => {
+    "ansible_facts": {
+        "ansible_local": {
+            "preference": {
+                "generale": {
+                    "other_facts": "bunny", 
+                    "private_fact": "bugs"
+                }
+            }
+        }
+    }, 
+    "changed": false
+}
+
+---
+- hosts: all
+  tasks:
+  - debug: msg="{{ansible_local.preference}}"
+...
+
+Using ansible facts:
+
+---
+- hosts: all
+  tasks:
+  - debug: msg="The server Date/Time is {{ansible_date_time.date}} / {{ansible_date_time.hour}}:{{ansible_date_time.minute}}"
+...
+
+---
+- hosts: all
+  tasks:
+  - debug: msg="The server OS is {{ansible_distribution}}.{{ansible_distribution_major_version}}"
+  - debug: msg="The server {{ansible_hostname}} IP @ is {{ansible_default_ipv4.address}}"
+
+
+  roles and includes:
+
+  -Roles can be thought of as a playbook that's split into multiple files ( eg: one file for tasks, one for variables, one for handlers)
+  -improve reusability of playbooks
+  -ansible galaxy is a repository of roles people have created for tasks
+
+Include:
+
+example: split motd.yaml
+
+---
+- hosts: centrale
+  tasks:
+  - name: get /etc/motd
+    shell: cat /etc/motd
+    register: motd_contents
+  - debug: msg="stdout={{motd_contents}}"
+  - debug: msg="MOTD is empty"
+    when: motd_contents.stdout =="" # use of conditions
+...
+
+./tasks/main.yml:
+
+---
+- shell: cat /etc/motd
+  register: motd_contents
+- debug: msg="stdout={{motd_contents}}"
+- debug: msg="MOTD is empty"
+  when: motd_contents.stdout ==""
+  ...
+
+mainplaybook.yml:
+  ---
+- hosts: all
+  tasks:
+  - include: tasks/main.yml
+
+Roles:
+
+sructure of role directory:
+
+apache-webserver/
+├── defaults
+├── files
+├── handlers
+├── meta
+├── tasks
+├── templates
+└── vars
+
+
+---
+- hosts: webservers
+  roles: # list of included directories
+  - common # ansible will search in the directory common for the file main.yml and include it. if the main.yml does not exist ansible will ignore the directory
+  - webservers
+...
+
+
+Roles with variables added to it:
+---
+- hosts: webservers
+  roles:
+  - common
+  - {role: foo_app_instance, dir: '/opt/a', app_port: 5000 } # foo_app_instance is a role
+  - {role: foo_app_instance, dir: '/opt/b', app_port: 5001 }
+...
+
+Roles applied according to certains conditions:
+
+---
+- hosts: webservers
+  roles:
+  - {role: some_role, when: "ansible_os_family == 'RedHat'"}
+...
+
+Roles with pre_tasks/tasks/post_tasks
+
+---
+- hosts: webservers
+
+  pre_tasks:
+  - shell: echo 'hello'
+
+  roles:
+  - {role: some_role}
+
+  tasks:
+  - shell: echo 'still busy'
+
+  post_tasks:
+  - shell: echo 'Goodbye'
+
+
+arrive roles lets create a role to install apache:
+
+.
+├── apache-webserver
+│   ├── defaults
+│   ├── files
+│   ├── handlers
+│   │   └── main.yml
+│   ├── meta
+│   ├── tasks
+│   │   └── main.yml
+│   ├── templates
+│   └── vars
+│       └── main.yml
+└── webserver.yml
+
+
+apache-server/tasks/main.yml:
+---
+- name: Install apache
+  yum: name=httpd state=latest
+  notify: restart apache
+
+apache-server/handlers/main.yml:
+---
+- name: restart apache
+  service: name=httpd state=restarted
+
+apache-server/vars/main.yml:
+website_name: This is our website
+
+webserver.yml:
+---
+- hosts: all
+  become: yes
+  roles:
+   - apache-webserver
+
+
+Customize an existing role: (here customize the apache-webserver role)
+create new directories: customize-apache/tasks
+
+├── apache-webserver
+│   ├── defaults
+│   ├── files
+│   ├── handlers
+│   │   └── main.yml
+│   ├── meta
+│   ├── tasks
+│   │   └── main.yml
+│   ├── templates
+│   └── vars
+│       └── main.yml
+├── customize-apache
+│   └── tasks
+│       └── main.yml
+├── update_apache.yml
+
+customize-apache/tasks/main.yml:
+---
+- name: create file if doesn't exist
+  file: state=touch path=/var/www/html/index.html
+
+- name: if hostname not in the file then add it
+  lineinfile: state=present dest=/var/www/html/index.html line=Hostname={{ansible_hostname}}
+...
+
+create file update_apache.yml:
+--- # put the hostname in index.html
+- hosts: all
+  become: yes
+  roles:
+  - apache-webserver
+  - customize-apache
+...
+
+Another customize: (install php)
+create directory install_php/tasks
+
+├── apache-webserver
+│   ├── defaults
+│   ├── files
+│   ├── handlers
+│   │   └── main.yml
+│   ├── meta
+│   ├── tasks
+│   │   └── main.yml
+│   ├── templates
+│   └── vars
+│       └── main.yml
+├── customize-apache
+│   └── tasks
+│       └── main.yml
+├── install_php
+│   └── tasks
+│       └── main.yml
+├── install-php.yml
+├── update_apache.yml
+└── webserver.yml
+
+
+install_php/tasks/main.yml:
+
+---
+- name: Install php onto server
+  yum: name={{item}} state=latest
+  with_items:
+  - php
+  - php-gd
+  - php-pear
+  - php-mysql
+
+  install-php.yml:
+
+  - hosts: all
+  become: yes
+  roles:
+    - apache-webserver
+    - install_php
+    - customize-apache
+
+[DEPRECATION WARNING]: Invoking "yum" only once while using a loop via squash_actions is deprecated. Instead of using a loop to supply multiple items and specifying `name: {{item}}`, please use `name: [u'php', u'php-gd', u'php-pear', u'php-mysql']` and remove the loop. This feature will be removed in version 2.11. Deprecation warnings can be disabled by setting deprecation_warnings=False in ansible.cfg.
+
+---
+- name: Install php onto server
+  yum: name=php,php-gd,php-pear,php-mysql state=latest
+
+
+# from geerlingguy.apache role
+
+or define a variable:
+__php_packages:
+  - php
+  - php-gd
+  - php-pear
+  - php-mysql
+
+add task:
+
+- name: Define php_packages.
+  set_fact:
+    php_packages: "{{ __apache_packages | list }}"
+  when: php_packages is not defined
+
+
+- name: Ensure Apache is installed on RHEL.
+  package:
+    name: "{{ apache_packages }}"
+    state: "{{ apache_packages_state }}"
+    enablerepo: "{{ apache_enablerepo | default(omit, true) }}"
+
+
+Ansible galaxy :
+
+-it's free site for finding, downloading and also sharing community sourced ansible roles "galaxy.ansible.com".
+
+- the ansible-galaxy command is provided as part of ansible.
+-by default roles are downloaded to the path set in the config file but can be changed with -p option
+-roles can have dependencies. thos will automatically be installed.
+-Don't need a profile to ddownload, only for upload (uses git)
+
+
+Usage: ansible-galaxy [delete|import|info|init|install|list|login|remove|search|setup] [--help] [options]
+
+init: ititialize directories
+
+ansible-galaxy init testproject =>
+
+.
+`-- testproject
+    |-- README.md
+    |-- defaults
+    |   `-- main.yml
+    |-- files
+    |-- handlers
+    |   `-- main.yml
+    |-- meta
+    |   `-- main.yml
+    |-- tasks
+    |   `-- main.yml
+    |-- templates
+    |-- tests
+    |   |-- inventory
+    |   `-- test.yml
+    `-- vars
+        `-- main.yml
+
+9 directories, 8 files
+
+Download and install a role from ansible-galaxy repo to the local directory "roles": ansible-galaxy install geerlingguy.apache -p roles
+
+ansible-galaxy list: list installed ansible roles (in ~/.ansible/roles and /etc/ansible/roles for redhat)
+
+---
+- hosts: single
+  become: yes
+  roles:
+  - geerlingguy.apache # look at /etc/ansible/role. if it's installed in a local 'roles ' directory : - roles/geerlingguy.apache will look at the 'roles' dir in the current directory
+
+
+---
+- hosts: all
+  become: database
+  roles:
+    - geerlingguy.apache
+    - geerlingguy.mysql
+
+
+---
+- hosts: webserver
+  become: yes
+  roles:
+    - roles/geerlingguy.apache
+    - roles/wordpress
+
+
+Parallelism:
+
+- buy default ansible use 5 connections on the same time.
+- use option '-f' to increase number of concurrent connection
+
+
+---
+- hosts: all
+  become: yes
+  serial: 10      # equivalent to '-f 10'
+  tasks:
+   - name: install elinks
+     yum: name=elinks stat=latest
+
+
+---
+- hosts: all
+  become: yes
+  serial: "30%"      # run on 30% of the hosts each time
+  tasks:
+   - name: install elinks
+     yum: name=elinks stat=latest
+
+
+---
+- hosts: all
+  become: yes
+  serial:       # equivalent to 
+   - 1          # first pass will turn for 1 host
+   - 5          # second pass will turn for 5 hosts
+   - 10         # third pass will turn for 10 hosts
+  tasks:
+   - name: install elinks
+     yum: name=elinks stat=latest
+
+we can mix the formats:
+
+---
+- hosts: all
+  become: yes
+  serial:       # equivalent to 
+   - 1          # first pass will turn for 1 host
+   - 5          # second pass will turn for 5 hosts
+   - '20%'      # third pass will turn for 20% hosts
+  tasks:
+   - name: install elinks
+     yum: name=elinks stat=latest
+
+
+---
+- hosts: all
+  become: yes
+  max_fail_percentage: 30  # we accept that 30% of hosts fails and the play still run
+  serial: 10      # equivalent to '-f 10'
+  tasks:
+   - name: install elinks
+     yum: name=elinks stat=latest
+
+
+Ansible Vault:
+
+- Ansible vault is a secure store
+- it allows ansible to keep sensitive data
+   - passwords
+   - encrypted files
+- command line tool ansible-vault is used to edit files
+- command line flag is used --ask-vault-pass or --vault-password-file
+
+
+ansible-vault encrypt  roles/test.demo/vars/main.yml
+
+ansible-playbook test-demo.yml --ask-vault-pass # ask for password to open encrypted file 
+
+
+ansible-vault edit  roles/test.demo/vars/main.yml : open encrypted file with the default editor to edit it
+
+ansible-vault rekey roles/test.demo/vars/main.yml: change the encryption key
+
+ansible-vault view roles/test.demo/vars/main.yml: view the content of file
+
+ansible-vault decrypt roles/test.demo/vars/main.yml: decrypt the file
+
+
+Store the password in a file:
+
+ansible-playbook test-demo.yml --vault-password-file=pass.txt
+
+---
+pass.txt:
+mypassword
+
+
+---
+- copy: content="{{sepecial_password}}" dest=/home/vagrant/encrypted_output
+- shell: echo "{{sepecial_password}}" > testfile
+  no_log: true  # tell ansible to not print the command to stdout. it is useful for sending password so it's not printed on screen.
+
+
+Ansible Tower
+
+1- admin creates users
+2- users logons and create their credentials
+
+
+-----------------------------------------------------------------------
+LinuxAcademy Using Ansible for Configuration Management and Deployments
+-----------------------------------------------------------------------
+
+
+- Ansible require to work only that 1/ ssh is installed on the client to which we connect 2/ and a supported installation is available on the client
+
+YAML:
+
+simple lists:
+--- # Grocery List
+- Bananas
+- Apples
+- Oranges
+- Cereal
+- Eggs
+
+equivalent to inline formatting:
+[Bananas, Apples, Oranges, Cereal, Eggs]
+
+Associative Arrays/Key Value Pairs
+
+--- # Employee Information (List) 
+Name: John Smith
+Age: 44
+HireDate: 09/01/2011
+
+--- # Employee Information (Inline)
+{Name: John Smith, Age: 44, HireDate: 09/01/2011}
+
+Note: String do not require quotation, blank lines signify new paragraphs 
+
+newline preservation:
+
+--- # New Line Preservation
+typing: |
+Now is the time for all good men to
+    Four score and seven years ago
+
+Casting datatypes: Normally, YAML will detect datatypes, but you may wont to specify:
+a: 123 # an intger
+b: "123" # a string
+c: 123.0 # a float
+d: !!float 123 # a float via explicit data type prefixed by (!!)
+e: !!str 123 # a string
+f: !!str Yes # a string
+g: Yes # a boolean True (yaml1.1), a string "Yes" (yaml1.2)
+h: Yes sir we have no bananas today  # yes and no disambiguated by context
+
+
+
+a playbook example
+
+--- # Playbook Descriptio,n
+- hosts: appserver
+  tasks:
+  - name: Install Lynx on App Servers
+    yum: pkg=lynx state=installed update_cache=true
+  - name: Quering for telnet Install
+    yum: pkg=telnet state=present update_cache=true
+
+
+Ansible documentation
+
+man ansible-doc
+
+ansible-doc -l : list of modules available on the system
+
+ansible-doc ec2: more information on ec2 module
+
+- any option prefixed by a = is mandatory
+
+Environnement setup:
+
+- adduser ansible
+- password ansible
+- ssh-keygen
+- 'ssh-copy-id ansible@server' and 'ssh-copy-id ansible@ip_address'
+
+
+Ansible installation:
+
+yum install epel-release
+yum update repolist
+yum update
+yum install ansible 
+
+ansible --version
+
+Configuration Files:
+
+/etc/ansible/ansible.cfg:
+# nearly all parameters can be overridden in ansible-playbook
+# or with command line flags. ansible will read ANSIBLE_CONFIG,
+# ansible.cfg in the current working directory, .ansible.cfg in
+# the home directory or /etc/ansible/ansible.cfg, whichever it
+# finds first
+ 
+ [defaults]
+
+# some basic default values...
+
+#inventory      = /etc/ansible/hosts
+#library        = /usr/share/my_modules/
+#module_utils   = /usr/share/my_module_utils/
+#remote_tmp     = ~/.ansible/tmp
+#local_tmp      = ~/.ansible/tmp
+#plugin_filters_cfg = /etc/ansible/plugin_filters.yml
+#forks          = 5
+#poll_interval  = 15
+#sudo_user      = root
+#ask_sudo_pass = True
+#ask_pass      = True
+#transport      = smart
+#remote_port    = 22
+#module_lang    = C
+#module_set_locale = False
+
+# plays will gather facts by default, which contain information about
+# the remote system.
+#
+# smart - gather by default, but don't regather if already gathered
+# implicit - gather by default, turn off with gather_facts: False
+# explicit - do not gather by default, must say gather_facts: True
+#gathering = implicit
+
+# This only affects the gathering done by a play's gather_facts directive,
+# by default gathering retrieves all facts subsets
+# all - gather all subsets
+# network - gather min and network facts
+# hardware - gather hardware facts (longest facts to retrieve)
+# virtual - gather min and virtual facts
+# facter - import facts from facter
+# ohai - import facts from ohai
+# You can combine them using comma (ex: network,virtual)
+# You can negate them using ! (ex: !hardware,!facter,!ohai)
+# A minimal set of facts is always gathered.
+#gather_subset = all
+
+
+# logging is off by default unless this path is defined
+# if so defined, consider logrotate
+#log_path = /var/log/ansible.log
+
+
+Ansible Dependencies:
+
+-python 2.4 minumun on control server and client (but not Python 3 at this moment)
+
+Hosts File:
+file location is specified in the ansible config file by the "inventory" variable.
+
+
+# This is the default ansible 'hosts' file.
+#
+# It should live in /etc/ansible/hosts
+#
+#   - Comments begin with the '#' character
+#   - Blank lines are ignored
+#   - Groups of hosts are delimited by [header] elements
+#   - You can enter hostnames or ip addresses
+#   - A hostname/ip can be a member of multiple groups
+
+# Ex 1: Ungrouped hosts, specify before any group headers.
+
+## green.example.com
+## blue.example.com
+## 192.168.100.1
+## 192.168.100.10
+
+# Ex 2: A collection of hosts belonging to the 'webservers' group
+
+## [webservers]
+## alpha.example.org
+## beta.example.org
+## 192.168.1.100
+## 192.168.1.110
+
+# If you have multiple hosts following a pattern you can specify
+# them like this:
+
+## www[001:006].example.com
+
+# Ex 3: A collection of database servers in the 'dbservers' group
+
+## [dbservers]
+## 
+## db01.intranet.mydomain.net
+## db02.intranet.mydomain.net
+## 10.25.1.56
+## 10.25.1.57
+
+# Here's another example of host ranges, this time there are no
+# leading 0s:
+
+## db-[99:101]-node.example.com
+
+
+[local]
+localhost ansible_user=hichem 
+
+[db]
+server1 ansible_user=vagrant ansible_password=vagrant
+
+[web]
+server2 ansible_user=vagrant
+server3 ansible_user=vagrant
+
+[centos]
+server1 ansible_user=vagrant
+server2 ansible_user=vagrant
+server3 ansible_user=vagrant
+
+[ubuntu]
+localhost ansible_user=hichem
+
+
+ansible all --list-hosts # list all static configured hosts
+  hosts (4):
+    server1
+    server2
+    server3
+    localhost
+
+ansible centos --list-hosts
+  hosts (3):
+    server1
+    server2
+    server3
+
+in ansible when we refer to hosts we can use hostnames or groups of hosts defined in the inventory
+
+ansible server2,server3 -m ping
+ansible centos,ubuntu -m ping
+
+
+ansible server4 -i myhosts -m ping # use the file myhosts in the current directory as inventory
+
+ansible server4 -i /home/hichem/customhosts -m ping # use the file /home/hichem/customhosts as inventory
+
+
+Default Roles Path:
+In ansible.cfg:
+roles_path =/home/hichem/playbooks/roles:/etc/ansible/roles # define additional paths to search for roles
+
+  
+Configuring the Ansible Account:
+
+configure ansible user to not provide password when using sudo command, in all managed server:
+sudo visudo
+ansible   ALL=(ALL)   NOPASSWD: ALL
+
+
+in ansible.cfg verify that:
+#ask_sudo_pass = True
+
+
+ssh-keygen
+ssh-copy-id ansible@server[1,2,3]
+
+
+Ansible command line:
+
+
+ansible server1 -b -m shell -a 'yum list installed | grep python' # verify installed python modules
+
+system facts:
+
+ansible server1 -m setup|less # view all system facts of server1
+ansible server1 -m setup --tree facts # save system facts to directory facts
+ansible server1 -m setup -a 'filter=ansible_default_ipv4' # filter the output of the setup module
+ansible server1 -m setup -a 'filter=*ipv4*'
+
+ansible_architecture: "x86_64"
+ansible_distribution:  "CentOS"
+ansible_distribution_version : "7.5.1804"
+ansible_domain : "example.com"
+"ansible_fqdn": "server1.example.com"
+"ansible_kernel": "3.10.0-862.14.4.el7.x86_64"
+"ansible_memtotal_mb": 487
+"ansible_interfaces": ["lo","eth1","eth0"]
+ansible_processor": [
+            "0", 
+            "GenuineIntel", 
+            "Intel Xeon E312xx (Sandy Bridge, IBRS update)"
+        ] 
+"ansible_processor_cores": 1, 
+"ansible_processor_count": 1, 
+"ansible_processor_threads_per_core": 1, 
+"ansible_processor_vcpus": 1
+"ansible_virtualization_role": "guest", 
+"ansible_virtualization_type": "kvm"
+
+
+ansible all -b -m yum -a "name=telnet state=latest" -t install-result  # will create a directory named install-result with a logfile for each server. we can use --tree $date_$time_install-result for each run of the script
+
+variables inclusion types:
+
+---
+- hosts: appserver
+  vars:  # variable inclusion
+    control_server: tcox3.mylabserver.com 
+    web_root: /var/www/html
+  tasks:
+  - name: Install Lynx on APP Servers
+    yum: pkg=lynx state=installed update_cache=true
+...
+
+---
+- hosts: appserver
+  vars:
+    myvar: var1
+  vars_files: # inclusion of yaml files containing variables
+  - vars.yml
+  tasks:
+  - name: Install Lynx on APP Servers
+    yum: pkg=lynx state=installed update_cache=true
+...
+
+vars.yml:
+control_server: tcox3.mylabserver.com 
+web_root: /var/www/html
+
+
+Target section:
+---
+- hosts: server1
+  become_user: vagrant
+  become: yes
+  connection: ssh
+  gather_facts: no
+
+--- # Variable section:
+  vars:
+    playbook_version: 0.1b
+  vars_files:
+    - conf/copyright.yml
+    - conf/webdefaults.yml
+  vars_prompt: # variable that will be prompted when running the playbook
+   - name: web-domain
+     prompt: Web Domain
+
+--- # Task section:
+  tasks:
+  - name: Install Lynx Web Browser
+    yum: name=lynx state=installed
+  - name: Check for Telnet Client
+    action: yum name=telent state=absent # A second way to do the things
+
+--- # Handler Section:
+  - name: Installe Apache Web Server
+    yum: name=httpd state=present
+    notify: Restart HTTPD
+
+  handlers:
+  - name: Restart HTTPD
+    service: name=httpd state=restarted
+
+
+---
+- name: deploy and start apache
+  hosts: all
+  include_vars:  vars/{{ ansible_os_family }}.yml
+Create a playbook:
+1- create Outlines for your playbook
+2- convert the outline to ansible instruction
+
+
+--- # Outline to Playbook Translation
+- hosts: webserver
+  user: vagrant
+  become: yes
+  gather_facts: no
+
+  vars:
+  vars_files:
+  vars_prompt:
+
+  tasks:
+  - name: date/time stamp for when the playbook start
+    command: /usr/bin/date
+    register: startdatetime
+
+  - debug: msg="Playbook started at {{startdatetime.stdout}}"
+
+  - name: install the apache webserver
+    package: name=httpd state=latest
+    notify: start the web service
+
+  - name: verify that web server is running
+    shell: systemctl status httpd
+    register: httpdstate
+
+  - debug: var=httpdstate
+
+  - name: install client software
+    package: name={{item}} state=latest
+    with_item:
+     - epel
+     - telnet
+     - lynx
+  - name: log all the packages install on the system
+    shell: yum list installed
+    register: installedsoftware
+  - debug: var=installedsoftware
+
+  - name: date/time stamp for when the playbook ends
+    command: /usr/bin/date
+    register: enddatetime
+
+  - debug: msg="Playbook ended at {{enddatetime.stdout}}"
+
+  handlers:
+  - name: start the web service
+    service: name=httpd state=started
+
+  
+
+
+
+
+NB: ansible modules are installed on /usr/lib/python2.7/dist-packages/ansible/modules/
+
+Running the playbook as Dry Run:
+
+ansible-playbook playweb.yml --check  : connect to the remote host dont run the playbook but just check its syntax and simulate it execution and return what will be changed if the playbook runs
+
+Assynchronous polling:
+
+ tasks:
+  - name: Install Apache Web Server
+    yum: name=httpd state=installed
+    async: 300 # maximum amount of time in second ansible will wait for the command to complete. the task will run asynchronisely and ansible will coontinue doing othe things
+    poll: 3 # how often in second will ansible check the state of the action if it is completed or not
+
+
+Variable substitution:
+
+Lookups:
+
+lookup.csv:
+Bruce Wayne,Batman,Human
+Clark Kent,Superman,Alien
+Wally West,The Flash,Human
+John Stewart,Green Lantern,Human
+
+
+lookup.yml:
+--- # Lookup Playbook Example
+- hosts: apacheweb
+  become_user: test
+  become: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - debug: msg="Lookup the SuperHero for  Wayne {{lookup('csvfile','Wayne file=lookup.csv delimiter=, col=1 default=NOMATCH')}}" # if the lookup function doesn't find the result it will display the default value which is here the word "NOMATCH" . the lookups are executed with a working directory relative to the role or play
+
+  - debug: msg="{{lookup('env','HOME')}}" is the value listed # use the lookup plugin env which will try to find the conntent of a environement variable Here the content of the HOME Variable
+
+To get the list of availble lookup plugin use:
+ansible-doc -t lookup -l
+ansible-doc -t lookup <plugin name>
+
+Lookups defaults to return a string of comma seperated value. if we want to get the result as a list we use "wantlist=True"  in the lookup function.
+we can also use the query plugin (shortform= q) which always return a list.
+lookup('dict',dict_varaible,wantlist=True)=query('dict',dict_varaible)=q('dict',dict_varaible)
+
+ansible-doc -l -t <plugin type>
+<plugin type> = 'cache', 'callback', 'connection', 'inventory', 'lookup', 'shell', 'cliconf', 'httpapi', 'module', 'strategy', 'vars'
+
+
+Run Once:
+A command may be suffisant to run it only once by any server on a group
+
+runonce.yml:
+---
+- host: all
+  become:yes
+  become_user: test
+  gather_facts: no
+  tasks:
+  - name: Run the uptime on all servers an log it
+    raw: /usr/bin/uptime >> /home/test/uptime.log
+  - name: List the /var directory and log it
+    raw: ls -al /var >> /home/test/dir.list
+    run_once: true
+
+
+Local Actions:
+
+execute action on local machine (the controler) without establishing an ssh connection.
+---
+- hosts: 127.0.0.1
+  connection: local
+  become: yes
+  tasks:
+  - name: install Telnet Client
+    yum: name=telnet state=present
+
+
+Loops:
+ansible < 2.5
+---
+- hosts: apacheweb
+  gather_facts: no
+  become: yes
+  tasks:
+  - name: Add a list of users
+    user: name={{item}} state=present
+    with_items:
+    - user1
+    - user2
+    - user3
+
+ansible >= 2.5
+
+---
+- hosts: apacheweb
+  gather_facts: no
+  become: yes
+  tasks:
+  - name: Add a list of users
+    user: name={{item}} state=present
+    loop:  # analog to with_item
+    - user1
+    - user2
+    - user3
+
+if we have defined a list in a variable file or the 'var section' we can do:
+
+loop: "{{somelist}}"
+
+some modules like "yum" can accept lists in their options . this is more optimal than looping over list of items.
+
+- yum: name={{list_of_packages}} state=present
+
+Iterate over a list hashes
+
+---
+- hosts: apacheweb
+  gather_facts: no
+  become: yes
+  tasks:
+  - name: Add a list of users
+    user: name={{item.name}} state=present groups= item.groups
+    loop:  # analog to with_item
+    - {name: 'user1', groups: 'wheel'}
+    - {name: 'user2', groups: 'root'}
+
+
+Conditionals:
+
+---
+- hosts: all
+  become: yes
+  gather_facts: yes
+  vars:
+    playbook_type: conditionalexample
+  vars_files:
+  - conf/copyright.yml
+  - conf/webdefault.yml
+  tasks:
+  - name: Install Apache Appropriate to the distribution Debian
+    command: apt-get -y install apache2
+    when: ansible_os_family == "Debian"
+
+  - name: Install Apache Appropriate to the distribution Redhat
+    command: yum -y install httpd
+    when: ansible_os_family == "Redhat"
+    
+
+Until:
+
+---
+- hosts: apachewebserver
+  become: yes
+  gather_facts: no
+  tasks:
+  - name: Installing Apache Web server
+    yum: name=httpd state=latest
+
+  - name: Verify Service status
+    shell: systemctl status httpd
+    register: result
+    until: result.stdout.find("active (running)") != -1 # keep trying for 5 times each try delayed by 5 second until result.stdout.find("active (running)") return a value different from -1 
+    retries: 5
+    delay: 5
+
+  - debug: var=result
+
+Notify (handlers):
+
+tasks:
+- name: Install Apache Web Server
+  yum: name=httpd state=latest
+  notify: 
+   - Restart HTTPD
+   - check result
+   - view result
+
+handlers:
+- name: Restart HTTPD
+  service: name=httpd state=restarted
+- name: check result
+  shell: curl www.mysite.com
+  register: output
+- name: view result
+  debug: var=output
+
+
+
+Vault:
+vault encrypt files containing sensitive data
+
+ansible-vault create secure.yml : create a crypted yaml file
+
+ansible-vault edit secure.yml: edit the crypted file with the default editor
+
+ansible-vault rekey secure.yml: change the secret password used to encrypte secure.yml
+
+ansible-vault decrypt secure.yml : remove encryption from secure.yml
+
+ansible-vault encrypt accounts.yml : encrypt an existing file
+
+
+
+ansible-playbook waitfor.yml --ask-vault-pass  : prompt for vault password needed to decrypt encrypted files
+
+ansible-playbook waitfor.yml --vault-password-file somefile.txt:  put passwords in a text file and pass it to ansible to use as key for decrypting encrypted files
+
+
+Interactive playbook:
+
+---
+- hosts: apacheweb
+  user: test
+  become: yes
+  gather_facts: no
+  vars:
+    playbook_version: 0.01b
+  vars_prompt:
+  - name: pkgtoinstall
+    prompt: Install Which Package?
+    default: telnet
+    private: no # yes => typed string will not print on screen
+  
+  tasks:
+  - name: Install the package
+    yum: name={{pkgtoinstall}} state=latest
+ 
+
+ Basic Include Statetements:
+
+
+ tasks:
+ - include: plays/package.yml user=balh # pass variables to a play
+ - name: another task
+   module: somethings
+
+
+Tags:
+assigne a name that we can refer to it when running the playbook
+tags.yml
+---
+- hosts: apacheweb
+  tasks:
+  - name: Install telnet and lynx
+    yum: name={{item}}   state=latest
+    with_items:
+     - telent
+     - lynx
+     tags:  # disgnate tags that refer to this task
+      - packages
+  - name: verify that telent was installed
+    shell: yum list installed | grep telnet > /home/test/pkg.log
+    tags:
+     - verification
+
+ansible-playbook tags.yml --tags "verification" : run only the tasks taged "verification"
+
+ansible-playbook tags.yml  --skip-tags "packages" : run all the playbook except the tasks which tagged with tag in the skip-tags list
+
+---
+- hosts: apacheweb
+  tasks:
+  - name: Install telnet and lynx
+    yum: name={{item}}   state=latest
+    with_items:
+     - telent
+     - lynx
+     tags:  # disgnate tags that refer to this task
+      - packages
+  - name: verify that telent was installed
+    shell: yum list installed | grep telnet > /home/test/pkg.log
+    tags:
+     - always  # this task will always run unless explicitelly skipped using --skip-tags "always". also there is a "never" tag which behave opposite to always
+
+
+Basic error handling:
+
+---
+- hosts: webserver
+  user: test
+  become: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: execute a failing command
+    command: /bin/false
+    ignore_erros: yes  # will continue if the task throws an error
+  - name: install telnet
+    yum: name=telnet state=latest
+
+
+Includes:
+
+STARTING aAT TASK OR STEPPING THROUGH ALL TASKS:
+
+startat.yml:
+---
+- hosts: apacheweb
+  user: test
+  become: yes
+  gather_facts: no
+  connection: ssh
+  tasks:
+  - name: Install Telnet
+    yum: PKG=telnet state latest
+  - name: Install Lynx
+    yum: PKG=lynx state latest
+  - name: List Home
+    command: ls -al /home/test
+    register: output
+  - debug: var=result
+
+
+ansible-playbook startat.yml --start-at-task='Install Lynx' # start the playbook from the task specified to the end of the playbook
+
+ansible-playbook startat.yml --step # prompt for the confirmation for every task in the playbook
+
+Passing variable into playbook at command Line:
+fromcmdline.yml
+---
+- hosts: "{{hosts}}"
+  user: "{{user}}"
+  become: y
+  gather_facts: no
+  tasks:
+  - name: Install  some software
+    yum: pkg={{pkg}} state=latest
+
+ansible-playbook fromcmdline.yml --extra-vars "hosts= apacheweb:debian user=test pkg=telnet" 
+
+
+- hosts: apacheweb:debian  # multiple hosts must be separated by colon (:) rather than the coma (,)
+
+Jinja2 Templates:
+
+
+local actions:
+---
+- hosts: apacheweb
+  tasks:
+  - name: ping application server before we run our install
+    local_action: command ping -c 5 server1 # the command will run on the local server (the controller)
+  
+  - name: install lynx on remote server
+    yum: pkg=lynx state=latest
+ 
+
+Delegation:
+
+delegateto.yml
+---
+- hosts: apacheweb
+  become: yes
+  user: test
+  gather_fact: yes
+  connection: ssh
+  tasks:
+  - name: Run a remote ping on the application server
+    command: ping -c 5 tcox5 > /home/test/ping.out
+    delegate_to: 127.0.0.1 # the command will run on the delegated server (here localhost) and not in the apacheweb server
+  - name: Install a package
+    yum: pkg=lynx state=latest
+
+
+arrive @ the setup module
+
+
+
+
+
+
+and jupmed to galaxy introduction and usage:
+
+ansible-galaxy -list: list installed roles
+
+
+
+FIND module:
+
+---
+- hosts: appserver
+  remote_user: vagrant
+  become: yes
+  become_method: sudo
+  gather_facts: yes
+  tasks:
+  - name: Simple find on fstab file
+    find: paths="/etc" patterns="fstab*" recurse=yes use_regex=yes
+    register: fstab
+  - debug: var=fstab
+
+
+PACKAGE module:
+
+---
+- hosts: all
+  remote_user: vagrant
+  become: yes
+  become_method: sudo
+  gather_facts: yes
+  connection: ssh
+  tasks:
+  - name: Install Telnet Client on ALL Distribution Types
+    package: name=telnet state=latest
+
+
+
+
+---
+- hosts: apacheweb
+  pre_tasks:    # executed before all tasks/roles
+  - name: start time
+    raw: date> /home/test/start.log
+  roles:
+    - webservers
+  post_tasks:  # excuted after all tasks/roles
+    - name: endtime
+      raw: date> /home/test/endtime.log
+
+
+
+Roles conditional include:
+
+---
+- hosts: apacheweb
+  pre_tasks:    # executed before all tasks/roles
+  - name: start time
+    raw: date> /home/test/start.log
+  roles:
+    - {role:redhat_webservers, when: ansible_os_family=="Redhat"}
+    - {role: debian_webservers, when: "ansible_os_family"=="Debian"
+  post_tasks:  # excuted after all tasks/roles
+    - name: endtime
+      raw: date> /home/test/endtime.log
+
+
+Roles, waiting for events:
+
+
+tasks:
+- name: wait for the service to start listening on port 80
+  wait_for:
+    port: 80
+    state: started
+
+
+wait_for:
+You can wait for a set amount of time `timeout', this is the  default if nothing is specified or just `timeout' is specified. This does not produce an error. Waiting for a port to become available is useful for when services are not immediately available after their init scripts return which is true of certain Java application servers. It is also useful when starting guests with the [virt] module and needing to pause until they are ready. This module can also be used to wait for a regex match a string to be present in a file. In 1.6 and later, this module can also be used to wait for a file to be available or absent on the filesystem. In 1.8 and later, this module can also be used to wait for active connections to be closed before continuing, useful if a node is being rotated out of a load balancer pool. This module is also supported for Windows targets.
+
+
+Roles, executing a task until:
+
+- shell: systemctl satatus httpd
+  register: result
+  until: result.stdout.find("active (running)") != -1
+  retries: 5  # 5 retries
+  delay; 5  # 5 second between each retry
+
+
+  Roles using tags:
+
+  ansible-playbook --tags "install_list" myrole.yml --limit "apacheweb" # execute all tasks taged install_list and limit it execution to the host/group apacheweb
+
+
+  arrive @ creation a NFS server deployement - outline
+  manque 59-512-1  => 59-512-42
+         59-514-5  => 59-515-1
+
+
+
+
+  Livelessons - Automating with Ansible:
+
+
+install Ansible:
+ - only the contol node needs ansible
+ - centos and like nedd epel repository
+ - managed hosts need python and ssh
+
+ - create a non root user and perform all tasks as this user
+ - set up ssh for communications
+    - ssh-keygen
+    - ssh-copy-id user@remotehost
+ - configure sudo
+   - user ALL=(ALL)  NOPASSWD:ALL
+
+yum install epel-release
+yum search ansible
+yum install ansible
+yum install ansible-doc ansible-lint (optional)
+
+
+useradd ansible
+passwd ansible
+su - ansible
+$ ssh-keygen
+ssh root@server1
+
+cd /etc/sudoers.d/
+vim ansible:
+ Ansible ALL=(ALL) NOPASSWD: ALL
+
+scp /etc/sudoers.d/ansible  root@server1:/etc/sudoers.d/
+
+
+cd project/
+
+ansible.cfg (not secured but convinient):
+
+[defaults]
+remote_user = vagrant
+host_key_cheking = false
+inventory = inventory.ini
+
+[privilege_escalation]
+become=True
+become_method=sudo
+become_user=root
+become_ask_pass=False
+
+iventory.ini:
+
+ansible1.example.com
+ansible2.example.com
+ubuntu.example.com
+
+
+Playbook with multiple plays:
+webserver.yml:
+
+---
+- name: Install a webserver on Centos
+  hosts: ansible1
+  gather_facts: yes
+  vars:
+    pkgs: 
+      - httpd
+      - firewalld
+    web_service: httpd
+    web_firewall: http
+  tasks:
+    - name: Install softwares
+      yum: name="{{pkgs}}" state=latest
+         
+
+    - name: start {{web_service}}
+      service: name="{{web_service}}" state=restarted enabled=true
+    
+    - name : open port 80 on server 
+      firewalld: 
+        permanent: True
+        immediate: true
+        service: "{{web_firewall}}"
+        state: enabled
+    
+
+    - name: start firewalld
+      service:  name=firewalld state=restarted enabled=true
+
+    - name: create index.html
+      copy: 
+        content: "Welcome to the Ansible managed Web server" 
+        dest: /var/www/html/index.html
+ 
+- name: verify the web server
+  hosts: localhost
+  become: false
+  tasks:
+    - uri:
+        url: http://ansible1
+        return_content: yes
+      register: index
+
+    - debug: var=index
+...
+
+
+kickstart: automate deployement of physical machine
+vagrant: automate deployment of virtual machine
+cloud_init: automate deployement of cloud machines
+
+
+
+vagrant with vsphere: https://github.com/nsidc/vagrant-vsphere
+
+Vagrant:
+
+- providers are available for VirtualBox, VMware, Hyper-V and kvm
+- provisioners : Bash, Ansible , salt,chef, puppet ,...
+
+- a Vagrantfile always contains the following minimal contents:
+    * The Box image file to use
+    * the URL where the Box image file is found
+    * the target hostname
+
+Vagrant.configure(2) do |config | 
+  config.vm.box = "rhel7.1"
+  config.vm.box_url = "http://vagrant.example.com/ansible2.0/x86_64/dvd/vagrant/rhel-server-libvirt-7.1-1.x86_64.box"
+  config.vm.hostname = "vagrant1.example.com"
+
+  config.vm.provision "shell", inline: <<-SHELL
+    sudo cp /vagrant/etc/yum.repo.d/* /etc/yum.repo.d
+    SHELL
+end
+
+
+vagrant up : start machine
+vagrant ssh: connect to machines
+vagrant halt: stop machines
+vagrant destroy: stop and clean the environement
+
+Setting up Vagrant:
+- yum install https://releases.hashicorp.com/vagrant/2.1.2/vagrant_2.1.2_x86_64.rpm
+ yum - y install qemu-kvm libvirt virt-install bridge-utils libvirt-devel libxslt-devel libxml2-devel libvirt-devel libguestfs-tool-c gcc rsync vim
+
+systemctl enable libvirtd
+
+
+
+
+
+
+
+Vagrant synced folders:
+- a synced folder copies the contents of the project directory to a directory  /vagrant 
+- make sure taht rsync is installed for this to work
+
+
+- Vagrant provisioning use the base Box image and applies software installation and configuration updates as an overlay to that
+ - Provisioners are called from Vagrantfile, using. "config.vm.provision"
+
+
+
+- the bash provisioner can be used to to run shell code
+- the ansible provisioner runs ansible on the Vagrant host
+  * Ansible works as controle node
+  * Vagrant machines work as managed hosts
+
+- the ansible_local provisioner run Ansible on the vagrant machines
+  * the Vagrant machine is control node and managed node at the same time
+  * Make sure to install Ansible on the Vagrant machine
+
+- Multiple synchronized folders can be specified in the Vagrantfile
+- Different folder type are available. the type that is used depends on the provider
+  * the VirtualBox type is common but only works with the VirtualBox provider. This type uses continuous bi-directional synchronization
+  * The rsync synchronized folder type is another alternative. This type synchronizes from host to vagrant machine upon execution of the vagrant up command. Vagrant rsync is used to push changes to managed machines.
+
+Vagrant.configure(2) do |config|
+...
+ config.vm.provision "ansible" do | ansible|
+  ansible.playbook = 'playbook.yml'
+ end
+
+...
+end
+
+
+
+Vagrant.configure(2) do |config|
+...
+ config.vm.provision "shell", inline: <<-SHELL
+  sudo cp /vagrant/etc/yum.repos.d/* /etc/yum.repos.d
+  sudo yum install -y ansible
+ SHELL
+ ...
+ config.vm.provision "ansible_local" do | ansible|
+  ansible.playbook = 'playbook.yml'
+ end
+
+...
+end
+
+
+config.vm.provision :ansible do |ansible|
+      ansible.playbook = "./provision/your_playbook.yml"
+      ansible.inventory_file = "./provision/inventory/vagrant.py"
+      ansible.verbose = true
+    end
+
+Vagrant Development Enironment (using ansible):
+...
+- name: get code
+  git:
+    repo: ssh://user@server1/home/user/git/webapp.git
+    dest: /var/www/html
+    accept_hostkey: yes
+...
+
+Using Forwarded Ports:
+
+- to make a deployed application accessible, vagrant can use forwarded ports
+- forwarded ports map network ports on the host system to ports on the Vagrant machine and thus make it accessible
+
+Vagrant.configure(2) do |config|
+...
+  config.vm.network: forwarded_port, guest: 80, host:8080
+end
+
+
+
+Managing it infrastructure with ansible:
+
+
+- When managing Linux or windows, modules are executed on the managed device
+- when managing devices (ex: network appliances), code is generated on the Ansible master and from there tha appropriate interface on the devise is addressed.
+  * in somme cases this will be API-based
+  * in other cases, Ansible may interface an SSH agent on the device.
+
+
+Dynamic inventories:
+
+* -i followed by the name of the dynamic script you want to run
+* if the file is executable, it will be treated as dynamic inventory
+* very often dynamic inventory scripts needs INI file as a configuration file for the script
+* Alternatively, specify the location of the dynamic inventory in the ansible.cfg file
+* Differents scripts are available for different environments
+  - see https://github.com/ansible/ansible/tree/devel/contrib/inventory
+* the scripts must respect --list arguments
+
+
+* if a directory name is passed as the inventory, all files in that directory are used as the inventory files, 
+* these can be dynamic inventory files mixed with static inventory files
+* if using multiple inventory files, make sure there are no dependencies between files and all files are self-contained
+
+
+Managing Windows with ansible:
+
+- Supported Windows versions:
+  * Windows 7,8.1 and 10
+  * Windows Server 2008, 2012 and 2016
+- Required Software:
+  * Powershell 3.0 or later
+  * .Net 4.0 or later
+- A winRM listener should be created and activated
+- Note that some modules may have different requirements
+- https://docs.ansible.com/ansible/latest/user_guide/windows_setup.html
+
+
+- windows includes the windows Remote Management (WinRM) Service
+- Use the PowerShell Script ConfigureRemotingForAnsible.ps1 to setup the WinRM basics
+- The result is a HTTP and HTTPS listener with a self-signed certificate
+
+Note:
+The ConfigureRemotingForAnsible.ps1 script is intended for training and development purposes only and should not be used in a production environment, since it enables settings (like Basic authentication) that can be inherently insecure.
+
+some goolgled docs:
+* https://jstuyts.github.io/Secure-WinRM-Manual/server-configuration.html
+* https://www.visualstudiogeeks.com/devops/how-to-configure-winrm-for-https-manually
+* https://docs.microsoft.com/en-us/windows/desktop/winrm/installation-and-configuration-for-windows-remote-management
+
+- setup winRM:
+  - via commandline :
+    * winrm quickconfig  (for HTTP)
+    * winrm quickconfig -transport:https  (for HTTPS)
+  - via Active Directory GPO
+  - via PowerShell 
+
+- WinRM service must be running
+- you must have a local Windows user with Administrator privileges
+- Do NOT use user Administrator, this user is not supported
+- Best practice: Put Windows management in a dedicated directory with its own ansible.cfg and inventory
+- In ansible.cfg, disable the become line that is configurd to use sudo to escalate privileges
+- In inventory or using group_vars, set the following variables:
+    * ansible_user=Ansible
+    * ansible_password=@nsible123
+    * ansible_connection=winrm
+    * ansible_winrm_server_cert_validation=ignore
+    user "ansible" is created in the windows server and must have the administrator privileges.
+- install pywinrm on the controler: sudo pip install pywinrm
+- use win_ping to make first test
+    * ansible win -i inventory -m win_ping
+
+
+Managing Network devices:
+
+Managing Docker:
+
+requirements:
+- sudo pip install docker-compose
+- sudo pip install docker-py
+
+
+modules (ansible-doc -l|grep docker):
+docker: is deprecated don't use it
+docker_container: run a container
+docker_image: can be used to build custom images
+docker_service: can be used to create depencency relation between containers that are running on the same host
+
+
+
+Managing Cloud Instances:
+ - cloud instances need to be discovered using dynamic inventory
+
+example AWS:
+   1 - generate an access key
+   2- in .bash_profile: 
+        export AWS_ACCESS_KEY_ID=123
+        export AWS_SECRET_ACCESS_KEY=okeef65ef65
+  3- install python BOTO library : pip install boto
+  4- test the connectivity to EC2 using Python shell:
+      import boto.ec2
+      conn = boto..ec2.connect_to_region('us-west-2')
+      statuses = con.get_all_instances_status()
+
+  4- download the dynamic inventory scripts (ec2.py and ec2.ini) and put them in the project directory
+
+
+Inventory Caching:
+  - Gathering Inventory information takes time, which is why an inventory cache is created in ~/.ansible/tmp
+  - To force a cache refresh, use ./ec2.py --refresh-cache
+  - Make sure to do this after adding or destroying instances
+  - EC2 instances come with a default user name, and as host key are not know in advance for new instances, it's useful to add 2 custom parameters to ansible.cfg to manage instances in EC2
+    * remote_user = yourinstanceuser
+    * host_key_caching = False
+  - next, find image (AMI) ID's available for your region
+    * aws ec2 describe-images --region us-west-2
+  - Then, use the ec2 module to deploy instances
+
+
+to connect to aws we can use the web gui or the aws client interface: 
+    yum install awscli
+    aws ec2 describe-images --region us-west-2 --filter Name=name,Values=ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64*
+
+then get the ImageID (AMI id)
+    aws ec2 describe-instances --region us-west-2 |grep InstanceId
+
+
+Google Cloud:
+https://doc.ansible.com/ansible/2.5/scenario_guides/guide_gce.html
+
+  1- pip install apache-libcloud
+
+
+Advanced Ansible  Features:
+
+Loops also called lookup: ansible-doc -t lookup -l
+
+Using with_items:
+
+- loops can be used to repeat tasks based on different items
+    * For each item in a list
+    * Contents of files in a list
+    * sequence or numbers
+    * and more
+
+
+Nested loops (loop inside a loop):
+
+- name: make users member of groups
+  user:
+    name:"{{ item[0] }}"
+    state: present
+    groups: "{{ item[1] }}"
+  with_nested:
+    - ['linda', 'anna']
+    - ['students', 'profs']
+
+
+equivalent to:
+
+
+vars:
+  users:
+    - linda
+    - anna
+  groups:
+    - students
+    - profs
+tasks:
+  - name: make users member of groups
+    user:
+      name:"{{ item[0] }}"
+      state: present
+      groups: "{{ item[1] }}"
+  with_nested:
+    - "{{users}}"
+    - "{{groups}}"
+
+
+with_file : uses a list of file names, item is set to the content of each file
+
+with_fileglob: like with_file, but allows globbing patterns in the file names
+
+with_sequence: generate a squence of items in increasing numerical order. Can work with start and end to define a range, using decimal, octal, or hexadecimal integer values
+
+
+with_random_choice: take a list, and item is set to one of the list items at random
+
+loop: equivalent to with_items
+
+Using Conditionals:
+
+Using the when statement:
+
+  - equal on strings:  ansible_machine =="x86_64"
+  - equal on numeric : max_memory == 1024
+  - Less than:  min_memory < 256 
+  - Greater than: >
+  - Less or equal: <=
+  - Greater or equal >=
+  - Not equal to: !=
+  - Variable exists: myvar is defined
+  - Variable not exists: myvar is not defined
+  - variable is boolean true : myvar
+  - variable is boolean false : not myvar
+  - variable in a list : {{my_user}} in {{superuser}}
+        my_user: linda
+        superusers:
+          - root
+          - linda
+  - Testing multiple conditions: and, or, () 
+Magic Variables:
+
+A few variables are provided automatically by ansible and cannot be used by users:
+  - hostvars: allows to request variables set on other hosts, including facts
+    ansible server1 -m debug -a "var=hostvars"
+  - group_names: an array of all groups the host currently is in
+  - groups: a lit of all hosts and groups in the inventory
+
+example:
+- name: install ftp
+  package:
+    name: vsftpd
+  when: inventory_hostname in groups["ftpservers"]
+
+combine loops and conditionals:
+- name: install vsftpd if sufficient space on /var/ftp
+  package:
+    name: vsftpd
+    state: latest
+  with_items: "{{ ansible_mounts}}"  # collected from facts
+  when: item.mount == "/var/ftp" and item.size_available > 10000000
+
+handlers:
+- handlers always run in the order in which the handlers section is written, not in the order of how they are called in the plays
+- handlers run after all other tasks
+- More than one handlers can be called from a task
+- handlers names must be globally unique, they are defined in the global area (like config variable)
+- handlers cannot be included
+
+
+DEALING WITH ERRORS:
+- ignore_errors: continue after failure
+- if a task in a play fails then no handlers will be executed. Use force_handlers:yes to execute handlers that were trigged by a previous action anyway
+--- 
+- hosts: all
+  force_handlers: yes
+  tasks:
+    - name: task a 
+      command: /bin/yes
+      notify: handlera
+      ...
+  handlers:
+    - name: handlera
+      command: /bin/true
+
+- faild_when: can be used to specify when a command is considered failed      
+- changed_when: change the behaviour of the "changed" state
+
+
+Using Ansible blocks:
+
+- A "block" is used to logically group tasks
+- Blocks are useful for error handling and "when" statements: one statement can be applied to the block so that  it affects all the tasks in a block.
+- Blocks allow for error handling, combined with the "rescue" and "always" statements
+  * if a task fails, the tasks in the "rescue" task are executed for recovery
+  * tasks in "always" will run, regardless of the success or failure of tasks in "block" and "rescue"
+
+---
+- name: block example
+  hosts all
+  tasks:
+    - name: install apache
+      block:
+        - package:
+            name: "{{ item }}"
+            state: installed
+          with_items:
+            - httpd
+            - elinks
+            - mod_ssl
+        - service:
+            name: httpd
+            state: started
+            enabled: True
+      when: ansible_distribution == 'CentOS'
+
+---
+- name: error handling
+  hosts: all
+  tasks:
+    - block:
+      - name: upgrade the database
+        shell:
+           cmd: /usr/local/lib/upgrade-database
+      rescue:
+      - name: revert after faéilure
+        shell:
+          cmd: /usr/local/lib/revert-database
+      always:
+      - name: always restart the database
+        service:
+          name: mariadb
+          state: restarted
+
+
+Variables (another notation):
+---
+[packages]
+web_package: httpd
+ftp_package: vsftpd
+db_package: mariadb-server
+firewall_package: firewalld
+
+
+[service]
+web_service: httpd
+ftp_service: vsftpd
+db_service: mariadb
+firewall_service: firewalld
+
+
+Ansible Roles:
+
+Role directory Structure:
+
+- defaults: contains a main.yml with default values for variables. use default variables only if you intend to have the variable overridden somewhere else
+- files: static files that are referenced by role tasks
+- handlers: contains a main.yml with handler definitions
+- meta: contains a main.yml with information about the role, including author, licence, platforms, and dependecies
+- tasks: has a main.yml file with task definitions
+- vars: has a main.yml file with role variable definitions
+
+
+Using roles:
+
+---
+- hosts: server3
+  roles:
+    - role1
+    - role2
+
+Role dependencies:
+ - role may include other roles
+ - dependecies are written to the meta/main.yml within the role
+
+ ---
+ dependencies:
+   - { role: apache, port:80 }
+   - { role: mariadb, dbname: addresses, admin_user: bob }
+
+
+- Normally, tasks in a role execute before the tasks of the playbook using them
+
+- Two solutions to overrde that:
+   * pre_tasks: are performed before roles are applied
+   * post_tasks: are performed after completing all roles
+   
+
+---
+- hosts: server2
+  pre_tasks:
+    - debug:
+        msg: 'starting'
+  roles:
+    - role1
+    - role2
+  tasks:
+    - debug:
+        msg: 'still working'
+  post_tasks:
+    - debug: 
+       msg: 'goodbye'
+
+
+Creating Roles:
+
+ansible-galaxy --offline init <name_of _the role>: automate creation the role directory structure
+
+
+---
+
+- hosts: server2
+  roles:
+    - motd:
+      system_manager: lisa@example.com   # overwritting default variables
+
+
+arrive @43

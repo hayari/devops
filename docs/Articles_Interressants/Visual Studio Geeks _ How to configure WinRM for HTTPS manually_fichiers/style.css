@@ -1,0 +1,143 @@
+/* Your custom styles */
+.btn-linkedin {
+    background-color: #0082ca!important;
+    color: #fff!important;
+}
+.btn-twitter {
+    background-color: #55acee!important;
+    color: #fff!important;
+}
+.btn-facebook{
+    background-color: #3b5998!important;
+    color: #fff!important;
+}
+.btn-github{
+    background-color: #000!important;
+    color: #fff!important;
+}
+.btn-mvp{
+    background-color: #43a047!important;
+    color: #fff!important;
+}
+.btn-gplus{
+    background-color: #DD4B39!important;
+    color: #fff!important;
+}
+.btn-email{
+    background-color: #4B515D!important;
+    color: #fff!important;
+}
+.btn.btn-xs {
+    padding: .3rem 0.5rem;
+    font-size: .64rem;
+}
+
+code,pre {
+	font-family:  Menlo, Monaco, Consolas, "DejaVu Sans Mono", "Liberation Mono", "Courier New", Courier, SimSun, monospace;
+	font-size: 13px;
+}
+code {
+	color: #000;
+	background-color: #e8f5e9;
+	padding: 2px 5px;
+	border-radius: 3px;
+}
+pre {
+	overflow-x: auto;
+    padding: 5px;
+}
+pre, pre code {
+	color: #f2f2f2;
+	background-color: #1e1e1e;
+}
+pre code {
+    padding: 0;	
+}
+
+img.marketplaceIcon{
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+}
+.algolia-autocomplete {
+    width: 100%;
+  }
+  .algolia-autocomplete .aa-input, .algolia-autocomplete .aa-hint {
+    width: 100%;
+  }
+  .algolia-autocomplete .aa-hint {
+    color: #999;
+  }
+  .algolia-autocomplete .aa-dropdown-menu {
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid #999;
+    border-top: none;
+  }
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
+    cursor: pointer;
+    padding: 5px 4px;
+  }
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
+    background-color: #B2D7FF;
+  }
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion em {
+    font-weight: bold;
+    font-style: normal;
+  }
+  
+  .branding {
+  margin: 0.5em 0.2em;
+  }
+  
+  .branding img {
+      height: 1.3em;
+      margin-bottom: - 0.3em;
+  }
+
+.tagcloud ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.tagcloud ul li {
+	display: inline-block;
+	padding: 0;
+}
+.blockquote
+{
+    font-size: 15px;
+    background: #F7F7F7;
+}
+
+.scrollbar {
+    float: left;
+    height: 400px;
+    overflow-y: scroll;
+}
+.force-overflow {
+    min-height: 450px;
+}
+
+.scrollbar-primary::-webkit-scrollbar {
+    width: 12px;
+    background-color: #F5F5F5; 
+}
+  
+.scrollbar-primary::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+    background-color: #4285F4; 
+}
+
+.square::-webkit-scrollbar-track {
+    border-radius: 0 !important; 
+}
+
+.square::-webkit-scrollbar-thumb {
+    border-radius: 0 !important; 
+}
+
+.thin::-webkit-scrollbar {
+    width: 6px; 
+}
