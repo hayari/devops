@@ -12,7 +12,73 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
+  config.vm.define "gitea" do |gitea|
+    gitea.vm.box = "ubuntu/xenial64"
+    gitea.vm.network "private_network", ip: "192.168.56.5"
+    gitea.vm.hostname = "gitea.example.com"
+    gitea.hostsupdater.aliases = ["gitea", "gitea.example.com"]
+    gitea.vm.provision "shell", inline: <<-SHELL
+     echo "nameserver 10.1.6.1" >> /etc/resolv.conf
 
+     echo 'export LC_ALL="en_US.UTF-8"' >>.bashrc
+     echo 'export LANG="en_US.UTF-8"' >>.bashrc
+     echo 'export LANGUAGE="en_US.UTF-8"' >>.bashrc
+     #sudo dpkg-reconfigure locales
+
+     sudo apt-get update
+     sudo apt-get upgrade -y
+     sudo apt-get install -y git postgresql postgresql-contrib
+
+     #pg_createcluster 9.3 main --start
+
+     sudo systemctl enable postgresql
+     sudo systemctl start postgresql
+
+
+     sudo adduser --system --shell /bin/bash --gecos 'Git Version Control' --group  --disabled-password   --home /home/git   git
+
+     sudo mkdir -p /var/lib/gitea/{custom,data,indexers,public,log}
+     sudo chown git:git /var/lib/gitea/{data,indexers,log}
+     sudo chmod 750 /var/lib/gitea/{data,indexers,log}
+     sudo mkdir /etc/gitea
+     sudo chown root:git /etc/gitea
+     sudo chmod 770 /etc/gitea
+
+
+     sudo cp /vagrant/gitea-master-linux-amd64 /usr/local/bin/gitea
+     sudo chmod +x /usr/local/bin/gitea
+     sudo cp /vagrant/app.ini /etc/gitea/app.ini
+     sudo chmod 666 /etc/gitea/app.ini
+
+     sudo cp /vagrant/gitea.service /etc/systemd/system/
+
+
+     sudo systemctl enable gitea
+     sudo systemctl start gitea
+
+     sudo apt-get install -y supervisor
+     sudo mkdir -p /home/git/gitea/log/supervisor
+
+     sudo echo '[program:gitea]
+directory=/usr/local/bin/
+command=/usr/local/bin/gitea web
+autostart=true
+autorestart=true
+startsecs=10
+stdout_logfile=/var/log/gitea/stdout.log
+stdout_logfile_maxbytes=1MB
+stdout_logfile_backups=10
+stdout_capture_maxbytes=1MB
+stderr_logfile=/var/log/gitea/stderr.log
+stderr_logfile_maxbytes=1MB
+stderr_logfile_backups=10
+stderr_capture_maxbytes=1MB
+user = git
+environment = HOME="/home/git", USER="git"
+' >> /etc/supervisor/supervisord.conf
+   SHELL
+
+  end
 
   config.vm.define "gitlab" do |gitlab|
     gitlab.vm.box = "ubuntu/xenial64"
@@ -25,7 +91,7 @@ Vagrant.configure("2") do |config|
 
     end
    gitlab.vm.provider "virtualbox" do |v|
-     v.memory = 3072
+     v.memory = 4096
      v.cpus = 2
    end
    config.vm.provision "file", source: "id_rsa", destination: "/home/vagrant/.ssh/id_rsa"

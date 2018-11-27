@@ -1,0 +1,20 @@
+---
+galaxy_info:
+  author: Jorge Quilcate
+  description: Ansible Role to install Oracle Database software and create and configure instances and listeners.
+  company: Sysco AS
+
+  license: MIT
+
+  min_ansible_version: 2.0
+
+  platforms:
+    - name: EL
+      versions:
+        - 7
+
+  galaxy_tags:
+  - oracle
+  - database
+  - database:sql
+dependencies: []

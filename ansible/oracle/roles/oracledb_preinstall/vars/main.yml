@@ -1,0 +1,8 @@
+---
+lvm_utils:
+  - lvm2
+  - sg3_utils
+  - xfsprogs
+  - e2fsprogs
+
+min_tmp_size: 1

@@ -1,0 +1,14 @@
+---
+- name: Set the hostname
+  hostname:
+    name: "{{ hostname }}.{{ domain }}"
+    when: not dockerenv.stat.exists
+
+- name: Add host to /etc/hosts if needed
+  lineinfile:
+      dest: /etc/hosts
+      regexp: ".*{{ ansible_fqdn }}$"
+      line: "{{ ansible_all_ipv4_addresses[0] }} {{ ansible_hostname }} {{ ansible_fqdn }}"
+      state: present
+  tags:
+      - etchosts

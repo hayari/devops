@@ -1,0 +1,16 @@
+---
+- name: Disable swap volume {{swap_lvname}} 
+  shell: swapoff /dev/{{lvm_swap_vg}}/{{swap_lvname}} || true
+  ignore_errors: yes
+
+- name: Remove the {{swap_lvname}} logical volume.
+  lvol:
+    vg: "{{lvm_swap_vg}}"
+    lv: "{{swap_lvname}}"
+    state: absent
+    force: yes
+
+- name: Delete swap partition in /etc/fstab
+  mount:
+    path: "/dev/{{lvm_swap_vg}}/{{swap_lvname}}"
+    state: absent

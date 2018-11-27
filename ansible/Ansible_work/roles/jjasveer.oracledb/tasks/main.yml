@@ -1,0 +1,59 @@
+---
+
+- name: check if oracle has already been installed
+  command: grep -q "^{{ oracle_db_name }}:" /etc/oratab
+  ignore_errors: yes
+  register: oracle_installed
+  failed_when: oracle_installed.rc == 0
+
+- name: ensure the hostname entry exist in /etc/hosts
+  lineinfile:
+    path: /etc/hosts
+    regexp: "^{{ ansible_host }}"
+    line: "{{ ansible_host }} {{inventory_hostname}}"
+
+- name: set the hostname
+  hostname: name="{{ inventory_hostname }}"
+
+- name: check for the pv for oravg
+  stat: path="{{ oracle_pv }}"
+  register: pv
+
+- include: usergroups.yml
+
+- include: filesystems.yml
+  when: pv.stat.isblk is defined
+
+- include: packages.yml
+
+- name: make sure the installer directory exists
+  stat: path={{ oracle_tmp }}/database
+  register: install_d ir
+
+- include: prereqs.yml
+
+- block:
+    - name: disable setenforce 
+      command: /usr/sbin/setenforce 0
+      ignore_errors: yes
+
+    - name: oracle-recommended selinux
+      selinux: policy=targeted state=disabled
+  when: disable_selinux == True
+
+- name: check whether swap space exisits (for cloud instances)
+  shell: free  | awk ' $1 == "Swap:" {print $2}'
+  register: swapsize
+
+- debug: var=swapsize.stdout
+
+- name: create swap file (for cloud instances)
+  include: swap_check.yml
+  when: swapsize.stdout | int < 200000
+
+
+- include: copy_archives.yml
+
+- include: prep_rsp_file.yml
+
+- include: oracle.yml

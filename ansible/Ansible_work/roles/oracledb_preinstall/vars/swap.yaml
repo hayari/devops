@@ -1,0 +1,25 @@
+# swap creation
+
+autocreate_swap: yes # use avec precaution
+
+delete_swaplv_exist: yes
+delete_swapfile_exist: yes
+swap_under_sized: False
+use_swap_partition: yes # if false use swapfile
+swap_name: none # name of the swap partition
+
+
+swapfile_path: "/swapfile"
+swapfile_fallocate: True
+
+add_disk_swap_vg: yes
+disks_add_swap_vg: /dev/vdb  # comma separated list of disks
+lvm_swap_vg: vg1
+swap_lvname: swap_lv
+
+swap_size_mb: "{{ ((ansible_memtotal_mb  * 1.5)
+                    if (ansible_memtotal_mb  <= 2048)
+                    else ([ ansible_memtotal_mb  , 16384  ] | min)) }}"
+
+
+#swapfile_delete: True

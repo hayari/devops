@@ -1,0 +1,7 @@
+---
+- include_vars:  "{{ item }}"
+  with_items:
+    - repo.yaml
+    - memory.yaml
+    - swap.yaml
+    - installdir.yaml

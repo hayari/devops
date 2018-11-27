@@ -1,0 +1,15 @@
+configure_local_repo: yes
+delete_existing_repos: yes
+localrepos: 
+  - reponame: localepel
+    description: "local EPEL YUM repo"
+    baseurl: ftp://192.168.121.1/pub/repo/centos7/epel/$releasever/$basearch/
+    enabled: yes
+    gpgcheck: no
+    gpgkey:
+  - reponame: localcentos
+    description: "local Centos YUM repo"
+    baseurl: ftp://192.168.121.1/pub/repo/centos7/cdrom
+    enabled: yes
+    gpgcheck: no
+    gpgkey:

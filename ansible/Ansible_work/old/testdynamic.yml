@@ -1,0 +1,13 @@
+---
+- hosts: all
+  user: vagarant
+  gather_facts: no
+  become: yes
+  tasks:
+    - name: install elinks
+      yum:
+        name: vim 
+        state: latest 
+
+                 
+

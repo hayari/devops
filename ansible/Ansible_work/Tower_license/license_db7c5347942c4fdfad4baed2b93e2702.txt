@@ -1,0 +1,11 @@
+{
+    "company_name": "Myhome", 
+    "contact_email": "hichem.ayari@bna.com.tn", 
+    "contact_name": "hichem Ayari", 
+    "hostname": "db7c5347942c4fdfad4baed2b93e2702", 
+    "instance_count": 10, 
+    "license_date": 2140502783, 
+    "license_key": "69e3a61e486634635bed8800f34d13dde7a5e17806b4b664ef6eb2ecdd28e838", 
+    "license_type": "basic", 
+    "subscription_name": "Red Hat Ansible Tower, Self-Support (10 Managed Nodes)"
+}

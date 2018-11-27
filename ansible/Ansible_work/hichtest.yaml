@@ -1,0 +1,7 @@
+---
+- hosts: server1
+  become: true
+  become_method: 'sudo'
+
+  roles:
+  - oracledb_preinstall 

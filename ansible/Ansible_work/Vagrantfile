@@ -10,7 +10,7 @@ Vagrant.configure("2") do |config|
     server1.ssh.host = "192.168.4.11"
     server1.vm.provision "shell", inline: <<-SHELL
         sudo sed -i 's/PasswordAuthentication no/ PasswordAuthentication yes/g' /etc/ssh/sshd_config    
-        sudo systemctl relaod sshd
+        sudo systemctl reload sshd
       SHELL
   end
   
@@ -22,18 +22,32 @@ Vagrant.configure("2") do |config|
     server2.ssh.host = "192.168.4.12"
     server2.vm.provision "shell", inline: <<-SHELL
         sudo sed -i 's/PasswordAuthentication no/ PasswordAuthentication yes/g' /etc/ssh/sshd_config    
-        sudo systemctl relaod sshd
+        sudo systemctl reload sshd
       SHELL
   end
-    config.vm.define "server3" do |server3|
-    server3.vm.box = "centos/7"
-    server3.vm.network "private_network", ip: "192.168.4.13"
-    server3.vm.hostname = "server3.example.com"
-    server3.hostsupdater.aliases = ["server3", "server3.example.com"]
-    server3.ssh.host = "192.168.4.13"
-    server3.vm.provision "shell", inline: <<-SHELL
+  
+  config.vm.provider "libvirt" do |v|
+    v.memory = 4096
+    v.cpus = 2
+    v.storage :file,
+      :device => 'vdb',  # automatically chosen if unspecified!
+      :size => '10G',    # defaults to 10G if unspecified!
+      :type => 'qcow2'    # defaults to 'qcow2' if unspecified!
+    v.storage :file,
+      :device => 'vdc',  # automatically chosen if unspecified!
+      :size => '10G',    # defaults to 10G if unspecified!
+      :type => 'qcow2'    # defaults to 'qcow2' if unspecified!
+  end
+
+  config.vm.define "tower" do |tower|
+    tower.vm.box = "centos/7"
+    tower.vm.network "private_network", ip: "192.168.4.10"
+    tower.vm.hostname = "tower.example.com"
+    tower.hostsupdater.aliases = ["tower", "tower.example.com"]
+    tower.ssh.host = "192.168.4.10"
+    tower.vm.provision "shell", inline: <<-SHELL
         sudo sed -i 's/PasswordAuthentication no/ PasswordAuthentication yes/g' /etc/ssh/sshd_config    
-        sudo systemctl relaod sshd
+        sudo systemctl reload sshd
       SHELL
   end
   
@@ -50,6 +64,6 @@ Vagrant.configure("2") do |config|
      echo 'UserKnownHostsFile /dev/null' >> /home/vagrant/.ssh/config
      chmod -R 600 /home/vagrant/.ssh/config
      ", privileged: false
-  config.hostsupdater.remove_on_suspend = false
+  config.hostsupdater.remove_on_suspend = true
 end
 

@@ -1,0 +1,4 @@
+---
+memory_size_mb:  "{{( 8192
+                    if (install_grid_infra)
+                    else (2048)) }}"

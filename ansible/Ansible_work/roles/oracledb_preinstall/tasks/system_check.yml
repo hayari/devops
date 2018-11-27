@@ -1,0 +1,20 @@
+---
+- name: Are we running inside a docker container
+  stat:
+    path: /.dockerenv
+  register: dockerenv
+
+#    * kernel version
+# Red Hat Enterprise Linux 7: 3.10.0-123.el7.x86_64 or later
+#    * system architecture
+# uname -m
+# x86_64
+- name: Check if is a x86_64 machine
+  fail: msg="Not an x86_64 machine" 
+  when: ansible_architecture != "x86_64"
+
+- name: Check if the RHEL kernel is 3.10.0-123.el7.x86_64 or later
+  fail: msg="RHEL kernel must be 3.10.0-123.el7.x86_64 or later"
+  when: not (ansible_kernel is version_compare('3.10.0-123.el7.x86_64', operator='ge', strict=False)) 
+ 
+

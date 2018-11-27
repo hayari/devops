@@ -1,0 +1,17 @@
+---
+- unarchive:
+   src: https://wordpress.org/latest.tar.gz
+   dest: /tmp/
+   remote_src: True
+
+- name: remove html folder
+  command: /usr/bin/rm  -rf /var/www/html
+
+- name: move the wordpress
+  command: /usr/bin/mv  /tmp/wordpress/  /var/www/html
+
+- name: change perms on folder
+  command: /usr/bin/chown  -R apache:apache  /var/www/html
+
+- name: copy template to host
+  template: src=wp-config.j2  dest=/var/www/html/wp-config.php  mode=0755  owner=apache  group=apache 

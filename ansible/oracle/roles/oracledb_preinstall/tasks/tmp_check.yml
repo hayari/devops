@@ -1,0 +1,9 @@
+---
+# Disk space allocated to the /tmp directory
+#
+#  At least 1 GB of space in the /tmp directory.
+
+- name: Check size of /tmp
+  shell: df --block-size=1G /tmp | awk 'END { print $4 }'
+  register: tmpsize
+  failed_when: tmpsize.stdout|int < min_tmp_size

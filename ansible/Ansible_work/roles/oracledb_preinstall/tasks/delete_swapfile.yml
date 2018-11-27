@@ -1,0 +1,14 @@
+---
+- name: Disable swap file
+  shell: test -f {{ swapfile_path }} && swapoff {{ swapfile_path }} || true
+  ignore_errors: yes
+
+- name: Remove swap file
+  file:
+    path: "{{ swapfile_path }}"
+    state: "absent"
+
+- name: Delete swap file in /etc/fstab
+  mount:
+    path: "{{ swapfile_path }}"
+    state: absent

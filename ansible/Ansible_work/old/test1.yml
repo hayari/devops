@@ -1,0 +1,9 @@
+--- # Test ansible playbook File
+- hosts: servers
+  user: ansible
+  sudo: yes
+  connection: ssh
+  gather_facts: no
+  tasks: 
+    - name: Install vim
+      action: yum  name=vim state=absent

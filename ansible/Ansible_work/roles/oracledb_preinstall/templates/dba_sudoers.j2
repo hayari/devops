@@ -1,0 +1,21 @@
+# {{ ansible_managed }}
+
+#%dba ALL=(ALL) NOPASSWD: ALL
+
+#%dba ALL=(ALL) NOPASSWD: /
+%dba ALL=(ALL) NOPASSWD: /bin/firewall-cmd --list-all
+%dba ALL=(ALL) NOPASSWD: /bin/firewall-cmd --list-ports
+%dba ALL=(ALL) NOPASSWD: /bin/firewall-cmd --list-services
+%dba ALL=(ALL) NOPASSWD: /bin/cat /etc/sudoers.d/dba_sudoers
+%dba ALL=(ALL) NOPASSWD: /bin/cat /etc/ssh/sshd_config
+%dba ALL=(ALL) NOPASSWD: /bin/cat /var/log/messages
+%dba ALL=(ALL) NOPASSWD: /usr/bin/less /var/log/messages
+%dba ALL=(ALL) NOPASSWD: /bin/vi /etc/udev/rules.d/99-oracle-asmdevices.rules
+%dba ALL=(ALL) NOPASSWD: /sbin/udevadm conrol --reload-rules
+%dba ALL=(ALL) NOPASSWD: /sbin/udevadm trigger
+%dba ALL=(ALL) NOPASSWD: /usr/lib/udev/scsi_id
+# add the line below after oracle sw install
+%dba ALL=(ALL) NOPASSWD: {{ oracle_home }}/root.sh
+%dba ALL=(ALL) NOPASSWD: /u01/app/oraInventory/orainstRoot.sh
+# add the line below after grid install
+#%dba ALL=(ALL) NOPASSWD: {{ grid_home }}/bin/crsctl

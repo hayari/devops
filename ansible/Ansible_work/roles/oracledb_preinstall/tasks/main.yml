@@ -1,0 +1,26 @@
+---
+#  * kernel
+- include: include-vars.yaml
+
+- include: system_check.yml
+  tags: system
+
+- include: memory_check.yml
+  tags: memory
+
+#    * /tmp
+- include: tmp_check.yml
+  tags: tmp
+#    * configure local_repo
+- include: repo_check.yml
+  tags: repo
+#    * swap
+
+- include: swap_check.yml
+  tags: swap
+
+#    * install directory
+
+- include: installdir_check.yml
+  tags: installdir
+

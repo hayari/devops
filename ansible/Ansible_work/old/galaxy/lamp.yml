@@ -1,0 +1,6 @@
+---
+- hosts: server1
+  become: yes
+  roles:
+    - roles/geerlingguy.apache
+    - roles/geerlingguy.mysql

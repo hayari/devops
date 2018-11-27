@@ -1,0 +1,18 @@
+---
+#    * memory
+# Minimum of 8 GB of RAM for the installation of Oracle Grid Infrastructure
+# Minimum of 1 GB of RAM for the installation of Oracle Database, however 2 GB of memory or
+# more is recommended
+# https://access.redhat.com/documentation/en-us/reference_architectures/2017/pdf/deploying_oracle_rac_database_12c_release_2_on_red_hat_enterprise_linux_7/Reference_Architectures-2017-Deploying_Oracle_RAC_Database_12c_Release_2_on_Red_Hat_Enterprise_Linux_7-en-US.pdf
+# crashkernel memory may detract from total memory
+
+
+
+- fail:  msg="Insuffisant Memory Size {{ansible_memtotal_mb}} MB, Minimum of {{memory_size_mb}} MB of RAM for the installation of Oracle Database is needed"
+  when: ansible_memtotal_mb < memory_size_mb|int
+
+
+
+
+
+  

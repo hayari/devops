@@ -1,0 +1,13 @@
+
+ignore_oracle_install_dir_exist: true # use avec precaution it may delete existing oracle install_directory
+ignore_install_dir_undersized: false
+oracle_install_dir: /u01
+# Minimize free space required for oracle_install_dir
+installdir_size_gb: 11
+
+create_ora_lv: no
+ora_lv_fs: ext3
+add_disk_ora_vg: yes
+disks_add_ora_vg: /dev/vdc  # comma separated list of disks
+lvm_ora_vg: vg1
+ora_lvname: ora_lv

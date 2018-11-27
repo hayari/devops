@@ -1,0 +1,47 @@
+---
+- include_tasks: delete_swaplv.yml
+  when: delete_swaplv_exist
+
+- include_tasks: delete_swapfile.yml
+  
+
+- name: Create swap file
+  command: |
+    {% if swapfile_fallocate %}
+    fallocate -l {{ (((swap_size_mb)|int + 1 )  * 1024 * 1024 ) }} {{ swapfile_path }}
+    {% else %}
+    dd if=/dev/zero of={{ swapfile_path }} bs=1M count={{ swap_size_mb  }}
+    {% endif %}
+  args:
+    creates: "{{ swapfile_path }}"
+  register: swapfile_register_create
+  
+
+
+- name: Set swap file permissions
+  file:
+    path: "{{ swapfile_path }}"
+    state: "file"
+    owner: "root"
+    group: "root"
+    mode: "0600"
+  when: (not ansible_check_mode)
+
+- name: Initialize swap file
+  command: mkswap {{ swapfile_path }}
+  when: (swapfile_register_create is changed and autocreate_swap)
+
+- name: Enable swap file
+  command: swapon {{ swapfile_path }}
+  when: (swapfile_register_create is changed and autocreate_swap)
+
+- name: Manage swap file in /etc/fstab
+  mount:
+    src: "{{ swapfile_path }}"
+    name: "{{swap_name}}"
+    fstype: "swap"
+    opts: "sw,nofail"
+    dump: "0"
+    passno: "0"
+    state: "{{ 'present' }}"
+  when: (swapfile_register_create is changed )
